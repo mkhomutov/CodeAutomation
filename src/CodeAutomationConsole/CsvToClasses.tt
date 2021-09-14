@@ -1,0 +1,62 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<# string folder = this.Host.ResolvePath("..\\..\\data\\Simple\\inputData");
+string[] files = Directory.GetFiles(folder);
+foreach (string file in files)
+    {
+    string filename = file.Split('\\').Last().Split('.').First();
+    using (StreamReader sr = new StreamReader(file, System.Text.Encoding.Default))
+        {
+            string line = sr.ReadLine();
+            string[] fields = line.Split(',');
+            string properties = fields.Select(x => "string " + FirstLow(x)).Aggregate((x,y) => x + ", " + y); #>
+namespace <#= this.Host.ResolvePath("").Split('\\').Last() #>
+{
+    using System;
+
+    public class <#= filename #>
+    {
+        // Fileds
+<#          foreach(var field in fields)
+            { #>
+        private readonly string _<#= FirstLow(field) #>;
+<#          } #>
+            
+        // Constructor
+            public <#= filename #>(<#= properties #>)
+        {
+<#          foreach(var field in fields)
+            { #>
+            _<#= FirstLow(field) #> = <#= FirstLow(field) #>;
+<#          } #>
+        }
+
+        // Properties
+<#          foreach(var field in fields)
+            { #>
+        public string <#= FirstUp(field) #>
+        {
+            get => _<#= FirstLow(field) #>;
+        }
+<#          }
+        } #>  
+    }
+}
+<# SaveOutput(filename + ".cs");
+    } #>
+
+<#+ string FirstLow(string field) => field[0].ToString().ToLower() + String.Join("", field.Skip(1));
+
+string FirstUp(string field) => field[0].ToString().ToUpper() + String.Join("", field.Skip(1)); 
+
+private void SaveOutput(string outputFileName) {
+  string templateDirectory = Path.GetDirectoryName(Host.TemplateFile);
+  string outputFilePath = Path.Combine(templateDirectory, outputFileName);
+  File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+  this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+} #>
