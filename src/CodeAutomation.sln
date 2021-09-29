@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAutomationConsole", "CodeAutomationConsole\CodeAutomationConsole.csproj", "{66E1895D-6056-4C8C-A06A-EFE3BE59C074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAutomationConsole", "CodeAutomationConsole\CodeAutomationConsole.csproj", "{66E1895D-6056-4C8C-A06A-EFE3BE59C074}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAutomationConsole.Tests", "CodeAutomationConsole.Tests\CodeAutomationConsole.Tests.csproj", "{013C1F22-CE94-41E0-86C7-DD624B50390F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{66E1895D-6056-4C8C-A06A-EFE3BE59C074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66E1895D-6056-4C8C-A06A-EFE3BE59C074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66E1895D-6056-4C8C-A06A-EFE3BE59C074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{013C1F22-CE94-41E0-86C7-DD624B50390F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{013C1F22-CE94-41E0-86C7-DD624B50390F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{013C1F22-CE94-41E0-86C7-DD624B50390F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{013C1F22-CE94-41E0-86C7-DD624B50390F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

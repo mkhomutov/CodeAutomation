@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Classes\SacramentocrimeJanuary2006.cs" />
+    <Compile Remove="Classes\Sacramentorealestatetransactions.cs" />
+    <Compile Remove="Classes\SalesJan2009.cs" />
+    <Compile Remove="Classes\TechCrunchcontinentalUSA.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Scenarios\01.WrongChoice.txt" />
+    <None Remove="Scenarios\02.EmptyPath.txt" />
+    <None Remove="Scenarios\03.GenerateSomeClasses.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Classes\SacramentocrimeJanuary2006.cs" />
+    <EmbeddedResource Include="Classes\Sacramentorealestatetransactions.cs" />
+    <EmbeddedResource Include="Classes\SalesJan2009.cs" />
+    <EmbeddedResource Include="Classes\TechCrunchcontinentalUSA.cs" />
+    <EmbeddedResource Include="Scenarios\01.WrongChoice.txt" />
+    <EmbeddedResource Include="Scenarios\02.EmptyPath.txt" />
+    <EmbeddedResource Include="Scenarios\03.GenerateSomeClasses.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="coverlet.collector" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeAutomationConsole\CodeAutomationConsole.csproj" />
+  </ItemGroup>
+
+</Project>

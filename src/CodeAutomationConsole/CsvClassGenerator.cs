@@ -1,69 +1,52 @@
 ﻿namespace CodeAutomationConsole
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.IO;
+    using System.Collections.Generic;
 
     public class CsvClassGenerator
     {
-        private readonly String _nameSpace;
-        private readonly String _className;
-        private readonly String _fileName;
-        private readonly String[] _fields;
-        private readonly String[] _properties;
+        private readonly string _nameSpace;
+        private readonly string _className;
+        private readonly IEnumerable<CsvField> _fields;
 
         public CsvClassGenerator(string nameSpace, string path)
         {
             _nameSpace = nameSpace;
-            _className = path.Split('\\').Last().Split('.').First();
-            _fileName = _className + ".cs";
-            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
-            {
-                string line = sr.ReadLine();
-                _properties = line.Split(',').Select(x => FirstLetterDown(x)).ToArray();
-                _fields = _properties.Select(x => "_" + x).ToArray();
-            }
+            _className = path.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+            ParseCSV csv = new ParseCSV(path);
+            _fields = csv.CsvFields;
         }
 
         public string GenerateClassCode()
         {
-            string ConstructorTitle = _className + "(" + _properties.Select(x => "string " + x).ToArray().Aggregate((x, y) => x + ", " + y) + ")";
-            string ConstructorAssignments = _properties.Select(x => $"_{x} = {x};").Aggregate((x, y) => JoinLines(x, y, 3));
-            string Fields = _properties.Select(x => $"private readonly string _{x};").Aggregate((x, y) => JoinLines(x, y, 2));
-            string Properties = _properties.
-                Select(x => $"public string {FirstLetterUp(x)}\n{{\n\tget => _{x};\n}}".Split('\n').Aggregate((x, y) => JoinLines(x, y, 2))).
-                Aggregate((x, y) => JoinLines(x, y, 2));
-
-            string Code =  @$"namespace {_nameSpace}
+            string constructorTitle = _className + "(" + _fields.Select(x => "string " + x.ConstructorInput).Aggregate((x, y) => x + ", " + y) + ")";
+            string constructorAssignments = JoinWithTabs(_fields.Select(x => $"{x.Field} = {x.ConstructorInput};"), 3);
+            string fields = JoinWithTabs(_fields.Select(x => $"private readonly string {x.Field};"), 2);
+            string properties = JoinWithTabs(_fields.Select(x => JoinWithTabs($"public string {x.Property}\n{{\n\tget => {x.Field};\n}}".Split('\n'), 2)), 2);
+                        
+            string code =  @$"namespace {_nameSpace}
 {{
     using System;
 
     public class {_className}
     {{
         // Fields
-        {Fields}
+        {fields}
 
         // Constructor
-        public {ConstructorTitle}
+        public {constructorTitle}
         {{
-            {ConstructorAssignments}
+            {constructorAssignments}
         }}
 
         // Properties
-        {Properties}
+        {properties}
     }}
 }}
 ";
-            return Code;
+            return code;
         }
 
-        private string FirstLetterDown(string field) => field[0].ToString().ToLower() + String.Join("", field.Skip(1));
-
-        private string FirstLetterUp(string field) => field[0].ToString().ToUpper() + String.Join("", field.Skip(1));
-
-        private string JoinLines(string line1, string line2, int tabs) => line1 + "\r\n" + string.Concat(Enumerable.Repeat("\t", tabs)) + line2;
-
+        private string JoinWithTabs(IEnumerable<string> lines, int tabs) => lines.Aggregate((x, y) => x + "\r\n" + string.Concat(Enumerable.Repeat("\t", tabs)) + y);
     }
 }

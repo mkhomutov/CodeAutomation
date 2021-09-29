@@ -1,0 +1,8 @@
+>>This application will generate C# classes based on csv files
+>>Please enter path to your csv files:
+..\..\..\..\..\data\Simple\inputData\
+>>Generation started
+>>Generated class: ..\..\..\..\..\data\Simple\inputData\SacramentocrimeJanuary2006.cs
+>>Generated class: ..\..\..\..\..\data\Simple\inputData\Sacramentorealestatetransactions.cs
+>>Generated class: ..\..\..\..\..\data\Simple\inputData\SalesJan2009.cs
+>>Generated class: ..\..\..\..\..\data\Simple\inputData\TechCrunchcontinentalUSA.cs
