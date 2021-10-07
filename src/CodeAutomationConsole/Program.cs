@@ -8,12 +8,13 @@
     {
         public static void Main(string[] args)
         {
+            string[] files = Array.Empty<string>();
+
             Console.WriteLine("This application will generate C# classes based on csv files");
             Console.WriteLine("Please enter path to your csv files:");
 
-            string path = Console.ReadLine();
+            var path = Console.ReadLine();
             path = path.EndsWith('\\') ? path : path + "\\";
-            string[] files = Array.Empty<string>();
 
             try
             {
@@ -35,18 +36,29 @@
             Console.WriteLine("Generation started");
 
             foreach (string file in files)
-            {                
-                string NewFileName = file.Split('\\').Last().Split('.').First() + ".cs";
-                CsvClassGenerator Csv = new CsvClassGenerator(ProjectName, file);
-                string GeneratedClass = Csv.GenerateClassCode();
-                
-                using (FileStream fstream = new FileStream($"{path}{NewFileName}", FileMode.Create))
+            {
+                var gClass = new ClassGenerator(ProjectName, file);
+                var gMap = new MapGenerator(ProjectName, file);
+
+                var NewFileName = file.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+
+                var GeneratedClass = gClass.GenerateClassCode();
+                var GeneratedMap = gMap.GenerateMapCode();
+
+                using (FileStream fstream = new FileStream($"{path}{NewFileName + ".cs"}", FileMode.Create))
                 {
                     byte[] array = System.Text.Encoding.Default.GetBytes(GeneratedClass);
                     fstream.Write(array, 0, array.Length);
-                    Console.WriteLine($"Generated class: {path}{NewFileName}"); 
+                    Console.WriteLine($"Generated class: {path}{NewFileName}");
                 }
-            }    
+
+                using (FileStream fstream = new FileStream($"{path}{NewFileName + "Map.cs"}", FileMode.Create))
+                {
+                    byte[] array = System.Text.Encoding.Default.GetBytes(GeneratedMap);
+                    fstream.Write(array, 0, array.Length);
+                    Console.WriteLine($"Generated map: {path}{NewFileName}");
+                }
+            }
         }
     }
 }

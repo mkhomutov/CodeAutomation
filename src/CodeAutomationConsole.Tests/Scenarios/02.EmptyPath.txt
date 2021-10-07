@@ -1,4 +1,0 @@
->>This application will generate C# classes based on csv files
->>Please enter path to your csv files:
-..
->>No one csv file founded in this catalog
