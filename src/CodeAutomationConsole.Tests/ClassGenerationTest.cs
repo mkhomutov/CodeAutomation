@@ -13,40 +13,40 @@
 
         private readonly string _classesPrefix;
         private readonly string _csvPrefix;
-        private readonly string _projectName = "CodeAutomationConsole";
 
         public ClassGenerationTest()
         {
             _assembly = Assembly.GetExecutingAssembly();
+
             _classesPrefix = $"{_assembly.GetName().Name}.Classes.";
-            _csvPrefix = @"..\..\..\Csv\";
+            _csvPrefix = $"{_assembly.GetName().Name}.Csv.";
         }
 
         [TestCase("SacramentocrimeJanuary2006")]
         [TestCase("Sacramentorealestatetransactions")]
         [TestCase("SalesJan2009")]
         [TestCase("TechCrunchcontinentalUSA")]
+        [TestCase("MachineSiteSetups")]
         public void CompareClasses(string name)
         {
-            string csvResourceFilename = _csvPrefix + name + ".csv";
-            string classResourceFilename = _classesPrefix + name + ".cs";
+            var config = new YamlLoad(@"..\..\..\Yaml\CodeAutomation.yml");
+            var nameSpace = config.NameSpace;
+            var csvSettings = config.GetCsv(name);
 
-            try
-            {
-                Assert.IsTrue(File.Exists(csvResourceFilename));
+            var className = csvSettings is null ? name : csvSettings.ClassName is null ? name : csvSettings.ClassName;
+            string classResource = _classesPrefix + className + ".cs";
 
-                var gClass = new ClassGenerator(_projectName, csvResourceFilename);
+            var tempCsvFilenme = GetTemporaryCsv(name);
 
-                var generatedClass = gClass.GenerateClassCode();
+            var gClass = csvSettings is null ? new ClassGenerator(nameSpace, tempCsvFilenme) : new ClassGenerator(nameSpace, tempCsvFilenme, csvSettings);
 
-                var currentClass = LoadResource(classResourceFilename);
+            File.Delete(tempCsvFilenme);
 
-                AssertClass(name, currentClass, generatedClass);
-            }
-            catch (AssertionException ex)
-            {
-                Console.WriteLine($"Csv file fore test {name} doesn't exist. {ex.Message}");
-            }
+            var generatedClass = gClass.GenerateClassCode();
+
+            var currentClass = LoadResource(classResource);
+
+            AssertClass(name, currentClass, generatedClass);
         }
 
         private void AssertClass(string className, string currentClass, string genereatedCurrentClass)
@@ -54,30 +54,17 @@
             var echo = new StringBuilder();
             var lineNumber = 0;
 
-            try
+            using (var classReader = new StringReader(currentClass))
+            using (var generatedClassReader = new StringReader(genereatedCurrentClass))
             {
-                using (var classReader = new StringReader(currentClass))
-                using (var generatedClassReader = new StringReader(genereatedCurrentClass))
+                string line;
+                while ((line = classReader.ReadLine()) is not null)
                 {
-                    string line;
-                    while ((line = classReader.ReadLine()) is not null)
-                    {
-                        lineNumber++;
-                        var generatedLine = generatedClassReader.ReadLine();
+                    lineNumber++;
+                    var generatedLine = generatedClassReader.ReadLine();
 
-                        Assert.AreEqual(line, generatedLine);
-                    }
+                    Assert.AreEqual(line, generatedLine, $"\nline: {lineNumber}\n");
                 }
-            }
-            catch (AssertionException ex)
-            {
-                echo.AppendLine($"\nError comparing class {className}");
-                echo.AppendLine($"   line: {lineNumber}\n");
-                echo.AppendLine(ex.Message);
-
-                Console.WriteLine(echo.ToString());
-
-                throw;
             }
         }
 
@@ -90,6 +77,23 @@
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        private string GetTemporaryCsv(string name)
+        {
+            var csvResource = _csvPrefix + name + ".csv";
+
+            var csvContent = LoadResource(csvResource);
+
+            var tempFile = Path.GetTempPath() + name + ".csv";
+
+            using (FileStream fstream = new FileStream(tempFile, FileMode.Create))
+            {
+                byte[] array = Encoding.Default.GetBytes(csvContent);
+                fstream.Write(array, 0, array.Length);
+            }
+            Console.WriteLine(tempFile);
+            return tempFile;
         }
     }
 }

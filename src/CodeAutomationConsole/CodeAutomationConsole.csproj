@@ -15,7 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Orc.Csv" Version="4.3.2" />
     <PackageReference Include="Spectre.Console" Version="0.41.0" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,23 @@
+﻿---
+csvImportPath: c:\audit\cs\CodeAutomation\data\Simple\inputData\
+codeExportPath: c:\temp\code_generation\
+nameSpace: CodeAutomationConsole
+csvList:
+  - name: MachineSiteSetups
+    className: MachineSiteSetup
+    details:
+    - field: RCCPValid
+      alias: IsValidRccp
+      type: Bool
+    - field: MachAbrev
+      alias: MachineAbbreviation
+    - field: ValidMC
+      alias: IsValidMachine
+      type: Bool
+    - field: MCLoc
+      alias: MachineLocation
+    - field: LocalEfficiency
+      alias: Efficiency
+      default: 0
+    - field: BndlKg
+      alias: KilosPerBundle

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\MachineSiteSetup.cs" />
     <Compile Remove="Classes\SacramentocrimeJanuary2006.cs" />
     <Compile Remove="Classes\Sacramentorealestatetransactions.cs" />
     <Compile Remove="Classes\SalesJan2009.cs" />
     <Compile Remove="Classes\TechCrunchcontinentalUSA.cs" />
+    <Compile Remove="Maps\MachineSiteSetupMap.cs" />
     <Compile Remove="Maps\SacramentocrimeJanuary2006Map.cs" />
     <Compile Remove="Maps\SacramentorealestatetransactionsMap.cs" />
     <Compile Remove="Maps\SalesJan2009Map.cs" />
@@ -18,25 +20,32 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Csv\MachineSiteSetups.csv" />
     <None Remove="Csv\SacramentocrimeJanuary2006.csv" />
-    <None Remove="Csv\Sacramentorealestatetransactions.csv" />
-    <None Remove="Csv\SalesJan2009.csv" />
-    <None Remove="Csv\TechCrunchcontinentalUSA.csv" />
-    <None Remove="Csv\_SacramentocrimeJanuary2006.csv" />
+    <None Remove="Yaml\CodeAutomation.yml" />
   </ItemGroup>
 
   <ItemGroup>
+    <ApplicationDefinition Include="Csv\SacramentocrimeJanuary2006.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Classes\MachineSiteSetup.cs" />
     <EmbeddedResource Include="Classes\SacramentocrimeJanuary2006.cs" />
     <EmbeddedResource Include="Classes\Sacramentorealestatetransactions.cs" />
     <EmbeddedResource Include="Classes\SalesJan2009.cs" />
     <EmbeddedResource Include="Classes\TechCrunchcontinentalUSA.cs" />
+    <EmbeddedResource Include="Csv\MachineSiteSetups.csv" />
+    <EmbeddedResource Include="Csv\SacramentocrimeJanuary2006.csv" />
     <EmbeddedResource Include="Csv\Sacramentorealestatetransactions.csv" />
     <EmbeddedResource Include="Csv\SalesJan2009.csv" />
     <EmbeddedResource Include="Csv\TechCrunchcontinentalUSA.csv" />
+    <EmbeddedResource Include="Maps\MachineSiteSetupMap.cs" />
     <EmbeddedResource Include="Maps\SacramentocrimeJanuary2006Map.cs" />
     <EmbeddedResource Include="Maps\SacramentorealestatetransactionsMap.cs" />
     <EmbeddedResource Include="Maps\SalesJan2009Map.cs" />
     <EmbeddedResource Include="Maps\TechCrunchcontinentalUSAMap.cs" />
+    <EmbeddedResource Include="Yaml\CodeAutomation.yml" />
   </ItemGroup>
 
   <ItemGroup>

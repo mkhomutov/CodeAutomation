@@ -7,16 +7,16 @@ namespace CodeAutomationConsole
         #region Constructors
         public TechCrunchcontinentalUSA()
         {
-            Map(x => x.Permalink);
-			Map(x => x.Company);
-			Map(x => x.NumEmps);
-			Map(x => x.Category);
-			Map(x => x.City);
-			Map(x => x.State);
-			Map(x => x.FundedDate);
-			Map(x => x.RaisedAmt);
-			Map(x => x.RaisedCurrency);
-			Map(x => x.Round);
+            Map(x => x.Permalink).Name("Permalink");
+			Map(x => x.Company).Name("Company");
+			Map(x => x.NumEmps).Name("NumEmps");
+			Map(x => x.Category).Name("Category");
+			Map(x => x.City).Name("City");
+			Map(x => x.State).Name("State");
+			Map(x => x.FundedDate).Name("FundedDate");
+			Map(x => x.RaisedAmt).Name("RaisedAmt");
+			Map(x => x.RaisedCurrency).Name("RaisedCurrency");
+			Map(x => x.Round).Name("Round");
         }
         #endregion
     }
