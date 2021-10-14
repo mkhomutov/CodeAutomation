@@ -8,9 +8,13 @@
     {
         public static void Main(string[] args)
         {
-            string configurationPath = @"..\..\..\..\src\CodeAutomationConsole\CodeAutomation.yml";
+            string yamlPath = @"c:\temp\ca.yaml";
+            string csvPath = @"c:\temp\Csv\";
 
-            var config = new YamlLoad(configurationPath);
+            var yaml = new CreateYaml(csvPath);
+            yaml.SaveTo(yamlPath);
+
+            var config = new YamlLoad(yamlPath);
 
             Console.WriteLine("This application will generate C# classes based on csv files");
 

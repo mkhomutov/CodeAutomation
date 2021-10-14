@@ -27,9 +27,9 @@
         public string ExportPath => _configuration.CodeExportPath;
         public string NameSpace => _configuration.NameSpace;
 
-        public CsvList GetCsv(string name)
+        public CsvListMember GetCsv(string name)
         {
-            return _configuration.CsvList.Find(x => x.Name == name);
+            return _configuration.CsvList.Find(x => string.Equals(x.Name, name));
         }
 
     }

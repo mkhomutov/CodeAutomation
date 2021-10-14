@@ -8,12 +8,12 @@ csvList:
     details:
     - field: RCCPValid
       alias: IsValidRccp
-      type: Bool
+      type: bool
     - field: MachAbrev
       alias: MachineAbbreviation
     - field: ValidMC
       alias: IsValidMachine
-      type: Bool
+      type: bool
     - field: MCLoc
       alias: MachineLocation
     - field: LocalEfficiency

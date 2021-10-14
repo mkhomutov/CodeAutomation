@@ -21,6 +21,16 @@
             get => _headers;
         }
 
+        public List<CsvDetails> Details
+        {
+            get => new List<CsvDetails>(_headers.Select(x => new CsvDetails(x)));
+        }
+
+        public CsvDetails GetField(string name)
+        {
+            return Details.Find(x => string.Equals(name, x.Field));
+        }
+
         private string[] GetHeaders (string path)
         {
             string[] headers;

@@ -1,4 +1,4 @@
-﻿namespace CodeAutomationConsole
+namespace CodeAutomationConsole
 {
     using System;
 
@@ -6,9 +6,9 @@
     {
         #region Properties
         public string BranchCode { get; set; }
-		public string IsValidRccp { get; set; }
+		public bool IsValidRccp { get; set; }
 		public string MachineAbbreviation { get; set; }
-		public string IsValidMachine { get; set; }
+		public bool IsValidMachine { get; set; }
 		public string Comments { get; set; }
 		public string MachineType { get; set; }
 		public string MachineLocation { get; set; }

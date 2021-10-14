@@ -21,22 +21,20 @@
             _mappings = JoinWithTabs(csv.Headers.Select(x => $"Map(x => x.{x}).Name(\"{x}\");"), 3);
         }
 
-        public MapGenerator(string nameSpace, string path, CsvList settings)
+        public MapGenerator(string nameSpace, string path, CsvListMember settings)
         {
             var csv = new ParseCSV(path);
 
             _nameSpace = nameSpace;
-            _className = settings.ClassName is null ? path.Split('\\').LastOrDefault().Split('.').FirstOrDefault() : settings.ClassName;
+            _className = settings.ClassName ?? path.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
 
             _mappings = JoinWithTabs(csv.Headers.Select(x =>
             {
                 var fieldDetails = settings.GetDetails(x);
 
-                var fieldAlias = fieldDetails is null ? x : fieldDetails.Alias is null ? x : fieldDetails.Alias;
-
-                var fieldType = fieldDetails is null ? "" : fieldDetails.Type is null ? "" : $".As{fieldDetails.Type}()";
-
-                var fieldDefault = fieldDetails is null ? "" : fieldDetails.Default is null ? "" : $".Default({fieldDetails.Default})";
+                var fieldAlias = fieldDetails?.Alias ?? x;
+                var fieldType = fieldDetails?.Type is null ? "" : $".As{Capitalize(fieldDetails.Type)}()";
+                var fieldDefault = fieldDetails?.Default is null ? "" : $".Default({fieldDetails.Default})";
 
                 return $"Map(x => x.{fieldAlias}).Name(\"{x}\"){fieldType}{fieldDefault};";
             }), 3);
@@ -63,5 +61,7 @@
         }
 
         private string JoinWithTabs(IEnumerable<string> lines, int tabs) => lines.Aggregate((x, y) => x + "\r\n" + string.Concat(Enumerable.Repeat("\t", tabs)) + y);
+
+        private string Capitalize(string text) => text[0].ToString().ToUpper() + text.Substring(1, text.Length - 1);
     }
 }

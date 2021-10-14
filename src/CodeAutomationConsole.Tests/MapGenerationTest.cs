@@ -32,7 +32,7 @@
             var nameSpace = config.NameSpace;
             var csvSettings = config.GetCsv(name);
 
-            var className = csvSettings is null ? name : csvSettings.ClassName is null ? name : csvSettings.ClassName;
+            var className = csvSettings?.ClassName ?? name;
             var mapResourceFilename = _mapsPrefix + className + "Map.cs";
 
             var tempCsvFilenme = GetTemporaryCsv(name);

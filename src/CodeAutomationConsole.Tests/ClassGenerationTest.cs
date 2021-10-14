@@ -33,7 +33,7 @@
             var nameSpace = config.NameSpace;
             var csvSettings = config.GetCsv(name);
 
-            var className = csvSettings is null ? name : csvSettings.ClassName is null ? name : csvSettings.ClassName;
+            var className = csvSettings?.ClassName ?? name;
             string classResource = _classesPrefix + className + ".cs";
 
             var tempCsvFilenme = GetTemporaryCsv(name);

@@ -18,20 +18,20 @@
             _properties = JoinWithTabs(csv.Headers.Select(x => $"public string {x} {{ get; set; }}"), 2);
         }
 
-        public ClassGenerator(string nameSpace, string path, CsvList settings)
+        public ClassGenerator(string nameSpace, string path, CsvListMember settings)
         {
             var csv = new ParseCSV(path);
 
             _nameSpace = nameSpace;
-            _className = settings.ClassName is null ? path.Split('\\').LastOrDefault().Split('.').FirstOrDefault() : settings.ClassName;
+            _className = settings.ClassName ?? path.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
 
             _properties = JoinWithTabs(csv.Headers.Select(x =>
             {
                 var fieldDetails = settings.GetDetails(x);
+                var field = fieldDetails?.Alias ?? x;
+                var type = fieldDetails?.Type ?? "string";
 
-                var field = fieldDetails is null ? x : fieldDetails.Alias is null ? x : fieldDetails.Alias;
-
-                return $"public string {field} {{ get; set; }}";
+                return $"public {type} {field} {{ get; set; }}";
             }), 2);
         }
 
