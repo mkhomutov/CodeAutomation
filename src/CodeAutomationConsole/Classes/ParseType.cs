@@ -9,105 +9,66 @@
     public class ParseType
     {
         private readonly string[] _text;
+        private readonly string _type;
 
         public ParseType(string[] text)
         {
             _text = text;
+
+            if (IsInt()) { _type = "int"; }
+            if (IsBool()) { _type = "bool"; }
+            if (IsDouble()) { _type = "double"; }
+            if (IsDateTime()) { _type = "DateTime"; }
         }
 
-        public string GetTypes()
+        public string Type { get => _type; }
+
+        private bool IsInt()
         {
-            var isDateTime = IsDateTime(_text);
-
-            if (IsInt(_text) == 1)
+            foreach (var t in _text)
             {
-                return "int";
+                if (!int.TryParse(t, out int x)) { return false; }
             }
 
-            if (IsBool(_text) == 1)
-            {
-                return "bool";
-            }
-
-            if (isDateTime == 1)
-            {
-                return "DateTime";
-            }
-
-            if (IsFloat(_text) == 1) { return "float"; }
-
-            return "string";
+            return true;
         }
 
-        private float IsInt(string[] text)
+        private bool IsDouble()
         {
-            int errCounter = text.Length;
-
-            foreach (var t in text)
-            {
-                try
-                {
-                    var i = int.Parse(t);
-                }
-                catch { errCounter--; }
-            }
-
-            return errCounter / text.Length;
-        }
-
-        private float IsFloat(string[] text)
-        {
-            int errCounter = text.Length;
-
             var provider = new System.Globalization.CultureInfo("en-AU");
+            var style = System.Globalization.NumberStyles.Float;
 
-            foreach (var t in text)
+            foreach (var t in _text)
             {
-                try
-                {
-                    var i = Single.Parse(t, System.Globalization.NumberStyles.Float, provider);
-                }
-                catch { errCounter--; }
+                if (!Double.TryParse(t, style, provider, out var i)) { return false; }
             }
 
-            return errCounter / text.Length;
+            return true;
         }
 
 
-        private float IsBool(string[] text)
+        private bool IsBool()
         {
-            int errCounter = text.Length;
-
-            var provider = new System.Globalization.CultureInfo("en-AU");
-
-            foreach (var t in text)
+            foreach (var t in _text)
             {
-                try
-                {
-                    var i = bool.Parse(t);
-                }
-                catch { errCounter--; }
+                if (!bool.TryParse(t, out var i)) { return false; }
             }
 
-            return errCounter / text.Length;
+            return true;
         }
 
-        private float IsDateTime(string[] text)
+        private bool IsDateTime()
         {
-            int errCounter = text.Length;
+            var provider = new System.Globalization.CultureInfo("en-US");
 
-            var provider = new System.Globalization.CultureInfo("en-EN");
+            var style = System.Globalization.DateTimeStyles.None;
 
-            foreach (var t in text)
+            foreach (var t in _text)
             {
-                try
-                {
-                    var i = DateTime.Parse(t);
-                }
-                catch { errCounter--; }
+                if (!DateTime.TryParse(t, provider, style, out var dt)) { return false; }
             }
 
-            return errCounter / text.Length;
+            return true;
         }
     }
 }

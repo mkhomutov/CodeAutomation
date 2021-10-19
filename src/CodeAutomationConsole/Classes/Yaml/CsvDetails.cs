@@ -6,7 +6,6 @@
         {
             Field = field;
             Alias = field;
-            Type = "string";
         }
 
         public CsvDetails(string field, string type) : this(field)
