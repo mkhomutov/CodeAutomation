@@ -1,4 +1,4 @@
-namespace CodeAutomationConsole
+namespace SES.Projects.GFG.Chameleon
 {
     using Orc.Csv;
 
@@ -7,15 +7,15 @@ namespace CodeAutomationConsole
         #region Constructors
         public SacramentocrimeJanuary2006()
         {
-            Map(x => x.Cdatetime).Name("Cdatetime");
-			Map(x => x.Address).Name("Address");
-			Map(x => x.District).Name("District");
-			Map(x => x.Beat).Name("Beat");
-			Map(x => x.Grid).Name("Grid");
-			Map(x => x.Crimedescr).Name("Crimedescr");
-			Map(x => x.Ucr_ncic_code).Name("Ucr_ncic_code");
-			Map(x => x.Latitude).Name("Latitude");
-			Map(x => x.Longitude).Name("Longitude");
+            Map(x => x.Cdatetime).Name("cdatetime").AsDateTime();
+			Map(x => x.Address).Name("address");
+			Map(x => x.District).Name("district").AsDouble();
+			Map(x => x.Beat).Name("beat");
+			Map(x => x.Grid).Name("grid").AsDouble();
+			Map(x => x.Crimedescr).Name("crimedescr");
+			Map(x => x.UcrNcicCode).Name("ucr_ncic_code").AsDouble();
+			Map(x => x.Latitude).Name("latitude").AsDouble();
+			Map(x => x.Longitude).Name("longitude").AsDouble();
         }
         #endregion
     }

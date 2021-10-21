@@ -1,4 +1,4 @@
-namespace CodeAutomationConsole
+namespace SES.Projects.GFG.Chameleon
 {
     using System;
 
@@ -11,8 +11,8 @@ namespace CodeAutomationConsole
 		public string Category { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
-		public string FundedDate { get; set; }
-		public string RaisedAmt { get; set; }
+		public DateTime FundedDate { get; set; }
+		public double RaisedAmt { get; set; }
 		public string RaisedCurrency { get; set; }
 		public string Round { get; set; }
         #endregion

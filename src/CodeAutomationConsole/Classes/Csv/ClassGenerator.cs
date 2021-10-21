@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Collections.Generic;
+    using System.IO;
 
     public class ClassGenerator
     {
@@ -14,7 +15,7 @@
             var csv = new ParseCSV(path);
 
             _nameSpace = nameSpace;
-            _className = path.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+            _className = Path.GetFileNameWithoutExtension(path);
             _properties = JoinWithTabs(csv.Headers.Select(x => $"public string {x} {{ get; set; }}"), 2);
         }
 
@@ -23,7 +24,7 @@
             var csv = new ParseCSV(path);
 
             _nameSpace = nameSpace;
-            _className = settings.ClassName ?? path.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+            _className = settings.ClassName ?? Path.GetFileNameWithoutExtension(path);
 
             _properties = JoinWithTabs(csv.Headers.Select(x =>
             {

@@ -9,11 +9,14 @@
   <ItemGroup>
     <Compile Remove="Classes\MachineSiteSetup.cs" />
     <Compile Remove="Classes\SacramentocrimeJanuary2006.cs" />
+    <Compile Remove="Classes\Sacramentorealestatetransaction.cs" />
     <Compile Remove="Classes\Sacramentorealestatetransactions.cs" />
     <Compile Remove="Classes\SalesJan2009.cs" />
     <Compile Remove="Classes\TechCrunchcontinentalUSA.cs" />
     <Compile Remove="Maps\MachineSiteSetupMap.cs" />
+    <Compile Remove="Maps\MachineSiteSetupsMap.cs" />
     <Compile Remove="Maps\SacramentocrimeJanuary2006Map.cs" />
+    <Compile Remove="Maps\SacramentorealestatetransactionMap.cs" />
     <Compile Remove="Maps\SacramentorealestatetransactionsMap.cs" />
     <Compile Remove="Maps\SalesJan2009Map.cs" />
     <Compile Remove="Maps\TechCrunchcontinentalUSAMap.cs" />
@@ -22,6 +25,7 @@
   <ItemGroup>
     <None Remove="Csv\MachineSiteSetups.csv" />
     <None Remove="Csv\SacramentocrimeJanuary2006.csv" />
+    <None Remove="Resources\PropertyNames.csv" />
     <None Remove="Yaml\CodeAutomation.yml" />
   </ItemGroup>
 
@@ -32,7 +36,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Classes\MachineSiteSetup.cs" />
     <EmbeddedResource Include="Classes\SacramentocrimeJanuary2006.cs" />
-    <EmbeddedResource Include="Classes\Sacramentorealestatetransactions.cs" />
+    <EmbeddedResource Include="Classes\Sacramentorealestatetransaction.cs" />
     <EmbeddedResource Include="Classes\SalesJan2009.cs" />
     <EmbeddedResource Include="Classes\TechCrunchcontinentalUSA.cs" />
     <EmbeddedResource Include="Csv\MachineSiteSetups.csv" />
@@ -42,9 +46,10 @@
     <EmbeddedResource Include="Csv\TechCrunchcontinentalUSA.csv" />
     <EmbeddedResource Include="Maps\MachineSiteSetupMap.cs" />
     <EmbeddedResource Include="Maps\SacramentocrimeJanuary2006Map.cs" />
-    <EmbeddedResource Include="Maps\SacramentorealestatetransactionsMap.cs" />
+    <EmbeddedResource Include="Maps\SacramentorealestatetransactionMap.cs" />
     <EmbeddedResource Include="Maps\SalesJan2009Map.cs" />
     <EmbeddedResource Include="Maps\TechCrunchcontinentalUSAMap.cs" />
+    <EmbeddedResource Include="Resources\PropertyNames.csv" />
     <EmbeddedResource Include="Yaml\CodeAutomation.yml" />
   </ItemGroup>
 

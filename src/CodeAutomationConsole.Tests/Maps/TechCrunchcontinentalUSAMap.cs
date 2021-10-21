@@ -1,4 +1,4 @@
-namespace CodeAutomationConsole
+namespace SES.Projects.GFG.Chameleon
 {
     using Orc.Csv;
 
@@ -7,16 +7,16 @@ namespace CodeAutomationConsole
         #region Constructors
         public TechCrunchcontinentalUSA()
         {
-            Map(x => x.Permalink).Name("Permalink");
-			Map(x => x.Company).Name("Company");
-			Map(x => x.NumEmps).Name("NumEmps");
-			Map(x => x.Category).Name("Category");
-			Map(x => x.City).Name("City");
-			Map(x => x.State).Name("State");
-			Map(x => x.FundedDate).Name("FundedDate");
-			Map(x => x.RaisedAmt).Name("RaisedAmt");
-			Map(x => x.RaisedCurrency).Name("RaisedCurrency");
-			Map(x => x.Round).Name("Round");
+            Map(x => x.Permalink).Name("permalink");
+			Map(x => x.Company).Name("company");
+			Map(x => x.NumEmps).Name("numEmps");
+			Map(x => x.Category).Name("category");
+			Map(x => x.City).Name("city");
+			Map(x => x.State).Name("state");
+			Map(x => x.FundedDate).Name("fundedDate").AsDateTime();
+			Map(x => x.RaisedAmt).Name("raisedAmt").AsDouble();
+			Map(x => x.RaisedCurrency).Name("raisedCurrency");
+			Map(x => x.Round).Name("round");
         }
         #endregion
     }

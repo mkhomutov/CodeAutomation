@@ -2,80 +2,90 @@
 {
     using System;
     using System.IO;
-    using System.Linq;
+    using Catel.IoC;
+    using Orc.CommandLine;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            string yamlPath = @"c:\temp\ca.yaml";
-            string csvPath = @"c:\temp\Csv\";
+            // Commandline processing
+            var commandLine = Environment.CommandLine.GetCommandLine();
 
-            var yaml = new CreateYaml(csvPath);
-            yaml.SaveTo(yamlPath);
+            var commandLineContext = new CommandLineContext();
 
-            var config = new YamlLoad(yamlPath);
+            var parser = CreateCommandLineParser();
 
-            Console.WriteLine("This application will generate C# classes based on csv files");
+            var validationContext = parser.Parse(commandLine, commandLineContext);
 
-            var path        = config.ImportPath;
-            var nameSpace   = config.NameSpace;
-            var exportPath  = config.ExportPath;
+            ProcessCommndLine(commandLineContext, validationContext);
 
-            if (!Directory.Exists(exportPath)) { Directory.CreateDirectory(exportPath); }
+            // Load configuration
+            var config = new LoadConfiguration(commandLineContext.ConfigPath).Config;
 
-            var files = GetFiles(path);
+            var yamlPath = $"{config.ProjectPath}{config.ProjectName}.yaml";
 
-            Console.WriteLine("Generation started");
-
-            foreach (var file in files)
+            // Generate YAML config
+            if (commandLineContext.GenerateYaml)
             {
-                var fileName = file.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+                var yaml = new CreateYaml(config);
 
-                var csvSettings = config.GetCsv(fileName);
+                yaml.SaveTo(yamlPath);
 
-                var gClass = csvSettings is null ? new ClassGenerator(nameSpace, file) : new ClassGenerator(nameSpace, file, csvSettings);
-                var gMap = csvSettings is null ? new MapGenerator(nameSpace, file) : new MapGenerator(nameSpace, file, csvSettings);
+                Console.WriteLine($"Yaml config for project {config.ProjectName} is generated to {yamlPath}");
 
-                var generatedClass = gClass.GenerateClassCode();
-                var generatedMap = gMap.GenerateMapCode();
+                Environment.Exit(0);
+            }
 
-                SaveFile(exportPath, fileName + ".cs", generatedClass);
+            // Generate project
+            if (commandLineContext.GenerateProject)
+            {
+                var project = new Project(yamlPath);
 
-                SaveFile(exportPath, fileName + "Map.cs", generatedMap);
+                project.Generate();
             }
         }
 
-        private static void SaveFile(string path, string newFileName, string generatedClass)
+        private static void ProcessCommndLine(CommandLineContext commandLineContext, Catel.Data.IValidationContext validationContext)
         {
-            using (var fstream = new FileStream($"{path}{newFileName}", FileMode.Create))
+            if (validationContext.HasWarnings)
             {
-                byte[] array = System.Text.Encoding.Default.GetBytes(generatedClass);
-                fstream.Write(array, 0, array.Length);
-                Console.WriteLine($"Generated class: {path}{newFileName}");
+                Console.WriteLine("Some warnings");
+            }
+
+            if (validationContext.HasErrors)
+            {
+                Console.WriteLine("Some errors");
+                Environment.Exit(0);
+            }
+
+            if (commandLineContext.IsHelp)
+            {
+                Console.WriteLine(commandLineContext.Help);
+                Environment.Exit(0);
+            }
+
+            if (!File.Exists(commandLineContext.ConfigPath))
+            {
+                Console.WriteLine($"Configuration file {commandLineContext.ConfigPath} not found");
+                Environment.Exit(0);
+            }
+
+            if(!commandLineContext.GenerateProject && !commandLineContext.GenerateYaml)
+            {
+                Console.WriteLine("Please use options /gy or /gp");
+                Console.WriteLine(commandLineContext.Help);
+                Environment.Exit(0);
             }
         }
 
-        private static string[] GetFiles(string path)
+        private static ICommandLineParser CreateCommandLineParser()
         {
-            string[] files = { };
+            var serviceLocator = ServiceLocator.Default;
 
-            try
-            {
-                files = Directory.GetFiles(path, "*.csv");
-                if (files.Length == 0)
-                {
-                    Console.WriteLine("No one csv file founded in this catalog");
-                    Environment.Exit(1);
-                }
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Console.WriteLine("Seems like this path does not exist");
-                Environment.Exit(1);
-            }
+            var typeFactory = serviceLocator.ResolveType<ITypeFactory>();
 
-            return files;
+            return typeFactory.CreateInstanceWithParametersAndAutoCompletion<CommandLineParser>(new OptionDefinitionService());
         }
     }
 }

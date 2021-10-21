@@ -6,22 +6,21 @@
     using YamlDotNet.Serialization;
     using YamlDotNet.Serialization.NamingConventions;
 
-    public class YamlLoad
+    public class LoadProjectConfiguration
     {
-        private readonly string _yaml;
+        private readonly ProjectConfiguration _configuration;
 
-        private readonly Configuration _configuration;
-
-        public YamlLoad(string path)
+        public LoadProjectConfiguration(string path)
         {
+            var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
+
             using (StreamReader sr = new StreamReader(path, Encoding.Default))
             {
-                _yaml = sr.ReadToEnd();
-            }
+                var yaml = sr.ReadToEnd();
 
-            var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
-            _configuration = deserializer.Deserialize<Configuration>(_yaml);
-        }
+                _configuration = deserializer.Deserialize<ProjectConfiguration>(yaml);
+            }
+        }        
 
         public string ImportPath => _configuration.CsvImportPath;
         public string ExportPath => _configuration.CodeExportPath;

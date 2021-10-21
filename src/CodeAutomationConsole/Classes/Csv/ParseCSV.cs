@@ -17,7 +17,7 @@
         public ParseCSV(string path)
         {
             _path = path;
-            _headers = GetHeaders(path).Select(x => x[0].ToString().ToUpper() + String.Join("", x.Skip(1)));
+            _headers = GetHeaders(path);
         }
 
         public IEnumerable<string> Headers
@@ -101,8 +101,12 @@
                     for(var i =0; i < headers.Length;i++)
                     {
                         var columnValues = dt.AsEnumerable().Select(x => x.Field<string>(i)).ToArray();
+                        var validPropertyName = headers[i].ToValidPopertyName();
 
-                        fields.Add(new CsvDetails(headers[i], new ParseType(columnValues).Type));
+                        var fieldType = new ParseType(columnValues).Type;
+                        var fieldAlias = headers[i].Equals(validPropertyName) ? null : validPropertyName;
+
+                        fields.Add(new CsvDetails(field: headers[i], type: fieldType, alias: fieldAlias));
                     }
 
                 }

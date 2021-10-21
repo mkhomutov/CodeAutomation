@@ -2,15 +2,12 @@
 {
     public class CsvDetails
     {
-        public CsvDetails(string field)
+        public CsvDetails(string field, string alias = null, string type = null, string def = null)
         {
             Field = field;
-            Alias = field;
-        }
-
-        public CsvDetails(string field, string type) : this(field)
-        {
+            Alias = alias;
             Type = type;
+            Default = def;
         }
 
         public CsvDetails() { }

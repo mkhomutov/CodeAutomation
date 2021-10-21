@@ -9,16 +9,17 @@
 
     public class CreateYaml
     {
-        public CreateYaml(string path)
+        public CreateYaml(Configuration config)
         {
-            var config = new Configuration();
+            var generationConfig = new ProjectConfiguration();
 
-            config.CsvImportPath = path;
-            config.CodeExportPath = path + "generated\\";
+            generationConfig.CsvImportPath = config.CsvPath;
+            generationConfig.CodeExportPath = config.ProjectPath;
+            generationConfig.NameSpace = $"SES.Projects.{config.Contractor}.{config.ProjectName}";
 
-            config.CsvList = new List<CsvListMember>();
+            generationConfig.CsvList = new List<CsvListMember>();
 
-            var files = GetFiles(path);
+            var files = GetFiles(config.CsvPath);
 
             foreach (var file in files)
             {
@@ -30,19 +31,19 @@
                 csv.ClassName = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName;
                 csv.Details = new ParseCSV(file).Details;
 
-                config.CsvList.Add(csv);
+                generationConfig.CsvList.Add(csv);
             }
 
             var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
-            Yaml = serializer.Serialize(config);
+            Yaml = serializer.Serialize(generationConfig);
         }
 
         public string Yaml { get; }
 
         public void SaveTo(string path)
         {
-            var directory = path.Split('\\').SkipLast(1).Aggregate((x, y) => $"x\\y");
+            var directory = Path.GetDirectoryName(path);
 
             if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
 
