@@ -1,6 +1,6 @@
 ﻿---
 csvImportPath: c:\audit\cs\CodeAutomation\data\Simple\inputData\
-codeExportPath: c:\temp\code_generation\
+codeExportPath: c:\temp\code_generation
 nameSpace: CodeAutomationConsole
 csvList:
   - name: MachineSiteSetups

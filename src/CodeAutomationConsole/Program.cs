@@ -18,12 +18,12 @@
 
             var validationContext = parser.Parse(commandLine, commandLineContext);
 
-            ProcessCommndLine(commandLineContext, validationContext);
+            ProcessCommndLine(commandLineContext, validationContext, parser);
 
             // Load configuration
             var config = new LoadConfiguration(commandLineContext.ConfigPath).Config;
 
-            var yamlPath = $"{config.ProjectPath}{config.ProjectName}.yaml";
+            var yamlPath = Path.Combine(config.ProjectPath, $"{config.ProjectName}.yaml");
 
             // Generate YAML config
             if (commandLineContext.GenerateYaml)
@@ -33,8 +33,6 @@
                 yaml.SaveTo(yamlPath);
 
                 Console.WriteLine($"Yaml config for project {config.ProjectName} is generated to {yamlPath}");
-
-                Environment.Exit(0);
             }
 
             // Generate project
@@ -46,7 +44,7 @@
             }
         }
 
-        private static void ProcessCommndLine(CommandLineContext commandLineContext, Catel.Data.IValidationContext validationContext)
+        private static void ProcessCommndLine(CommandLineContext commandLineContext, Catel.Data.IValidationContext validationContext, ICommandLineParser parser)
         {
             if (validationContext.HasWarnings)
             {
@@ -61,7 +59,8 @@
 
             if (commandLineContext.IsHelp)
             {
-                Console.WriteLine(commandLineContext.Help);
+                Console.WriteLine(String.Join('\n', parser.GetHelp(commandLineContext)));
+
                 Environment.Exit(0);
             }
 

@@ -19,7 +19,7 @@
             var nameSpace = _projectConfiguration.NameSpace;
             var exportPath = _projectConfiguration.ExportPath;
 
-            if (!Directory.Exists(exportPath)) { Directory.CreateDirectory(exportPath); }
+            Directory.CreateDirectory(Path.Combine(exportPath, "Models\\Maps"));
 
             var files = GetFiles(path);
 
@@ -27,9 +27,9 @@
 
             foreach (var file in files)
             {
-                var csvFileName = Path.GetFileNameWithoutExtension(file);
+                var csvName = Path.GetFileNameWithoutExtension(file);
 
-                var csvSettings = _projectConfiguration.GetCsv(csvFileName);
+                var csvSettings = _projectConfiguration.GetCsv(csvName);
 
                 var gClass = csvSettings is null ? new ClassGenerator(nameSpace, file) : new ClassGenerator(nameSpace, file, csvSettings);
                 var gMap = csvSettings is null ? new MapGenerator(nameSpace, file) : new MapGenerator(nameSpace, file, csvSettings);
@@ -37,21 +37,23 @@
                 var generatedClass = gClass.GenerateClassCode();
                 var generatedMap = gMap.GenerateMapCode();
 
-                var newFileName = csvSettings?.ClassName ?? csvFileName;
+                var newFileName = csvSettings?.ClassName ?? csvName;
 
-                SaveFile(exportPath, newFileName + ".cs", generatedClass);
+                SaveFile($"{exportPath}\\Models", $"{newFileName}.cs", generatedClass);
 
-                SaveFile(exportPath, newFileName + "Map.cs", generatedMap);
+                SaveFile($"{exportPath}\\Models\\Maps", $"{newFileName}Map.cs", generatedMap);
             }
         }
 
-        private static void SaveFile(string path, string newFileName, string generatedClass)
+        private static void SaveFile(string directory, string file, string generatedClass)
         {
-            using (var fstream = new FileStream($"{path}{newFileName}", FileMode.Create))
+            var newFile = Path.Combine(directory, file);
+
+            using (var fstream = new FileStream(newFile, FileMode.Create))
             {
                 byte[] array = System.Text.Encoding.Default.GetBytes(generatedClass);
                 fstream.Write(array, 0, array.Length);
-                Console.WriteLine($"Generated class: {path}{newFileName}");
+                Console.WriteLine($"Generated: {newFile}");
             }
         }
 

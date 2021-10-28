@@ -19,15 +19,5 @@
 
         [Option("gy", "generate-yaml", AcceptsValue = false, HelpText = "Generate YAML configuration for project")]
         public bool GenerateYaml { get; set; }
-
-        public string Help
-        {
-            get => @$"
-Usage: CodeAutomationConsole.exe /c config.yaml [/gp|/gy]
-/c, /config             - Path to configuration file
-/gy, /generate-yaml     - Generate YAML configuration for project
-/gp, /generate-project  - Generate project
-";
-        }
     }
 }
