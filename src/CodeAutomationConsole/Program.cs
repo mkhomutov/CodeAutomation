@@ -73,7 +73,7 @@
             if(!commandLineContext.GenerateProject && !commandLineContext.GenerateYaml)
             {
                 Console.WriteLine("Please use options /gy or /gp");
-                Console.WriteLine(commandLineContext.Help);
+                Console.WriteLine(String.Join('\n', parser.GetHelp(commandLineContext)));
                 Environment.Exit(0);
             }
         }

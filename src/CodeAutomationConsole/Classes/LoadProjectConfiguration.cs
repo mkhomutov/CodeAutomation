@@ -20,7 +20,7 @@
 
                 _configuration = deserializer.Deserialize<ProjectConfiguration>(yaml);
             }
-        }        
+        }
 
         public string ImportPath => _configuration.CsvImportPath;
         public string ExportPath => _configuration.CodeExportPath;

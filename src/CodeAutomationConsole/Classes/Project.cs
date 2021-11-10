@@ -2,6 +2,8 @@
 {
     using System;
     using System.IO;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     public class Project
     {
@@ -25,6 +27,8 @@
 
             Console.WriteLine("Generation started");
 
+            // Generate Classes, Maps
+
             foreach (var file in files)
             {
                 var csvName = Path.GetFileNameWithoutExtension(file);
@@ -43,6 +47,24 @@
 
                 SaveFile($"{exportPath}\\Models\\Maps", $"{newFileName}Map.cs", generatedMap);
             }
+
+            // Generate csproj
+            var project = new CsProject(nameSpace, nameSpace);
+
+            var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+
+            var ser = new XmlSerializer(typeof(CsProject));
+
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.OmitXmlDeclaration = true;
+
+            using (var stream = new StreamWriter(Path.Combine(exportPath, nameSpace+ ".csproj")))
+            using (var writer = XmlWriter.Create(stream, settings))
+            {
+                ser.Serialize(writer, project, emptyNamespaces);
+            }
+
         }
 
         private static void SaveFile(string directory, string file, string generatedClass)
