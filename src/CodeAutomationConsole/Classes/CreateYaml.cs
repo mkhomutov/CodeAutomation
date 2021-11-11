@@ -23,7 +23,7 @@
 
             foreach (var file in files)
             {
-                var fileName = file.Split('\\').LastOrDefault().Split('.').FirstOrDefault();
+                var fileName = Path.GetFileNameWithoutExtension(file);
 
                 var csv = new CsvListMember();
 
@@ -36,23 +36,10 @@
 
             var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
-            Yaml = serializer.Serialize(generationConfig);
+            Content = serializer.Serialize(generationConfig);
         }
 
-        public string Yaml { get; }
-
-        public void SaveTo(string path)
-        {
-            var directory = Path.GetDirectoryName(path);
-
-            if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
-
-            using (var fstream = new FileStream(path, FileMode.Create))
-            {
-                byte[] array = System.Text.Encoding.Default.GetBytes(Yaml);
-                fstream.Write(array, 0, array.Length);
-            }
-        }
+        public string Content { get; }
 
         private static string[] GetFiles(string path)
         {

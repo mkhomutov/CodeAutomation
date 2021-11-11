@@ -44,19 +44,15 @@
 
                 var newFileName = csvSettings?.ClassName ?? csvName;
 
-                SaveFile($"{projectPath}\\Models", $"{newFileName}.cs", generatedClass);
-
-                SaveFile($"{projectPath}\\Models\\Maps", $"{newFileName}Map.cs", generatedMap);
+                generatedClass.SaveToFile(Path.Combine(projectPath, "Models", $"{newFileName}.cs"));
+                generatedMap.SaveToFile(Path.Combine(projectPath, "Models", "Maps", $"{newFileName}Map.cs"));
             }
 
             // Generate csproj
-            var project = new Csproj(nameSpace, nameSpace);
-
-            SaveFile($"{projectPath}", nameSpace + ".csproj", project.Content);
+            new Csproj(nameSpace, nameSpace).Content.SaveToFile(Path.Combine(projectPath, $"{nameSpace}.csproj"));
 
             //Generate Solution
-            var solution = new Sln(nameSpace);
-            SaveFile($"{exportPath}", nameSpace + ".sln", solution.Content);
+            new Sln(nameSpace).Content.SaveToFile(Path.Combine(exportPath, $"{nameSpace}.sln"));
 
             // Generate View, ViewModels
             new MainView(nameSpace, projectPath).Save();
@@ -72,18 +68,6 @@
             new Resources(projectPath).Save();
             new AssemblyInfo(nameSpace, projectPath).Save();
             new Services(nameSpace, projectPath).Save();
-        }
-
-        private static void SaveFile(string directory, string file, string generatedClass)
-        {
-            var newFile = Path.Combine(directory, file);
-
-            using (var fstream = new FileStream(newFile, FileMode.Create))
-            {
-                byte[] array = System.Text.Encoding.Default.GetBytes(generatedClass);
-                fstream.Write(array, 0, array.Length);
-                Console.WriteLine($"Generated: {newFile}");
-            }
         }
 
         private static string[] GetFiles(string path)

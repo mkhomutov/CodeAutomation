@@ -2,91 +2,61 @@
 {
     using System;
     using System.IO;
-    using Catel.IoC;
-    using Orc.CommandLine;
+    using System.CommandLine;
+    using System.CommandLine.Invocation;
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            // Commandline processing
-            var commandLine = Environment.CommandLine.GetCommandLine();
-
-            var commandLineContext = new CommandLineContext();
-
-            var parser = CreateCommandLineParser();
-
-            var validationContext = parser.Parse(commandLine, commandLineContext);
-
-            ProcessCommndLine(commandLineContext, validationContext, parser);
-
-            // Load configuration
-            var config = new LoadConfiguration(commandLineContext.ConfigPath).Config;
-
-            var yamlPath = Path.Combine(config.ProjectPath, $"{config.ProjectName}.yaml");
-
-            // Generate YAML config
-            if (commandLineContext.GenerateYaml)
+            var rootCommand = new RootCommand
             {
-                var yaml = new CreateYaml(config);
+                new Option<FileInfo>(
+                    new[] { "/c", "--config"},
+                    "Path to configuration file"),
+                new Option<bool>(
+                    new[] { "/y", "--generate-only-yaml"},
+                    getDefaultValue: () => false,
+                    description: "Generate YAML-description for project"),
+                new Option<bool>(
+                    new[] { "/p", "--generate-project"},
+                    getDefaultValue: () => false,
+                    description: "Generate project"),
 
-                yaml.SaveTo(yamlPath);
+            };
 
-                Console.WriteLine($"Yaml config for project {config.ProjectName} is generated to {yamlPath}");
-            }
+            rootCommand.Description = "Code automation App";
 
-            // Generate project
-            if (commandLineContext.GenerateProject)
+            rootCommand.Handler = CommandHandler.Create<FileInfo, bool, bool>((config, generateProject, generateOnlyYaml) =>
             {
-                var yaml = new CreateYaml(config);
+                switch (config?.Exists ?? null)
+                {
+                    case null:
+                        Console.WriteLine("Please use \"--config\" option to specify configuration file");
+                        break;
+                    case false:
+                        Console.WriteLine("Please make sure that configuration file exists");
+                        break;
+                    case true:
+                        var configuration = new LoadConfiguration(config.FullName).Config;
 
-                yaml.SaveTo(yamlPath);
+                        var yamlPath = Path.Combine(configuration.ProjectPath, $"{configuration.ProjectName}.yaml");
 
-                new Solution(yamlPath).Generate();
-            }
-        }
+                        if ( generateOnlyYaml || (generateProject && !File.Exists(yamlPath) ) )
+                        {
+                            new CreateYaml(configuration).Content.SaveToFile(yamlPath);
+                        }
 
-        private static void ProcessCommndLine(CommandLineContext commandLineContext, Catel.Data.IValidationContext validationContext, ICommandLineParser parser)
-        {
-            if (validationContext.HasWarnings)
-            {
-                Console.WriteLine("Some warnings");
-            }
+                        if (generateProject)
+                        {
+                            new Solution(yamlPath).Generate();
+                        }
 
-            if (validationContext.HasErrors)
-            {
-                Console.WriteLine("Some errors");
-                Environment.Exit(0);
-            }
+                        break;
+                }
+            });
 
-            if (commandLineContext.IsHelp)
-            {
-                Console.WriteLine(String.Join('\n', parser.GetHelp(commandLineContext)));
-
-                Environment.Exit(0);
-            }
-
-            if (!File.Exists(commandLineContext.ConfigPath))
-            {
-                Console.WriteLine($"Configuration file {commandLineContext.ConfigPath} not found");
-                Environment.Exit(0);
-            }
-
-            if(!commandLineContext.GenerateProject && !commandLineContext.GenerateYaml)
-            {
-                Console.WriteLine("Please use options /gy or /gp");
-                Console.WriteLine(String.Join('\n', parser.GetHelp(commandLineContext)));
-                Environment.Exit(0);
-            }
-        }
-
-        private static ICommandLineParser CreateCommandLineParser()
-        {
-            var serviceLocator = ServiceLocator.Default;
-
-            var typeFactory = serviceLocator.ResolveType<ITypeFactory>();
-
-            return typeFactory.CreateInstanceWithParametersAndAutoCompletion<CommandLineParser>(new OptionDefinitionService());
+            return rootCommand.InvokeAsync(args).Result;
         }
     }
 }

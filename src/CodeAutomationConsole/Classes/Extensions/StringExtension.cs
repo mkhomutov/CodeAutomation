@@ -26,13 +26,6 @@
             return string.Concat(charArray.Where(x => char.IsLetterOrDigit(x)));
         }
 
-        public static string GetCommandLine(this string txt)
-        {
-            var commandArguments = txt.Split(' ').Skip(1).ToArray();
-
-            return string.Join(" ", commandArguments);
-        }
-
         public static void SaveToFile(this string txt, string fileName)
         {
             var dir = Path.GetDirectoryName(fileName);
@@ -52,13 +45,13 @@
 
         public static string AddCopyright(this string txt, string filename)
         {
-            string copiryght = @$"// --------------------------------------------------------------------------------------------------------------------
+            string copyright = @$"// --------------------------------------------------------------------------------------------------------------------
 // <copyright file=""{filename}"" company=""WildGums"">
 //   Copyright (c) 2008 - 2021 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 ";
-            return copiryght + txt;
+            return copyright + txt;
         }
     }
 }
