@@ -2,14 +2,12 @@
 {
     using System;
     using System.IO;
-    using System.Xml;
-    using System.Xml.Serialization;
 
-    public class Project
+    public class Solution
     {
         private readonly LoadProjectConfiguration _projectConfiguration;
 
-        public Project(string path)
+        public Solution(string path)
         {
             _projectConfiguration = new LoadProjectConfiguration(path);
         }
@@ -19,9 +17,12 @@
 
             var path = _projectConfiguration.ImportPath;
             var nameSpace = _projectConfiguration.NameSpace;
-            var exportPath = _projectConfiguration.ExportPath;
+            var exportPath = Path.Combine(_projectConfiguration.ExportPath, "src");
+            var projectPath = Path.Combine(exportPath, nameSpace);
 
-            Directory.CreateDirectory(Path.Combine(exportPath, "Models\\Maps"));
+            Directory.CreateDirectory(Path.Combine(projectPath, "Models\\Maps"));
+            Directory.CreateDirectory(Path.Combine(projectPath, "Views"));
+            Directory.CreateDirectory(Path.Combine(projectPath, "ViewModels"));
 
             var files = GetFiles(path);
 
@@ -43,28 +44,34 @@
 
                 var newFileName = csvSettings?.ClassName ?? csvName;
 
-                SaveFile($"{exportPath}\\Models", $"{newFileName}.cs", generatedClass);
+                SaveFile($"{projectPath}\\Models", $"{newFileName}.cs", generatedClass);
 
-                SaveFile($"{exportPath}\\Models\\Maps", $"{newFileName}Map.cs", generatedMap);
+                SaveFile($"{projectPath}\\Models\\Maps", $"{newFileName}Map.cs", generatedMap);
             }
 
             // Generate csproj
-            var project = new CsProject(nameSpace, nameSpace);
+            var project = new Csproj(nameSpace, nameSpace);
 
-            var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+            SaveFile($"{projectPath}", nameSpace + ".csproj", project.Content);
 
-            var ser = new XmlSerializer(typeof(CsProject));
+            //Generate Solution
+            var solution = new Sln(nameSpace);
+            SaveFile($"{exportPath}", nameSpace + ".sln", solution.Content);
 
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = true;
+            // Generate View, ViewModels
+            new MainView(nameSpace, projectPath).Save();
+            new RibbonView(nameSpace, projectPath).Save();
+            new StatusBarView(nameSpace, projectPath).Save();
 
-            using (var stream = new StreamWriter(Path.Combine(exportPath, nameSpace+ ".csproj")))
-            using (var writer = XmlWriter.Create(stream, settings))
-            {
-                ser.Serialize(writer, project, emptyNamespaces);
-            }
+            //Generate app.xaml, app.xaml.cs
+            new App(nameSpace, projectPath).Save();
 
+            //Generate ModuleInitializer.cs
+            new ModuleInitializer(nameSpace, projectPath).Save();
+
+            new Resources(projectPath).Save();
+            new AssemblyInfo(nameSpace, projectPath).Save();
+            new Services(nameSpace, projectPath).Save();
         }
 
         private static void SaveFile(string directory, string file, string generatedClass)

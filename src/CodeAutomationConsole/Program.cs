@@ -38,9 +38,11 @@
             // Generate project
             if (commandLineContext.GenerateProject)
             {
-                var project = new Project(yamlPath);
+                var yaml = new CreateYaml(config);
 
-                project.Generate();
+                yaml.SaveTo(yamlPath);
+
+                new Solution(yamlPath).Generate();
             }
         }
 

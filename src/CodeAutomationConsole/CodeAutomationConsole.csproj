@@ -27,4 +27,16 @@
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
+  <ItemGroup>
+    <None Remove="Resources\.manifest" />
+    <None Remove="Resources\global.json" />
+    <None Remove="Resources\Resources\Icons\Logo.ico" />
+    <None Remove="Resources\Themes\Generic.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\.manifest" />
+    <EmbeddedResource Include="Resources\global.json" />
+    <EmbeddedResource Include="Resources\Resources\Icons\Logo.ico" />
+    <EmbeddedResource Include="Resources\Themes\Generic.xaml" />
+  </ItemGroup>
 </Project>

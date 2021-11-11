@@ -38,7 +38,7 @@
 
         public string GenerateClassCode()
         {
-            var code =  @$"namespace {_nameSpace}
+            var code =  @$"namespace {_nameSpace}.Models
 {{
     using System;
 

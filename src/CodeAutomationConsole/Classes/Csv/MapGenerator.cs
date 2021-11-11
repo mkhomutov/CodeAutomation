@@ -43,7 +43,7 @@
 
         public string GenerateMapCode()
         {
-            string code = @$"namespace {_nameSpace}
+            string code = @$"namespace {_nameSpace}.Models
 {{
     using Orc.Csv;
 
