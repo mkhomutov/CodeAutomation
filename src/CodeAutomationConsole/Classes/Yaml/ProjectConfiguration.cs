@@ -9,5 +9,7 @@
         public string NameSpace { get; set; }
 
         public List<CsvListMember> CsvList { get; set; }
+
+        public List<ProjectView> ProjectViews { get; set; }
     }
 }

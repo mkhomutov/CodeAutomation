@@ -19,7 +19,7 @@
 
             _nameSpace = nameSpace;
             _className = Path.GetFileNameWithoutExtension(path);
-            _mappings = JoinWithTabs(csv.Headers.Select(x => $"Map(x => x.{x}).Name(\"{x}\");"), 3);
+            _mappings = csv.Headers.Select(x => $"Map(x => x.{x}).Name(\"{x}\");").JoinWithTabs(3);
         }
 
         public MapGenerator(string nameSpace, string path, CsvListMember settings)
@@ -29,16 +29,18 @@
             _nameSpace = nameSpace;
             _className = settings.ClassName ?? Path.GetFileNameWithoutExtension(path);
 
-            _mappings = JoinWithTabs(csv.Headers.Select(x =>
+            _mappings = csv.Headers.Select(x =>
             {
                 var fieldDetails = settings.GetDetails(x);
 
                 var fieldAlias = fieldDetails?.Alias ?? x;
-                var fieldType = fieldDetails?.Type is null ? "" : $".As{Capitalize(fieldDetails.Type)}()";
+                var fieldType = fieldDetails?.Type is null ? "" : $".As{fieldDetails.Type.Capitalize()}()";
                 var fieldDefault = fieldDetails?.Default is null ? "" : $".Default({fieldDetails.Default})";
 
+                if (fieldAlias.Equals(_className)) { fieldAlias += "Property"; }
+
                 return $"Map(x => x.{fieldAlias}).Name(\"{x}\"){fieldType}{fieldDefault};";
-            }), 3);
+            }).JoinWithTabs(3);
         }
 
         public string GenerateMapCode()
@@ -47,10 +49,10 @@
 {{
     using Orc.Csv;
 
-    public class {_className} : ClassMapBase<{_className}>
+    public class {_className}Map : ClassMapBase<{_className}>
     {{
         #region Constructors
-        public {_className}()
+        public {_className}Map()
         {{
             {_mappings}
         }}
@@ -60,9 +62,5 @@
 ";
             return code;
         }
-
-        private string JoinWithTabs(IEnumerable<string> lines, int tabs) => lines.Aggregate((x, y) => x + "\r\n" + string.Concat(Enumerable.Repeat("\t", tabs)) + y);
-
-        private string Capitalize(string text) => text[0].ToString().ToUpper() + text.Substring(1, text.Length - 1);
     }
 }

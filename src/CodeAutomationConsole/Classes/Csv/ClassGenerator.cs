@@ -16,7 +16,7 @@
 
             _nameSpace = nameSpace;
             _className = Path.GetFileNameWithoutExtension(path);
-            _properties = JoinWithTabs(csv.Headers.Select(x => $"public string {x} {{ get; set; }}"), 2);
+            _properties = csv.Headers.Select(x => $"public string {x} {{ get; set; }}").JoinWithTabs(2);
         }
 
         public ClassGenerator(string nameSpace, string path, CsvListMember settings)
@@ -26,14 +26,16 @@
             _nameSpace = nameSpace;
             _className = settings.ClassName ?? Path.GetFileNameWithoutExtension(path);
 
-            _properties = JoinWithTabs(csv.Headers.Select(x =>
+            _properties = csv.Headers.Select(x =>
             {
                 var fieldDetails = settings.GetDetails(x);
                 var field = fieldDetails?.Alias ?? x;
                 var type = fieldDetails?.Type ?? "string";
 
+                if (field.Equals(_className)) { field += "Property"; }
+
                 return $"public {type} {field} {{ get; set; }}";
-            }), 2);
+            }).JoinWithTabs(2);
         }
 
         public string GenerateClassCode()
@@ -52,7 +54,5 @@
 ";
             return code;
         }
-
-        private string JoinWithTabs(IEnumerable<string> lines, int tabs) => lines.Aggregate((x, y) => x + "\r\n" + string.Concat(Enumerable.Repeat("\t", tabs)) + y);
     }
 }

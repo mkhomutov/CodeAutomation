@@ -34,6 +34,28 @@
                 generationConfig.CsvList.Add(csv);
             }
 
+            //generationConfig.ProjectViews = new List<ProjectView>();
+            generationConfig.ProjectViews =  config.ProjectViews;
+
+            //var refresh = new FluentRibbonButton("Refresh", "Refresh");
+            //var mobile = new FluentRibbonButton("Mobile", "Mobile");
+
+            //var workspace = new FluentRibbonGroupBox("Workspace");
+            //workspace.Buttons.Add(refresh);
+            //workspace.Buttons.Add(mobile);
+
+            //var view1 = new FluentRibbonTabItem("View1");
+            //view1.GroupBoxes.Add(workspace);
+
+            //var tabs = new FluentRibbonTab();
+            //tabs.TabItems.Add(view1);
+
+
+            //var mainView = new ProjectView("MainView");
+            //mainView.Ribbon.Tabs.Add(tabs);
+
+            //generationConfig.ProjectViews.Add(mainView);
+
             var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
             Content = serializer.Serialize(generationConfig);

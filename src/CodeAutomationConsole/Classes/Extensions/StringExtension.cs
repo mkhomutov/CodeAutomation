@@ -6,6 +6,11 @@
 
     public static class StringExtension
     {
+        public static string Capitalize(this string txt)
+        {
+            return txt[0].ToString().ToUpper() + txt.Substring(1, txt.Length - 1);
+        }
+
         public static string ToValidPopertyName(this string txt)
         {
             var digits = new [] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };

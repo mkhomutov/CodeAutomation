@@ -7,6 +7,7 @@
     {
         private readonly XNamespace _catel = "http://schemas.catelproject.com";
         private readonly XNamespace _orccontrols = "http://schemas.wildgums.com/orc/controls";
+        private readonly XNamespace _orctheming = "http://schemas.wildgums.com/orc/theming";
         private readonly XNamespace _x = "http://schemas.microsoft.com/winfx/2006/xaml";
         private readonly XNamespace _fluent = "urn:fluent-ribbon";
         private readonly XNamespace _default = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
@@ -19,6 +20,7 @@
 
         public XNamespace Catel => _catel;
         public XNamespace Orccontrols => _orccontrols;
+        public XNamespace Orctheming => _orctheming;
         public XNamespace X => _x;
         public XNamespace Fluent => _fluent;
         public XNamespace Default => _default;

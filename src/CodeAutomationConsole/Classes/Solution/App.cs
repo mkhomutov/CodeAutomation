@@ -30,7 +30,9 @@
             ViewCsContent = @$"
 namespace {ns}
 {{
+    using System;
     using System.Windows;
+    using System.Windows.Media;
     using Catel.IoC;
     using Orchestra.Services;
     using Orchestra.Views;
@@ -53,6 +55,9 @@ namespace {ns}
         #region Methods
         protected override void OnStartup(StartupEventArgs e)
         {{
+            Orc.Theming.FontImage.RegisterFont(""FontAwesome"", new FontFamily(new System.Uri(""pack://application:,,,/{ns};component/Resources/Fonts/"", UriKind.RelativeOrAbsolute), ""./#FontAwesome""));
+            Orc.Theming.FontImage.DefaultFontFamily = ""FontAwesome"";
+
             var serviceLocator = ServiceLocator.Default;
             var shellService = serviceLocator.ResolveType<IShellService>();
             shellService.CreateAsync<ShellWindow>();

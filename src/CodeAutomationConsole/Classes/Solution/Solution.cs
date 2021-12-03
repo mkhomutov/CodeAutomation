@@ -3,6 +3,7 @@
     using System;
     using System.IO;
 
+    // Generate solution and project files
     public class Solution
     {
         private readonly LoadProjectConfiguration _projectConfiguration;
@@ -12,12 +13,14 @@
             _projectConfiguration = new LoadProjectConfiguration(path);
         }
 
+        public LoadProjectConfiguration Config { get => _projectConfiguration; }
+
         public void Generate()
         {
 
-            var path = _projectConfiguration.ImportPath;
-            var nameSpace = _projectConfiguration.NameSpace;
-            var exportPath = Path.Combine(_projectConfiguration.ExportPath, "src");
+            var path = Config.ImportPath;
+            var nameSpace = Config.NameSpace;
+            var exportPath = Path.Combine(Config.ExportPath, "src");
             var projectPath = Path.Combine(exportPath, nameSpace);
 
             Directory.CreateDirectory(Path.Combine(projectPath, "Models\\Maps"));
@@ -34,7 +37,7 @@
             {
                 var csvName = Path.GetFileNameWithoutExtension(file);
 
-                var csvSettings = _projectConfiguration.GetCsv(csvName);
+                var csvSettings = Config.GetCsv(csvName);
 
                 var gClass = csvSettings is null ? new ClassGenerator(nameSpace, file) : new ClassGenerator(nameSpace, file, csvSettings);
                 var gMap = csvSettings is null ? new MapGenerator(nameSpace, file) : new MapGenerator(nameSpace, file, csvSettings);
@@ -56,7 +59,7 @@
 
             // Generate View, ViewModels
             new MainView(nameSpace, projectPath).Save();
-            new RibbonView(nameSpace, projectPath).Save();
+            new RibbonView(nameSpace, projectPath, Config.GetRibbon("MainView")).Save();
             new StatusBarView(nameSpace, projectPath).Save();
 
             //Generate app.xaml, app.xaml.cs
@@ -66,8 +69,12 @@
             new ModuleInitializer(nameSpace, projectPath).Save();
 
             new Resources(projectPath).Save();
+
             new AssemblyInfo(nameSpace, projectPath).Save();
+
             new Services(nameSpace, projectPath).Save();
+
+            new FontAwesome(nameSpace).Content.AddCopyright("FontAwesome.cs").SaveToFile(Path.Combine(projectPath, "FontAwesome.cs"));
         }
 
         private static string[] GetFiles(string path)

@@ -43,6 +43,8 @@
                 {"Orc.Csv", "4.3.2" }
             };
 
+            var images = new[] { "CompanyLogo.png", "exit.png", "explorer.png", "file_menu.png", "keyboard.png", "open.png", "print.png", "refresh.png", "save.png" };
+
             var csproj = new XElement("Project",
                 new XAttribute("Sdk", "MSBuild.Sdk.Extras"),
                 new XElement("PropertyGroup",
@@ -52,7 +54,9 @@
                     includePivateAssetsAll.Select(i => new XElement("PackageReference", new XAttribute("Include", i.Key), new XAttribute("Version", i.Value), new XAttribute("PrivateAssets", "all"))),
                     include.Select(i => new XElement("PackageReference", new XAttribute("Include", i.Key), new XAttribute("Version", i.Value)))
                     ),
-                new XElement("ItemGroup", new XElement("PackageReference", new XAttribute("Update", "NETStandard.Library"), new XAttribute("Version", "2.0.3")))
+                new XElement("ItemGroup", new XElement("PackageReference", new XAttribute("Update", "NETStandard.Library"), new XAttribute("Version", "2.0.3"))),
+                new XElement("ItemGroup", new XElement("Resource", new XAttribute("Include", "Resources\\Fonts\\fontawesome-webfont.ttf"))),
+                new XElement("ItemGroup", images.Select(x => new XElement("Resource", new XAttribute("Include", $"Resources\\Images\\{x}"))))
                 );
 
             var fody = csproj.Descendants("PackageReference").Where(x => x.Attribute("Include") is not null).Where(x => x.Attribute("Include").Value.Equals("Fody")).FirstOrDefault();
