@@ -1,0 +1,235 @@
+csvImportPath: c:\temp\Csv\
+codeExportPath: c:\temp\Csv\Generated project\
+nameSpace: SES.Projects.GFG.Chameleon
+csvList:
+- name: MachineSiteSetups
+  className: MachineSiteSetup
+  details:
+  - field: BranchCode
+    alias: 
+    type: double
+    default: 
+  - field: RCCPValid
+    alias: 
+    type: bool
+    default: 
+  - field: MachAbrev
+    alias: 
+    type: 
+    default: 
+  - field: ValidMC
+    alias: 
+    type: bool
+    default: 
+  - field: Comments
+    alias: 
+    type: 
+    default: 
+  - field: MachineType
+    alias: 
+    type: 
+    default: 
+  - field: MCLoc
+    alias: 
+    type: 
+    default: 
+  - field: LocalEfficiency
+    alias: 
+    type: double
+    default: 
+  - field: BndlKg
+    alias: 
+    type: 
+    default: 
+  - field: StartTime
+    alias: 
+    type: 
+    default: 
+  - field: EndTime
+    alias: 
+    type: 
+    default: 
+- name: SacramentocrimeJanuary2006
+  className: SacramentocrimeJanuary2006
+  details:
+  - field: cdatetime
+    alias: Cdatetime
+    type: DateTime
+    default: 
+  - field: address
+    alias: Address
+    type: 
+    default: 
+  - field: district
+    alias: District
+    type: double
+    default: 
+  - field: beat
+    alias: Beat
+    type: 
+    default: 
+  - field: grid
+    alias: Grid
+    type: double
+    default: 
+  - field: crimedescr
+    alias: Crimedescr
+    type: 
+    default: 
+  - field: ucr_ncic_code
+    alias: UcrNcicCode
+    type: double
+    default: 
+  - field: latitude
+    alias: Latitude
+    type: double
+    default: 
+  - field: longitude
+    alias: Longitude
+    type: double
+    default: 
+- name: Sacramentorealestatetransactions
+  className: Sacramentorealestatetransaction
+  details:
+  - field: street
+    alias: Street
+    type: 
+    default: 
+  - field: city
+    alias: City
+    type: 
+    default: 
+  - field: zip
+    alias: Zip
+    type: double
+    default: 
+  - field: state
+    alias: State
+    type: 
+    default: 
+  - field: beds
+    alias: Beds
+    type: double
+    default: 
+  - field: baths
+    alias: Baths
+    type: double
+    default: 
+  - field: sq__ft
+    alias: SqFt
+    type: double
+    default: 
+  - field: type
+    alias: Type
+    type: 
+    default: 
+  - field: sale_date
+    alias: SaleDate
+    type: 
+    default: 
+  - field: price
+    alias: Price
+    type: double
+    default: 
+  - field: latitude
+    alias: Latitude
+    type: double
+    default: 
+  - field: longitude
+    alias: Longitude
+    type: double
+    default: 
+- name: SalesJan2009
+  className: SalesJan2009
+  details:
+  - field: Transaction_date
+    alias: TransactionDate
+    type: DateTime
+    default: 
+  - field: Product
+    alias: 
+    type: 
+    default: 
+  - field: Price
+    alias: 
+    type: 
+    default: 
+  - field: Payment_Type
+    alias: PaymentType
+    type: 
+    default: 
+  - field: Name
+    alias: 
+    type: 
+    default: 
+  - field: City
+    alias: 
+    type: 
+    default: 
+  - field: State
+    alias: 
+    type: 
+    default: 
+  - field: Country
+    alias: 
+    type: 
+    default: 
+  - field: Account_Created
+    alias: AccountCreated
+    type: DateTime
+    default: 
+  - field: Last_Login
+    alias: LastLogin
+    type: DateTime
+    default: 
+  - field: Latitude
+    alias: 
+    type: double
+    default: 
+  - field: Longitude
+    alias: 
+    type: double
+    default: 
+- name: TechCrunchcontinentalUSA
+  className: TechCrunchcontinentalUSA
+  details:
+  - field: permalink
+    alias: Permalink
+    type: 
+    default: 
+  - field: company
+    alias: Company
+    type: 
+    default: 
+  - field: numEmps
+    alias: NumEmps
+    type: 
+    default: 
+  - field: category
+    alias: Category
+    type: 
+    default: 
+  - field: city
+    alias: City
+    type: 
+    default: 
+  - field: state
+    alias: State
+    type: 
+    default: 
+  - field: fundedDate
+    alias: FundedDate
+    type: DateTime
+    default: 
+  - field: raisedAmt
+    alias: RaisedAmt
+    type: double
+    default: 
+  - field: raisedCurrency
+    alias: RaisedCurrency
+    type: 
+    default: 
+  - field: round
+    alias: Round
+    type: 
+    default: 

@@ -1,0 +1,19 @@
+﻿contractor: GFG
+projectName: Chameleon
+csvPath: c:\temp\Csv
+projectPath: c:\temp\Generated project
+projectViews:
+- name: MainView
+  ribbon:
+    tabs:
+    - tabItems:
+      - header: View1
+        groupBoxes:
+        - header: Workspace
+          buttons:
+          - header: Refresh
+            largeIcon: Refresh
+            command:
+          - header: Mobile
+            largeIcon: Mobile
+            command:
