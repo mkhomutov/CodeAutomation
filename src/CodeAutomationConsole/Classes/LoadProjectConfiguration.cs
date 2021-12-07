@@ -33,7 +33,7 @@
 
         public FluentRibbon GetRibbon(string name)
         {
-            return _configuration.ProjectViews.Find(x => string.Equals(x.Name, name)).Ribbon;
+            return _configuration.ProjectViews.Find(x => string.Equals(x.Name, name)).FluentRibbon;
         }
 
     }

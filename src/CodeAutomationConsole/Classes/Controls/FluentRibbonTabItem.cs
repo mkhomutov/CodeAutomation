@@ -1,26 +1,24 @@
 ﻿namespace CodeAutomationConsole
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml.Linq;
 
-    public class FluentRibbonTabItem
+    public class FluentRibbonTabItem : Fluent
     {
-        public FluentRibbonTabItem(string header, List<FluentRibbonGroupBox> groupBoxes) : this(header)
-        {
-            GroupBoxes = groupBoxes;
-        }
-
-        public FluentRibbonTabItem(string header) : this()
-        {
-            Header = header;
-        }
-
-        public FluentRibbonTabItem()
-        {
-            GroupBoxes = new List<FluentRibbonGroupBox>();
-        }
+        public FluentRibbonTabItem() { }
 
         public string Header { get; set; }
 
         public List<FluentRibbonGroupBox> GroupBoxes { get; set; }
+
+        public XElement GetXml(string project)
+        {
+            var xml = new XElement(Ns() + "RibbonTabItem",
+                new XAttribute("Header", Header),
+                GroupBoxes.Select(groupBox => groupBox.GetXml(project)));
+
+            return xml;
+        }
     }
 }

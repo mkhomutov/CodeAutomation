@@ -4,7 +4,48 @@ csvPath: c:\temp\Csv
 projectPath: c:\temp\Generated project
 projectViews:
 - name: MainView
-  ribbon:
+  fluentRibbon:
+    fluentMenu:
+      fluentBackstage:
+        fluentBackstageTabControl:
+          name: backstageTabControl
+          fluentBackstageTabItem:
+            header: Open
+            grid:
+              style:
+              - DynamicResource
+              - InnerBackstageGridStyle
+              rowDefinitions:
+              - Auto
+              - '*'
+              labels:
+              - gridRow: 0
+                content: Open
+                style:
+                - DynamicResource
+                - RibbonBackstageHeaderLabelStyle
+              orchestraRibbonBackstageTabControl:
+                gridRow: 1
+                orchestraBackstageTabItem:
+                  headerText: Recent documents
+                  icon: open.png
+                  grid:
+                    rowDefinitions: [Auto, Auto, Auto, '*']
+                    orchestraRibbonBackstageTabItemHeader:
+                      gridRow: 0
+                      headerText: Recent documents
+                      headerTextStyleKey: RibbonBackstageSubHeaderLabelStyle
+                      icon: open.png
+          buttons:
+          - header: Save to image...
+            icon: save.png
+            command: File.SaveToImage
+          - header: Print...
+            icon: print.png
+            command: File.Print
+          - header: Exit
+            icon: exit.png
+            command: Application.Exit
     tabs:
     - tabItems:
       - header: View1
@@ -13,7 +54,25 @@ projectViews:
           buttons:
           - header: Refresh
             largeIcon: Refresh
-            command:
-          - header: Mobile
-            largeIcon: Mobile
-            command:
+            command: 
+          - header: Windows
+            largeIcon: Windows
+            command: 
+        - header: Workspace2
+          buttons:
+          - header: Ok
+            largeIcon: Send
+            command: 
+          - header: Desktop
+            largeIcon: Desktop
+            command: 
+      - header: View2
+        groupBoxes:
+        - header: Workspace
+          buttons:
+          - header: Apple
+            largeIcon: Apple
+            command: 
+          - header: Keyboard
+            largeIcon: KeyboardO
+            command: 
