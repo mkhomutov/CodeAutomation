@@ -8,7 +8,7 @@
         public StatusBarView(string ns, string projectPath) : base(Path.Combine(projectPath, "UI"), "StatusBarView")
         {
             var xml = new XElement(Catel + "UserControl",
-                new XAttribute(X + "Class", $"{ns}.Ui.Views.{ViewName}"),
+                new XAttribute(X + "Class", $"{ns}.UI.Views.{ViewName}"),
                 new XAttribute("xmlns", Default),
                 new XAttribute(XNamespace.Xmlns + "x", X),
                 new XAttribute(XNamespace.Xmlns + "catel", Catel),

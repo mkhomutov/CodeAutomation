@@ -80,5 +80,5 @@ projectViews:
             largeIcon: KeyboardO
             command:
           - header: Keyboard2
-            largeIcon: Keyboard
+            largeIcon: KeyboardO
             command:

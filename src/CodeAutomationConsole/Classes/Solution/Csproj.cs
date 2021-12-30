@@ -48,8 +48,6 @@
                 {"Gum.Ui.Tabs", "4.6.23" }
             };
 
-            var images = new[] { "CompanyLogo.png", "exit.png", "explorer.png", "file_menu.png", "keyboard.png", "open.png", "print.png", "refresh.png", "save.png" };
-
             var csproj = new XElement("Project",
                 new XAttribute("Sdk", "MSBuild.Sdk.Extras"),
                 new XElement("PropertyGroup",
@@ -60,9 +58,8 @@
                     include.Select(i => new XElement("PackageReference", new XAttribute("Include", i.Key), new XAttribute("Version", i.Value)))
                     ),
                 new XElement("ItemGroup", new XElement("PackageReference", new XAttribute("Update", "NETStandard.Library"), new XAttribute("Version", "2.0.3"))),
-                new XElement("ItemGroup", new XElement("Resource", new XAttribute("Include", "Resources\\Fonts\\fontawesome-webfont.ttf"))),
-                new XElement("ItemGroup", images.Select(x => new XElement("Resource", new XAttribute("Include", $"Resources\\Images\\{x}")))),
-                new XElement("Import", 
+                Resources.IncludeInProject,
+                new XElement("Import",
                     new XAttribute("Project", "$(MSBuildProjectDirectory)\\..\\Directory.build.shared.explicit.props"),
                     new XAttribute("Condition", "Exists('$(MSBuildProjectDirectory)\\..\\Directory.build.shared.explicit.props')")),
                 new XElement("Import",

@@ -27,13 +27,13 @@
             Global.CsvList = Config.CsvList;
             Global.Config = Config;
 
-            var files = GetFiles(path);
+            var csvFiles = GetFiles(path);
 
             Console.WriteLine("Generation started");
 
             // Generate Classes, Maps
 
-            foreach (var file in files)
+            foreach (var file in csvFiles)
             {
                 var csvName = Path.GetFileNameWithoutExtension(file);
 
@@ -52,6 +52,10 @@
             }
 
             var projectGuid = Guid.NewGuid().ToString().ToUpper();
+            Global.ProjectGuid = projectGuid;
+
+            // Create resources
+            Resources.Save();
 
             // Generate csproj
             new Csproj(nameSpace, nameSpace, projectGuid).Content.SaveToFile(Path.Combine(projectPath, $"{nameSpace}.csproj"));
@@ -69,8 +73,6 @@
 
             //Generate ModuleInitializer.cs
             new ModuleInitializer(nameSpace, projectPath).Save();
-
-            new Resources(projectPath).Save();
 
             new AssemblyInfo(nameSpace, projectPath).Save();
 
