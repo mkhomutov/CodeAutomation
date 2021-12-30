@@ -1,13 +1,14 @@
 ﻿namespace CodeAutomationConsole
 {
+    using System.IO;
     using System.Xml.Linq;
 
     public class StatusBarView : ViewTemplate
     {
-        public StatusBarView(string ns, string projectPath) : base(projectPath, "StatusBarView")
+        public StatusBarView(string ns, string projectPath) : base(Path.Combine(projectPath, "UI"), "StatusBarView")
         {
             var xml = new XElement(Catel + "UserControl",
-                new XAttribute(X + "Class", $"{ns}.Views.{ViewName}"),
+                new XAttribute(X + "Class", $"{ns}.Ui.Views.{ViewName}"),
                 new XAttribute("xmlns", Default),
                 new XAttribute(XNamespace.Xmlns + "x", X),
                 new XAttribute(XNamespace.Xmlns + "catel", Catel),
@@ -17,35 +18,33 @@
             ViewContent = xml.ToString();
 
             ViewCsContent = @$"
-namespace {ns}.Views
+namespace {ns}.UI.Views;
+
+public partial class StatusBarView
 {{
-    public partial class StatusBarView
+    #region Constructors
+    public StatusBarView()
     {{
-        #region Constructors
-        public StatusBarView()
-        {{
-            InitializeComponent();
-        }}
-        #endregion
+        InitializeComponent();
     }}
+    #endregion
 }}
 ";
             ViewModelContent = $@"
-namespace {ns}.ViewModels
+using Catel.MVVM;
+
+namespace {ns}.UI.ViewModels;
+
+public class StatusBarViewModel : ViewModelBase
 {{
-    using Catel.MVVM;
-
-    public class StatusBarViewModel : ViewModelBase
+    #region Properties
+    public override string Title
     {{
-        #region Properties
-        public override string Title
-        {{
-            get {{ return ""Status bar title binding""; }}
-        }}
-        #endregion
-
-        public bool EnableAutomaticUpdates {{ get; set; }}
+        get {{ return ""Status bar title binding""; }}
     }}
+    #endregion
+
+    public bool EnableAutomaticUpdates {{ get; set; }}
 }}
 ";
         }

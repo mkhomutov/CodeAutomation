@@ -46,6 +46,9 @@ projectViews:
           - header: Exit
             icon: exit.png
             command: Application.Exit
+          - header: Exit2
+            icon: exit.png
+            command: Application.Exit
     tabs:
     - tabItems:
       - header: View1
@@ -54,25 +57,28 @@ projectViews:
           buttons:
           - header: Refresh
             largeIcon: Refresh
-            command: 
+            command:
           - header: Windows
             largeIcon: Windows
-            command: 
+            command:
         - header: Workspace2
           buttons:
           - header: Ok
             largeIcon: Send
-            command: 
+            command:
           - header: Desktop
             largeIcon: Desktop
-            command: 
+            command:
       - header: View2
         groupBoxes:
         - header: Workspace
           buttons:
           - header: Apple
             largeIcon: Apple
-            command: 
+            command:
           - header: Keyboard
             largeIcon: KeyboardO
-            command: 
+            command:
+          - header: Keyboard2
+            largeIcon: Keyboard
+            command:

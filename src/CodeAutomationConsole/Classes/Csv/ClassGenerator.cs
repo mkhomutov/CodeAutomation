@@ -40,17 +40,17 @@
 
         public string GenerateClassCode()
         {
-            var code =  @$"namespace {_nameSpace}.Models
-{{
-    using System;
+            var code =  @$"using System;
 
-    public class {_className}
-    {{
-        #region Properties
-        {_properties}
-        #endregion
-    }}
+namespace {_nameSpace}.Data.Models;
+
+public class {_className}
+{{
+    #region Properties
+    {_properties}
+    #endregion
 }}
+
 ";
             return code;
         }

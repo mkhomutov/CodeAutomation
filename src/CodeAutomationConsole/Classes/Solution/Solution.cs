@@ -17,15 +17,15 @@
 
         public void Generate()
         {
-
             var path = Config.ImportPath;
             var nameSpace = Config.NameSpace;
             var exportPath = Path.Combine(Config.ExportPath, "src");
             var projectPath = Path.Combine(exportPath, nameSpace);
 
-            Directory.CreateDirectory(Path.Combine(projectPath, "Models\\Maps"));
-            Directory.CreateDirectory(Path.Combine(projectPath, "Views"));
-            Directory.CreateDirectory(Path.Combine(projectPath, "ViewModels"));
+            Global.Namespace = nameSpace;
+            Global.Path = projectPath;
+            Global.CsvList = Config.CsvList;
+            Global.Config = Config;
 
             var files = GetFiles(path);
 
@@ -47,15 +47,17 @@
 
                 var newFileName = csvSettings?.ClassName ?? csvName;
 
-                generatedClass.SaveToFile(Path.Combine(projectPath, "Models", $"{newFileName}.cs"));
-                generatedMap.SaveToFile(Path.Combine(projectPath, "Models", "Maps", $"{newFileName}Map.cs"));
+                generatedClass.SaveToFile(Path.Combine(projectPath,"Data", "Models", $"{newFileName}.cs"));
+                generatedMap.SaveToFile(Path.Combine(projectPath,"Data", "Models", "Maps", $"{newFileName}Map.cs"));
             }
 
+            var projectGuid = Guid.NewGuid().ToString().ToUpper();
+
             // Generate csproj
-            new Csproj(nameSpace, nameSpace).Content.SaveToFile(Path.Combine(projectPath, $"{nameSpace}.csproj"));
+            new Csproj(nameSpace, nameSpace, projectGuid).Content.SaveToFile(Path.Combine(projectPath, $"{nameSpace}.csproj"));
 
             //Generate Solution
-            new Sln(nameSpace).Content.SaveToFile(Path.Combine(exportPath, $"{nameSpace}.sln"));
+            new Sln(nameSpace, projectGuid).Content.SaveToFile(Path.Combine(exportPath, $"{nameSpace}.sln"));
 
             // Generate View, ViewModels
             new MainView(nameSpace, projectPath).Save();
@@ -72,9 +74,20 @@
 
             new AssemblyInfo(nameSpace, projectPath).Save();
 
-            new Services(nameSpace, projectPath).Save();
+            new Services(nameSpace, projectPath, Config.CsvList).Save();
 
             new FontAwesome(nameSpace).Content.AddCopyright("FontAwesome.cs").SaveToFile(Path.Combine(projectPath, "FontAwesome.cs"));
+
+            new FileConstants(nameSpace, projectPath, Config.CsvList).Save();
+
+            new ProjectManagement(nameSpace, projectPath, Config.CsvList).Save();
+
+            new Commands(nameSpace, projectPath).Save();
+
+            UiModels.Save();
+            ProjectApplicationInfo.Save();
+
+            Config.CsvList.ForEach(x => new Tab(x).Save());
         }
 
         private static string[] GetFiles(string path)
