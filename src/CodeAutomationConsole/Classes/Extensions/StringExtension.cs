@@ -3,6 +3,8 @@
     using System;
     using System.IO;
     using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
 
     public static class StringExtension
     {
@@ -48,6 +50,7 @@
             }
         }
 
+        // Add copright at the begin of text
         public static string AddCopyright(this string txt, string filename)
         {
             string copyright = @$"// --------------------------------------------------------------------------------------------------------------------
@@ -57,6 +60,45 @@
 // --------------------------------------------------------------------------------------------------------------------
 ";
             return copyright + txt;
+        }
+
+        // Format XElement.ToString() to readable XAML
+        public static string FormatXaml(this string txt)
+        {
+            string t;
+
+            var regex = new Regex(@"([\w:]+?="".*?""|^\s*<.*?\s|/?>$)");
+
+            var strBuilder = new StringBuilder();
+
+            using (var strReader = new StringReader(txt))
+            {
+                while ((t = strReader.ReadLine()) is not null)
+                {
+                    t = t.Replace("  ", "    ");
+
+                    var matches = regex.Matches(t);
+
+                    if (matches.Count > 3)
+                    {
+                        var margin = string.Concat(Enumerable.Repeat(" ", matches[0].Length));
+
+                        strBuilder.AppendLine(matches[0].Value + matches[1].Value);
+                        foreach (var str in matches.Skip(2).SkipLast(2).Select(x => x.Value))
+                        {
+                            strBuilder.AppendLine(margin + str);
+                        }
+
+                        strBuilder.AppendLine(margin + matches[^2].Value + matches[^1].Value);
+                    }
+                    else
+                    {
+                        strBuilder.AppendLine(t);
+                    }
+                }
+            }
+
+            return strBuilder.ToString();
         }
     }
 }

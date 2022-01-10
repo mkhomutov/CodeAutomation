@@ -1,48 +1,69 @@
 ﻿namespace CodeAutomationConsole
 {
     using System;
-    using System.Collections;
-    using System.IO;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
     using System.Reflection;
+    using System.IO;
 
-    public class Resources
+    public static class Resources
     {
-        public Resources(string projectPath)
+        public static XElement IncludeInProject { get; set; }
+        public static void Save()
         {
-            ProjectPath = projectPath;
+            var projectPath = Global.Path;
 
-            Assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
 
-            Prefix = $"{Assembly.GetName().Name}.Resources.";
+            var projectResourcesPrefix = $"{assembly.GetName().Name}.ProjectResources.";
+            var solutionResourcesPrefix = $"{assembly.GetName().Name}.SolutionResources.";
 
-            ResourceFiles = Assembly.GetManifestResourceNames().Where(x => x.StartsWith(Prefix)).ToArray();
-        }
+            var projectResourceFiles = assembly.GetManifestResourceNames().Where(x => x.StartsWith(projectResourcesPrefix)).ToArray();
+            var solutionResourceFiles = assembly.GetManifestResourceNames().Where(x => x.StartsWith(solutionResourcesPrefix)).ToArray();
 
-        public Assembly Assembly { get; set; }
+            IncludeInProject = new XElement("ItemGroup");
 
-        public string Prefix { get; set; }
-
-        public string ProjectPath {get; set; }
-
-        public IEnumerable ResourceFiles { get; set; }
-
-        public void Save()
-        {
-            foreach (string resource in ResourceFiles)
+            // create project resources
+            foreach (string resource in projectResourceFiles)
             {
-                var resourceName = resource.Substring(Prefix.Length);
+                var resourceName = resource.Substring(projectResourcesPrefix.Length);
 
                 var filename = String.Join('.', resourceName.Split('.').TakeLast(2));
 
                 var relativePath = String.Join('\\', resourceName.Split('.').SkipLast(2));
-                var path = Path.Combine(ProjectPath, relativePath);
+                var path = Path.Combine(projectPath, relativePath);
 
                 if (!Directory.Exists(path)) { Directory.CreateDirectory(path); }
 
                 var fullPath = Path.Combine(path, filename);
 
-                using (var stream = Assembly.GetManifestResourceStream(resource))
+                using (var stream = assembly.GetManifestResourceStream(resource))
+                using (var fstream = new FileStream(fullPath, FileMode.Create))
+                {
+                    byte[] array = new byte[stream.Length];
+                    stream.Read(array, 0, array.Length);
+                    fstream.Write(array, 0, array.Length);
+                }
+
+                // prepare project includes
+                if (relativePath.StartsWith("Resources\\"))
+                {
+                    IncludeInProject.Add(new XElement("Resource", new XAttribute("Include", $"{relativePath}\\{filename}")));
+                }
+
+            }
+
+            // Create static service files in the solution directory
+            foreach (string resource in solutionResourceFiles)
+            {
+                var resourceName = resource.Substring(solutionResourcesPrefix.Length);
+
+                var fullPath = Path.Combine(Global.Config.ExportPath, "src", resourceName);
+
+                using (var stream = assembly.GetManifestResourceStream(resource))
                 using (var fstream = new FileStream(fullPath, FileMode.Create))
                 {
                     byte[] array = new byte[stream.Length];

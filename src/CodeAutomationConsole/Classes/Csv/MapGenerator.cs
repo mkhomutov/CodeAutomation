@@ -45,19 +45,18 @@
 
         public string GenerateMapCode()
         {
-            string code = @$"namespace {_nameSpace}.Models
-{{
-    using Orc.Csv;
+            string code = @$"using Orc.Csv;
 
-    public class {_className}Map : ClassMapBase<{_className}>
+namespace {_nameSpace}.Data.Models.Maps;
+
+public sealed class {_className}Map : ClassMapBase<{_className}>
+{{
+    #region Constructors
+    public {_className}Map()
     {{
-        #region Constructors
-        public {_className}Map()
-        {{
-            {_mappings}
-        }}
-        #endregion
+        {_mappings}
     }}
+    #endregion
 }}
 ";
             return code;

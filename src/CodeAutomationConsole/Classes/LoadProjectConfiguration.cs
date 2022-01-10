@@ -1,5 +1,6 @@
 ﻿namespace CodeAutomationConsole
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -25,6 +26,7 @@
         public string ImportPath => _configuration.CsvImportPath;
         public string ExportPath => _configuration.CodeExportPath;
         public string NameSpace => _configuration.NameSpace;
+        public List<CsvListMember> CsvList => _configuration.CsvList;
 
         public CsvListMember GetCsv(string name)
         {

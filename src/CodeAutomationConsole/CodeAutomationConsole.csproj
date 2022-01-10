@@ -15,6 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SolutionResources\GlobalSuppressions.cs" />
+    <Compile Remove="SolutionResources\MethodTimeLogger.cs" />
+    <Compile Remove="SolutionResources\SolutionAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Orc.Csv" Version="4.3.2" />
     <PackageReference Include="Spectre.Console" Version="0.41.0" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
@@ -28,15 +34,69 @@
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
   <ItemGroup>
-    <None Remove="Resources\.manifest" />
-    <None Remove="Resources\global.json" />
-    <None Remove="Resources\Resources\Icons\Logo.ico" />
-    <None Remove="Resources\Themes\Generic.xaml" />
+    <None Remove="ProjectResources\.manifest" />
+    <None Remove="ProjectResources\global.json" />
+    <None Remove="ProjectResources\Resources\Fonts\fontawesome-webfont.ttf" />
+    <None Remove="ProjectResources\Resources\Icons\Logo.ico" />
+    <None Remove="ProjectResources\Resources\Images\CompanyLogo.png" />
+    <None Remove="ProjectResources\Resources\Images\exit.png" />
+    <None Remove="ProjectResources\Resources\Images\explorer.png" />
+    <None Remove="ProjectResources\Resources\Images\file_menu.png" />
+    <None Remove="ProjectResources\Resources\Images\keyboard.png" />
+    <None Remove="ProjectResources\Resources\Images\open.png" />
+    <None Remove="ProjectResources\Resources\Images\print.png" />
+    <None Remove="ProjectResources\Resources\Images\refresh.png" />
+    <None Remove="ProjectResources\Resources\Images\save.png" />
+    <None Remove="ProjectResources\Themes\Generic.xaml" />
+    <None Remove="SolutionResources\Directory.Build.analyzers.props" />
+    <None Remove="SolutionResources\Directory.Build.nullable.props" />
+    <None Remove="SolutionResources\Directory.Build.project.props" />
+    <None Remove="SolutionResources\Directory.Build.props" />
+    <None Remove="SolutionResources\Directory.Build.shared.explicit.props" />
+    <None Remove="SolutionResources\Directory.Build.shared.implicit.props" />
+    <None Remove="SolutionResources\Directory.Build.shared.mat.props" />
+    <None Remove="SolutionResources\Directory.Build.shared.tests.props" />
+    <None Remove="SolutionResources\Directory.Build.shared.tools.props" />
+    <None Remove="SolutionResources\Directory.Build.targets" />
+    <None Remove="SolutionResources\global.json" />
+    <None Remove="SolutionResources\nuget.config" />
+    <None Remove="SolutionResources\resharper.settings" />
+    <None Remove="SolutionResources\Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\.manifest" />
-    <EmbeddedResource Include="Resources\global.json" />
-    <EmbeddedResource Include="Resources\Resources\Icons\Logo.ico" />
-    <EmbeddedResource Include="Resources\Themes\Generic.xaml" />
+    <EmbeddedResource Include="ProjectResources\.manifest" />
+    <EmbeddedResource Include="ProjectResources\global.json" />
+    <EmbeddedResource Include="ProjectResources\Resources\Fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="ProjectResources\Resources\Icons\Logo.ico" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\CompanyLogo.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\exit.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\explorer.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\file_menu.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\keyboard.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\open.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\print.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\refresh.png" />
+    <EmbeddedResource Include="ProjectResources\Resources\Images\save.png" />
+    <EmbeddedResource Include="ProjectResources\Themes\Generic.xaml" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.analyzers.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.nullable.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.project.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.explicit.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.implicit.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.mat.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.tests.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.tools.props" />
+    <EmbeddedResource Include="SolutionResources\Directory.Build.targets" />
+    <EmbeddedResource Include="SolutionResources\global.json" />
+    <EmbeddedResource Include="SolutionResources\GlobalSuppressions.cs" />
+    <EmbeddedResource Include="SolutionResources\MethodTimeLogger.cs" />
+    <EmbeddedResource Include="SolutionResources\nuget.config" />
+    <EmbeddedResource Include="SolutionResources\resharper.settings">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:SettingsSingleFileGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SolutionResources\Settings.StyleCop" />
+    <EmbeddedResource Include="SolutionResources\SolutionAssemblyInfo.cs" />
   </ItemGroup>
 </Project>

@@ -1,47 +1,48 @@
 ﻿namespace CodeAutomationConsole
 {
+    using System.IO;
     using System.Xml.Linq;
 
     public class MainView : ViewTemplate
     {
-        public MainView(string ns, string projectPath) : base(projectPath, "MainView")
+        public MainView(string ns, string projectPath) : base(Path.Combine(projectPath, "UI"), "MainView")
         {
             var xml = new XElement(Catel + "UserControl",
-                new XAttribute(X + "Class", $"{ns}.Views.{ViewName}"),
+                new XAttribute(X + "Class", $"{ns}.UI.Views.{ViewName}"),
                 new XAttribute("xmlns", Default),
                 new XAttribute(XNamespace.Xmlns + "x", X),
                 new XAttribute(XNamespace.Xmlns + "catel", Catel),
                 new XAttribute(XNamespace.Xmlns + "orccontrols", Orccontrols),
-                new XElement(Default + "Grid", new XComment("Under construction"))
+                new XAttribute(XNamespace.Xmlns + "views", Views),
+                new XElement(Views + "TabsHostView", 
+                    new XAttribute("SingleActiveContent", "False"))
                 );
 
             ViewContent = xml.ToString();
 
             ViewCsContent = @$"
-namespace {ns}.Views
+namespace {ns}.UI.Views;
+
+/// <summary>
+/// Interaction logic for MainView.xaml
+/// </summary>
+public partial class MainView
 {{
-    /// <summary>
-    /// Interaction logic for MainView.xaml
-    /// </summary>
-    public partial class MainView
+    #region Constructors
+    public MainView()
     {{
-        #region Constructors
-        public MainView()
-        {{
-            InitializeComponent();
-        }}
-        #endregion
+        InitializeComponent();
     }}
+    #endregion
 }}
 ";
             ViewModelContent = $@"
-namespace {ns}.ViewModels
-{{
-    using Catel.MVVM;
+using Catel.MVVM;
 
-    public class MainViewModel : ViewModelBase
-    {{
-    }}
+namespace {ns}.UI.ViewModels;
+
+public class MainViewModel : ViewModelBase
+{{
 }}
 ";
         }
