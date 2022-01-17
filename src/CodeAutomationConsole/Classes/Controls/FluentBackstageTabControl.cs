@@ -14,14 +14,14 @@
 
         public List<FluentButton> Buttons { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xName = XName.Get("Name", X().ToString());
+            var xName = XName.Get("Name", X.ToString());
 
-            var xml = new XElement(Ns() + "BackstageTabControl",
+            var xml = new XElement(Ns + "BackstageTabControl",
                 new XAttribute(xName, Name),
-                FluentBackstageTabItem.GetXml(project),
-                Buttons.Select(button => button.GetXml(project))
+                FluentBackstageTabItem.GetXml(),
+                Buttons.Select(button => button.GetXml())
                 );
 
             return xml;

@@ -10,11 +10,11 @@
 
         public Grid Grid { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var grid = Grid?.GetXml(project);
+            var grid = Grid?.GetXml();
 
-            var xml = new XElement(Ns() + "BackstageTabItem",
+            var xml = new XElement(Ns + "BackstageTabItem",
                 new XAttribute("Header", Header),
                 grid);
 

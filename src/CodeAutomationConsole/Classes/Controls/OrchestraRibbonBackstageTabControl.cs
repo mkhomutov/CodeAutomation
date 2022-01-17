@@ -1,7 +1,5 @@
 ﻿namespace CodeAutomationConsole
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Xml.Linq;
 
     public class OrchestraRibbonBackstageTabControl : Orchestra
@@ -12,13 +10,13 @@
 
         public OrchestraBackstageTabItem OrchestraBackstageTabItem { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
             var gridRow = GridRow is null ? null : new XAttribute("Grid.Row", GridRow);
 
-            var orchestraBackstageTabItem = OrchestraBackstageTabItem is null ? null : OrchestraBackstageTabItem.GetXml(project);
+            var orchestraBackstageTabItem = OrchestraBackstageTabItem is null ? null : OrchestraBackstageTabItem.GetXml();
 
-            var xml = new XElement(Ns() + "RibbonBackstageTabControl",
+            var xml = new XElement(Ns + "RibbonBackstageTabControl",
                 gridRow,
                 orchestraBackstageTabItem);
 

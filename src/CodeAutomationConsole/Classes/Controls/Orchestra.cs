@@ -8,6 +8,6 @@
 
         public Orchestra() { }
 
-        public XNamespace Ns() => _ns;
+        public XNamespace Ns => _ns;
     }
 }

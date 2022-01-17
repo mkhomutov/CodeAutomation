@@ -20,21 +20,21 @@
 
         public OrchestraRibbonBackstageTabItemHeader OrchestraRibbonBackstageTabItemHeader { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
             var style = Style is null ? null : new XAttribute("Style", $"{{{Style.Aggregate((x, y) => $"{x} {y}")}}}");
 
-            var rows = RowDefinitions is null ? null : new XElement(Ns() + "Grid.RowDefinitions", RowDefinitions.Select(row => new XElement(Ns() + "RowDefinition", new XAttribute("Height", row))));
+            var rows = RowDefinitions is null ? null : new XElement(Ns + "Grid.RowDefinitions", RowDefinitions.Select(row => new XElement(Ns + "RowDefinition", new XAttribute("Height", row))));
 
-            var columns = ColumnDefinitions is null ? null : new XElement(Ns() + "Grid.ColumnDefinitions", ColumnDefinitions.Select(row => new XElement(Ns() + "ColumnDefinition", new XAttribute("Width", row))));
+            var columns = ColumnDefinitions is null ? null : new XElement(Ns + "Grid.ColumnDefinitions", ColumnDefinitions.Select(row => new XElement(Ns + "ColumnDefinition", new XAttribute("Width", row))));
 
-            var labels = Labels is null ? null : Labels.Select(label => label.GetXml(project));
+            var labels = Labels is null ? null : Labels.Select(label => label.GetXml());
 
-            var orchestraRibbonBackstageTabControl = OrchestraRibbonBackstageTabControl?.GetXml(project);
+            var orchestraRibbonBackstageTabControl = OrchestraRibbonBackstageTabControl?.GetXml();
 
-            var orchestraRibbonBackstageTabItemHeader = OrchestraRibbonBackstageTabItemHeader?.GetXml(project);
+            var orchestraRibbonBackstageTabItemHeader = OrchestraRibbonBackstageTabItemHeader?.GetXml();
 
-            var xml = new XElement(Ns() + "Grid",
+            var xml = new XElement(Ns + "Grid",
                 style,
                 rows,
                 columns,

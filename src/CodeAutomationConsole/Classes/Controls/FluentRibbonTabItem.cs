@@ -12,11 +12,11 @@
 
         public List<FluentRibbonGroupBox> GroupBoxes { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xml = new XElement(Ns() + "RibbonTabItem",
+            var xml = new XElement(Ns + "RibbonTabItem",
                 new XAttribute("Header", Header),
-                GroupBoxes.Select(groupBox => groupBox.GetXml(project)));
+                GroupBoxes.Select(groupBox => groupBox.GetXml()));
 
             return xml;
         }

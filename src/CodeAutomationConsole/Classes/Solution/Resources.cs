@@ -11,7 +11,7 @@
 
     public static class Resources
     {
-        public static XElement IncludeInProject { get; set; }
+        public static XElement IncludeResources { get; set; }
         public static void Save()
         {
             var projectPath = Global.Path;
@@ -24,7 +24,7 @@
             var projectResourceFiles = assembly.GetManifestResourceNames().Where(x => x.StartsWith(projectResourcesPrefix)).ToArray();
             var solutionResourceFiles = assembly.GetManifestResourceNames().Where(x => x.StartsWith(solutionResourcesPrefix)).ToArray();
 
-            IncludeInProject = new XElement("ItemGroup");
+            IncludeResources = new XElement("ItemGroup");
 
             // create project resources
             foreach (string resource in projectResourceFiles)
@@ -51,7 +51,7 @@
                 // prepare project includes
                 if (relativePath.StartsWith("Resources\\"))
                 {
-                    IncludeInProject.Add(new XElement("Resource", new XAttribute("Include", $"{relativePath}\\{filename}")));
+                    IncludeResources.Add(new XElement("Resource", new XAttribute("Include", $"{relativePath}\\{filename}")));
                 }
 
             }

@@ -14,7 +14,7 @@
 
         public List<string> Style { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
             var gridRow = GridRow is null ? null : new XAttribute("Grid.Row", GridRow);
 
@@ -22,7 +22,7 @@
 
             var style = Style is null ? null : new XAttribute("Style", $"{{{Style.Aggregate((x, y) => $"{x} {y}")}}}");
 
-            var xml = new XElement(Ns() + "Label", gridRow, content, style);
+            var xml = new XElement(Ns + "Label", gridRow, content, style);
 
             return xml;
         }

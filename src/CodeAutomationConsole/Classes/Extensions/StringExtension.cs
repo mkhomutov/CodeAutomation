@@ -100,5 +100,33 @@
 
             return strBuilder.ToString();
         }
+
+        public static string RemoveXmlns(this string txt)
+        {
+            var pattern = @"\s*xmlns:?\w*="".*?""";
+
+            var regex = new Regex(pattern);
+
+            return regex.Replace(txt, "");
+        }
+
+        public static string Tabulate(this string txt, int count)
+        {
+            string t;
+
+            var strBuilder = new StringBuilder();
+
+            var tabs = string.Concat(Enumerable.Repeat("\t", count));
+
+            using (var strReader = new StringReader(txt))
+            {
+                while ((t = strReader.ReadLine()) is not null)
+                {
+                    strBuilder.AppendLine($"{tabs}{t}");
+                }
+            }
+
+            return strBuilder.ToString();
+        }
     }
 }

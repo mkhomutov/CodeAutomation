@@ -9,7 +9,7 @@
 
         public Fluent() { }
 
-        public XNamespace Ns() => _ns;
-        public XNamespace X() => _x;
+        public XNamespace Ns { get => _ns; }
+        public XNamespace X { get => _x; }
     }
 }

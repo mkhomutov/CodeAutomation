@@ -8,9 +8,9 @@
 
         public FluentBackstageTabControl FluentBackstageTabControl { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xml = new XElement(Ns() + "Backstage", FluentBackstageTabControl.GetXml(project));
+            var xml = new XElement(Ns + "Backstage", FluentBackstageTabControl.GetXml());
 
             return xml;
         }

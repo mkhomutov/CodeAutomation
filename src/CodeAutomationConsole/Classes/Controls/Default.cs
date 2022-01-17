@@ -1,10 +1,5 @@
 ﻿namespace CodeAutomationConsole
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Xml.Linq;
 
     public class Default
@@ -13,6 +8,6 @@
 
         public Default() { }
 
-        public XNamespace Ns() => _ns;
+        public XNamespace Ns => _ns;
     }
 }
