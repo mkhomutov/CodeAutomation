@@ -18,7 +18,9 @@
                 FormatXaml().
                 Tabulate(3);
 
-            ViewContent = Template.GetByName("RibbonView.xaml").Replace("%FLUENTRIBBONTABS%", ribbonViewTabs);
+            ViewContent = Template.GetByName("RibbonView.xaml").
+                Replace("%FLUENTRIBBONTABS%", ribbonViewTabs).
+                Replace("%PROJECTNAME%", Global.ProjectName.ToLower());
 
             ViewCsContent = Template.GetByName("RibbonView.xaml.cs");
 

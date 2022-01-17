@@ -5,7 +5,7 @@
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orchestra="http://schemas.wildgums.com/orchestra"
                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
-                   xmlns:chameleon="clr-namespace:%PROJECTNAMESPACE%"
+                   xmlns:%PROJECTNAME%="clr-namespace:%PROJECTNAMESPACE%"
                    xmlns:gumui="http://schemas.wildgums.com/gum/controls"
                    xmlns:views="http://schemas.wildgums.com/gum/ui">
     <Grid>

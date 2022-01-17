@@ -26,6 +26,7 @@
             ViewModelContent = Template.GetByName("CsvClassNameDataGridViewModel.cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%CLASSNAME%", csv.ClassName).
+                Replace("%CSVNAME%", csv.Name).
                 Replace("%ADDCOLUMNS%", addColumns);
         }
     }

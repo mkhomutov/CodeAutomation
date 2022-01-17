@@ -68,7 +68,7 @@ public class %CLASSNAME%DataGridViewModel : IntegratedDataGridViewModelBase<Proj
 
     protected override async Task<IList<Data.Models.%CLASSNAME%>> GetProjectRecordsAsync(Project project)
     {
-        return project?.MasterData.%CLASSNAME%s.ToList() ?? new List<Data.Models.%CLASSNAME%>(0);
+        return project?.MasterData.%CSVNAME%.ToList() ?? new List<Data.Models.%CLASSNAME%>(0);
     }
 
     protected override async void InitializeDataGrid(IDataGridInteraction interaction)
