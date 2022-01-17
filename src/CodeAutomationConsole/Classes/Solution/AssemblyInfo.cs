@@ -1,38 +1,16 @@
 ﻿namespace CodeAutomationConsole
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
-    public class AssemblyInfo
+    public static class AssemblyInfo
     {
-        public AssemblyInfo(string ns, string projectPath)
+        public static void Save()
         {
-            ProjectPath = projectPath;
+            var content = Template.GetByName("AssemblyInfo.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
-            Content = $@"
-using System.Reflection;
-using System.Runtime.InteropServices;
+            var fileName = Path.Combine(Global.Path, "Properties", "AssemblyInfo.cs");
 
-//[assembly: AssemblyTitle(""{ns}"")]
-//[assembly: AssemblyProduct(""{ns}"")]
-//[assembly: AssemblyDescription(""{ns}"")]
-";
-
-        }
-
-        public string ProjectPath { get; set; }
-
-        public string Content { get; set; }
-
-        public void Save()
-        {
-            var fileName = Path.Combine(ProjectPath, "Properties", "AssemblyInfo.cs");
-
-            Content.AddCopyright("AssemblyInfo.cs").SaveToFile(fileName);
+            content.AddCopyright("AssemblyInfo.cs").SaveToFile(fileName);
         }
     }
 }

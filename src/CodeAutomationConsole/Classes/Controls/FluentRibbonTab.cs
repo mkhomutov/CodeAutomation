@@ -10,10 +10,15 @@
 
         public List<FluentRibbonTabItem> TabItems { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xml = new XElement(Ns() + "Ribbon.Tabs",
-                TabItems.Select(tabItem => tabItem.GetXml(project)));
+            var xmlns = XNamespace.Xmlns;
+            //XNamespace defaultXmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+
+            var xml = new XElement(Ns + "Ribbon.Tabs",
+                new XAttribute("xmlns", X),
+                new XAttribute(xmlns + "fluent", Ns),
+                TabItems.Select(tabItem => tabItem.GetXml()));
 
             return xml;
         }

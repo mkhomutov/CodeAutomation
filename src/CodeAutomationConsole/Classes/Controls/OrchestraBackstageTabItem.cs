@@ -12,16 +12,16 @@
 
         public Grid Grid { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var grid = Grid?.GetXml(project);
+            var grid = Grid?.GetXml();
 
             var header = HeaderText is null ? null : new XAttribute("HeaderText", HeaderText);
 
             var icon = Icon is null ? null : new XAttribute("Icon", $"/Resources/Images/{Icon}");
 
 
-            var xml = new XElement(Ns() + "RibbonBackstageTabItem",
+            var xml = new XElement(Ns + "RibbonBackstageTabItem",
                 header,
                 icon,
                 grid);

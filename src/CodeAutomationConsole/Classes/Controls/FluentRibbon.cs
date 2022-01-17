@@ -12,15 +12,15 @@
 
         public List<FluentRibbonTab> Tabs { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xName = XName.Get("Name", X().ToString());
+            var xName = XName.Get("Name", X.ToString());
 
-            var menu = FluentMenu is null ? null : FluentMenu.GetXml(project);
+            var menu = FluentMenu is null ? null : FluentMenu.GetXml();
 
-            var tabs = Tabs is null ? null : Tabs.Select(tab => tab.GetXml(project));
+            var tabs = Tabs is null ? null : Tabs.Select(tab => tab.GetXml());
 
-            var xml = new XElement(Ns() + "Ribbon",
+            var xml = new XElement(Ns + "Ribbon",
                 new XAttribute(xName, "ribbon"),
                 new XAttribute("IsQuickAccessToolBarVisible", "False"),
                 new XAttribute("CanCustomizeRibbon", "False"),

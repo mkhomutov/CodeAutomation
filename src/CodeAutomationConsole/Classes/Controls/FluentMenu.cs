@@ -8,9 +8,9 @@
 
         public FluentBackstage FluentBackstage { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var xml = FluentBackstage is null ? null : new XElement(Ns() + "Ribbon.Menu", FluentBackstage.GetXml(project));
+            var xml = FluentBackstage is null ? null : new XElement(Ns + "Ribbon.Menu", FluentBackstage.GetXml());
 
             return xml;
         }

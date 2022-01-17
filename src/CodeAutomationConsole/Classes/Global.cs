@@ -14,6 +14,8 @@
 
         public static string ProjectGuid { get; set; }
 
+        public static string ProjectName { get; set; }
+
         public static List<CsvListMember> CsvList { get; set; }
 
         public static LoadProjectConfiguration Config { get; set; }

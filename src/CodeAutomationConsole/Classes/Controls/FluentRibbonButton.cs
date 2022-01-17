@@ -11,15 +11,13 @@
         public string LargeIcon { get; set; }
         public string Command { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
-            var projectName = project.Split('.').LastOrDefault().ToLower();
-
             var command = Command is null ? null : new XAttribute("Command", $"{{Binding {Command}}}");
 
-            var icon = LargeIcon is null ? null : new XAttribute("LargeIcon", $"{{orctheming:FontImage {{x:Static {projectName}:FontAwesome.{LargeIcon}}}}}");
+            var icon = LargeIcon is null ? null : new XAttribute("LargeIcon", $"{{orctheming:FontImage {{x:Static {Global.ProjectName}:FontAwesome.{LargeIcon}}}}}");
 
-            var xml = new XElement(Ns() + "Button",
+            var xml = new XElement(Ns + "Button",
                 new XAttribute("Header", Header), icon, command);
 
             return xml;

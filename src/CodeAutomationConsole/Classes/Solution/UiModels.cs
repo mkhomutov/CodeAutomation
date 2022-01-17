@@ -4,27 +4,14 @@
 
     public static class UiModels
     {
-        private static readonly string ProjectViewConfiguration = $@"using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+        private static readonly string Filename = "ProjectViewConfiguration.cs";
 
-namespace {Global.Namespace}.UI.Models;
-
-public class ProjectViewConfiguration
-{{
-    public bool IsOpenProjectBackstageTabItemVisible {{ get; set; }} = true;
-    public bool IsOpenProjectViewVisible {{ get; set; }} = true;
-    public bool IsSaveProjectBackstageButtonVisible {{ get; set; }} = true;
-    public bool IsSaveAsProjectBackstageButtonVisible {{ get; set; }} = true;
-    public bool IsCloseProjectBackstageButtonVisible {{ get; set; }} = true;
-}}
-";
+        private static readonly string ProjectViewConfiguration = Template.GetByName(Filename).
+            Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
         public static void Save()
         {
-            var projectViewConfigurationFile = Path.Combine(Global.Path, "UI", "Models", "ProjectViewConfiguration.cs");
+            var projectViewConfigurationFile = Path.Combine(Global.Path, "UI", "Models", Filename);
 
             ProjectViewConfiguration.SaveToFile(projectViewConfigurationFile);
         }

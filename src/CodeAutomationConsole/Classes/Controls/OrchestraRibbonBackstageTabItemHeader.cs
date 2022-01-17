@@ -14,7 +14,7 @@
 
         public string Icon { get; set; }
 
-        public XElement GetXml(string project)
+        public XElement GetXml()
         {
             var gridRow = GridRow is null ? null : new XAttribute("Grid.Row", GridRow);
 
@@ -25,7 +25,7 @@
             var icon = Icon is null ? null : new XAttribute("Icon", $"/Resources/Images/{Icon}");
 
 
-            var xml = new XElement(Ns() + "RibbonBackstageTabItemHeader",
+            var xml = new XElement(Ns + "RibbonBackstageTabItemHeader",
                 gridRow,
                 header,
                 headerTextStyleKey,
