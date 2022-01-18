@@ -28,7 +28,7 @@
         [TestCase("MachineSiteSetups")]
         public void CompareMaps(string name)
         {
-            var config = new LoadProjectConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
+            var config = new LoadExtendedConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
             var nameSpace = config.NameSpace;
             var csvSettings = config.GetCsv(name);
 

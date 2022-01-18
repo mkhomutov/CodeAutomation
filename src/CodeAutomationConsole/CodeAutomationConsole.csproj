@@ -21,8 +21,8 @@
     <Compile Remove="Templates\Project\App.xaml.cs" />
     <Compile Remove="Templates\Project\Commands\ProjectOpenCommandContainer.cs" />
     <Compile Remove="Templates\Project\Constants.cs" />
-    <Compile Remove="Templates\Project\Data\Models\CsvDataModelClass.cs" />
-    <Compile Remove="Templates\Project\Data\Models\Maps\CsvDataModelClassMap.cs" />
+    <Compile Remove="Templates\Project\Data\Models\Maps\[DataModelClassNameMap].cs" />
+    <Compile Remove="Templates\Project\Data\Models\[DataModelClassName].cs" />
     <Compile Remove="Templates\Project\Data\ProjectManagement\MasterData.cs" />
     <Compile Remove="Templates\Project\Data\ProjectManagement\Project.cs" />
     <Compile Remove="Templates\Project\Data\ProjectManagement\ProjectReader.cs" />
@@ -33,8 +33,9 @@
     <Compile Remove="Templates\Project\Services\ApplicationInitializationService.cs" />
     <Compile Remove="Templates\Project\UI\Models\ProjectViewConfiguration.cs" />
     <Compile Remove="Templates\Project\UI\Services\RibbonService.cs" />
-    <Compile Remove="Templates\Project\UI\Tabs\CsvClassName\ViewModels\CsvClassNameDataGridViewModel.cs" />
-    <Compile Remove="Templates\Project\UI\Tabs\CsvClassName\Views\CsvClassNameDataGridView.xaml.cs" />
+    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\ViewModels\[DataGridViewModel].cs" />
+    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\Views\CsvClassNameDataGridView.xaml.cs" />
+    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml.cs" />
     <Compile Remove="Templates\Project\UI\ViewModels\MainViewModel.cs" />
     <Compile Remove="Templates\Project\UI\ViewModels\RibbonViewModel.cs" />
     <Compile Remove="Templates\Project\UI\ViewModels\StatusBarViewModel.cs" />
@@ -55,42 +56,7 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
-  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
-  <ItemGroup>
-    <None Remove="ProjectResources\.manifest" />
-    <None Remove="ProjectResources\global.json" />
-    <None Remove="ProjectResources\Resources\Fonts\fontawesome-webfont.ttf" />
-    <None Remove="ProjectResources\Resources\Icons\Logo.ico" />
-    <None Remove="ProjectResources\Resources\Images\CompanyLogo.png" />
-    <None Remove="ProjectResources\Resources\Images\exit.png" />
-    <None Remove="ProjectResources\Resources\Images\explorer.png" />
-    <None Remove="ProjectResources\Resources\Images\file_menu.png" />
-    <None Remove="ProjectResources\Resources\Images\keyboard.png" />
-    <None Remove="ProjectResources\Resources\Images\open.png" />
-    <None Remove="ProjectResources\Resources\Images\print.png" />
-    <None Remove="ProjectResources\Resources\Images\refresh.png" />
-    <None Remove="ProjectResources\Resources\Images\save.png" />
-    <None Remove="ProjectResources\Themes\Generic.xaml" />
-    <None Remove="SolutionResources\Directory.Build.analyzers.props" />
-    <None Remove="SolutionResources\Directory.Build.nullable.props" />
-    <None Remove="SolutionResources\Directory.Build.project.props" />
-    <None Remove="SolutionResources\Directory.Build.props" />
-    <None Remove="SolutionResources\Directory.Build.shared.explicit.props" />
-    <None Remove="SolutionResources\Directory.Build.shared.implicit.props" />
-    <None Remove="SolutionResources\Directory.Build.shared.mat.props" />
-    <None Remove="SolutionResources\Directory.Build.shared.tests.props" />
-    <None Remove="SolutionResources\Directory.Build.shared.tools.props" />
-    <None Remove="SolutionResources\Directory.Build.targets" />
-    <None Remove="SolutionResources\global.json" />
-    <None Remove="SolutionResources\nuget.config" />
-    <None Remove="SolutionResources\resharper.settings" />
-    <None Remove="SolutionResources\Settings.StyleCop" />
-    <None Remove="Templates\Project\App.xaml" />
-    <None Remove="Templates\Project\UI\Tabs\CsvClassName\Views\CsvClassNameDataGridView.xaml" />
-    <None Remove="Templates\Project\UI\Views\MainView.xaml" />
-    <None Remove="Templates\Project\UI\Views\RibbonView.xaml" />
-    <None Remove="Templates\Project\UI\Views\StatusBarView.xaml" />
-  </ItemGroup>
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />  
   <ItemGroup>
     <EmbeddedResource Include="ProjectResources\.manifest" />
     <EmbeddedResource Include="ProjectResources\global.json" />
@@ -120,20 +86,15 @@
     <EmbeddedResource Include="SolutionResources\GlobalSuppressions.cs" />
     <EmbeddedResource Include="SolutionResources\MethodTimeLogger.cs" />
     <EmbeddedResource Include="SolutionResources\nuget.config" />
-    <EmbeddedResource Include="SolutionResources\resharper.settings">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:SettingsSingleFileGenerator</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="SolutionResources\resharper.settings" />
     <EmbeddedResource Include="SolutionResources\Settings.StyleCop" />
     <EmbeddedResource Include="SolutionResources\SolutionAssemblyInfo.cs" />
-    <EmbeddedResource Include="Templates\Project\App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Project\App.xaml" />
     <EmbeddedResource Include="Templates\Project\App.xaml.cs" />
     <EmbeddedResource Include="Templates\Project\Commands\ProjectOpenCommandContainer.cs" />
     <EmbeddedResource Include="Templates\Project\Constants.cs" />
-    <EmbeddedResource Include="Templates\Project\Data\Models\CsvDataModelClass.cs" />
-    <EmbeddedResource Include="Templates\Project\Data\Models\Maps\CsvDataModelClassMap.cs" />
+    <EmbeddedResource Include="Templates\Project\Data\Models\[DataModelClassName].cs" />
+    <EmbeddedResource Include="Templates\Project\Data\Models\Maps\[DataModelClassNameMap].cs" />
     <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\MasterData.cs" />
     <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\Project.cs" />
     <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\ProjectReader.cs" />
@@ -144,25 +105,17 @@
     <EmbeddedResource Include="Templates\Project\Services\ApplicationInitializationService.cs" />
     <EmbeddedResource Include="Templates\Project\UI\Models\ProjectViewConfiguration.cs" />
     <EmbeddedResource Include="Templates\Project\UI\Services\RibbonService.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\CsvClassName\ViewModels\CsvClassNameDataGridViewModel.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\CsvClassName\Views\CsvClassNameDataGridView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\CsvClassName\Views\CsvClassNameDataGridView.xaml.cs" />
+    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\ViewModels\[DataGridViewModel].cs" />
+    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml" />
+    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml.cs" />
     <EmbeddedResource Include="Templates\Project\UI\ViewModels\MainViewModel.cs" />
     <EmbeddedResource Include="Templates\Project\UI\ViewModels\RibbonViewModel.cs" />
     <EmbeddedResource Include="Templates\Project\UI\ViewModels\StatusBarViewModel.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Project\UI\Views\MainView.xaml" />
     <EmbeddedResource Include="Templates\Project\UI\Views\MainView.xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\RibbonView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Project\UI\Views\RibbonView.xaml" />
     <EmbeddedResource Include="Templates\Project\UI\Views\RibbonView.xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\StatusBarView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Project\UI\Views\StatusBarView.xaml" />
     <EmbeddedResource Include="Templates\Project\UI\Views\StatusBarView.xaml.cs" />
   </ItemGroup>
   <ItemGroup>

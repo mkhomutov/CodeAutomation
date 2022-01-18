@@ -5,13 +5,13 @@
     using YamlDotNet.Serialization;
     using YamlDotNet.Serialization.NamingConventions;
 
-    public class LoadConfiguration
+    public class LoadBaseConfiguration
     {
         private readonly string _yaml;
 
-        private readonly Configuration _configuration;
+        private readonly BaseConfiguration _configuration;
 
-        public LoadConfiguration(string path)
+        public LoadBaseConfiguration(string path)
         {
             using (StreamReader sr = new StreamReader(path, Encoding.Default))
             {
@@ -19,10 +19,10 @@
             }
 
             var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
-            _configuration = deserializer.Deserialize<Configuration>(_yaml);
+            _configuration = deserializer.Deserialize<BaseConfiguration>(_yaml);
         }
 
-        public Configuration Config
+        public BaseConfiguration Config
         {
             get => _configuration;
         }

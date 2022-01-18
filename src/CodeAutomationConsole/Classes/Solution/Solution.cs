@@ -9,7 +9,7 @@
     {
         public Solution(string path)
         {
-            var projectConfiguration = new LoadProjectConfiguration(path);
+            var projectConfiguration = new LoadExtendedConfiguration(path);
 
             Global.Namespace = projectConfiguration.NameSpace;
             Global.ProjectName = projectConfiguration.NameSpace.Split('.').LastOrDefault();
@@ -47,7 +47,8 @@
             new MainView().Save();
             new RibbonView().Save();
             new StatusBarView().Save();
-            Global.Config.CsvList.ForEach(x => new Tab(x).Save()); // Tabs view and viewmodels
+            //Global.Config.CsvList.ForEach(x => new Tabs(x).Save()); // Tabs view and viewmodels
+            Global.Config.GetProjectView("MainView").Tabs.ForEach(x => new Tabs(x).Save());
 
 
             // Project

@@ -27,7 +27,7 @@
                 return $"public {type} {field} {{ get; set; }}";
             }).JoinWithTabs(2);
 
-            var content = Template.GetByName("CsvDataModelClass.cs").
+            var content = Template.GetByName("[DataModelClassName].cs").
                 Replace("%CLASSNAME%", ClassName).
                 Replace("%PROPERTIES%", properties);
 
@@ -47,7 +47,7 @@
                 return $"Map(x => x.{alias}).Name(\"{x.Field}\"){fieldType}{fieldDefault};";
             }).JoinWithTabs(2);
 
-            var content = Template.GetByName("CsvDataModelClassMap.cs").
+            var content = Template.GetByName("[DataModelClassNameMap].cs").
                 Replace("%CLASSNAME%", ClassName).
                 Replace("%MAPPINGS%", mappings);
 

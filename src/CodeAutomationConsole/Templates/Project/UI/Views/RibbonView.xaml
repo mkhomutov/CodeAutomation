@@ -50,7 +50,32 @@
                     </fluent:BackstageTabControl>
                 </fluent:Backstage>
             </fluent:Ribbon.Menu>
-%FLUENTRIBBONTABS%
+            <fluent:Ribbon.Tabs>
+                <fluent:RibbonTabItem Header="View1">
+                    <fluent:RibbonGroupBox Header="Workspace">
+                        <fluent:Button Header="Refresh"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.Refresh}}"/>
+                        <fluent:Button Header="Windows"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.Windows}}"/>
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Workspace2">
+                        <fluent:Button Header="Ok"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.Send}}"/>
+                        <fluent:Button Header="Desktop"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.Desktop}}"/>
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+                <fluent:RibbonTabItem Header="View2">
+                    <fluent:RibbonGroupBox Header="Workspace">
+                        <fluent:Button Header="Apple"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.Apple}}"/>
+                        <fluent:Button Header="Keyboard"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.KeyboardO}}"/>
+                        <fluent:Button Header="Keyboard2"
+			                           LargeIcon="{orctheming:FontImage {x:Static chameleon:FontAwesome.KeyboardO}}"/>
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+            </fluent:Ribbon.Tabs>
         </fluent:Ribbon>
     </Grid>
 </catel:UserControl>
