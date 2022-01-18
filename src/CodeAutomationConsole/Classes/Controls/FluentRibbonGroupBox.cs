@@ -14,7 +14,7 @@
 
         public XElement GetXml()
         {
-            var xml = new XElement(Ns + "RibbonGroupBox",
+            var xml = new XElement(Ns() + "RibbonGroupBox",
                 new XAttribute("Header", Header),
                 Buttons.Select(button => button.GetXml()) );
 

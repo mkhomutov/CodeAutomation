@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class Configuration
+    public class BaseConfiguration
     {
         public string Contractor { get; set; }
         public string ProjectName { get; set; }

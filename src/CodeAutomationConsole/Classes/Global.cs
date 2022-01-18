@@ -18,6 +18,6 @@
 
         public static List<CsvListMember> CsvList { get; set; }
 
-        public static LoadProjectConfiguration Config { get; set; }
+        public static LoadExtendedConfiguration Config { get; set; }
     }
 }

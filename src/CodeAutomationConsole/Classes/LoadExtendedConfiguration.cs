@@ -7,11 +7,11 @@
     using YamlDotNet.Serialization;
     using YamlDotNet.Serialization.NamingConventions;
 
-    public class LoadProjectConfiguration
+    public class LoadExtendedConfiguration
     {
-        private readonly ProjectConfiguration _configuration;
+        private readonly ExtendedConfiguration _configuration;
 
-        public LoadProjectConfiguration(string path)
+        public LoadExtendedConfiguration(string path)
         {
             var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
@@ -19,7 +19,7 @@
             {
                 var yaml = sr.ReadToEnd();
 
-                _configuration = deserializer.Deserialize<ProjectConfiguration>(yaml);
+                _configuration = deserializer.Deserialize<ExtendedConfiguration>(yaml);
             }
         }
 
@@ -33,9 +33,9 @@
             return _configuration.CsvList.Find(x => string.Equals(x.Name, name));
         }
 
-        public FluentRibbon GetRibbon(string name)
+        public ProjectView GetProjectView(string name)
         {
-            return _configuration.ProjectViews.Find(x => string.Equals(x.Name, name)).FluentRibbon;
+            return _configuration.ProjectViews.Find(x => string.Equals(x.Name, name));
         }
 
     }

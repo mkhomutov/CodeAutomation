@@ -18,7 +18,7 @@
 
             var icon = Icon is null ? null : new XAttribute("Icon", $"pack://application:,,,/{Global.Namespace};component/Resources/Images/{Icon}");
 
-            var xml = new XElement(Ns + "Button",
+            var xml = new XElement(Ns() + "Button",
                 new XAttribute("Header", Header), icon, command);
 
             return xml;

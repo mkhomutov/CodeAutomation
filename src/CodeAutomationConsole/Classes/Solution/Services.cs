@@ -8,22 +8,21 @@
     {
         public static void Save()
         {
-            var tabItems = Global.Config.CsvList.
-                Select(x => $"var tabItem{x.ClassName} = tabService.CreateAndAddDataGridTab<{x.ClassName}DataGridViewModel>(\"{x.ClassName}\", ScopeNames.{x.ClassName}, false);").
+            var tabs = Global.Config.GetProjectView("MainView").Tabs;
+
+            var tabItems = tabs.Select(tab => $"var tabItem{tab.RelatedClassName} = tabService.CreateAndAddDataGridTab<{tab.RelatedClassName}DataGridViewModel>(\"{tab.Title}\", ScopeNames.{tab.RelatedClassName}, false);").
                 ToArray().
                 JoinWithTabs(2);
 
-            var viewModelsUsings = Global.Config.CsvList.
-                Select(x => $"using {Global.Namespace}.UI.Tabs.{x.ClassName}.ViewModels;").
+            var viewModelsUsings = tabs.Select(tab => $"using {Global.Namespace}.UI.Tabs.{tab.RelatedClassName}.ViewModels;").
                 ToArray().
                 JoinWithTabs(0);
 
-            var addTabItems = Global.Config.CsvList.
-                Select(x => $"tabService.Add(tabItem{x.ClassName});").
+            var addTabItems = tabs.Select(tab => $"tabService.Add(tabItem{tab.RelatedClassName});").
                 ToArray().
                 JoinWithTabs(2);
 
-            var firstTab = "tabItem" + Global.Config.CsvList.FirstOrDefault().ClassName;
+            var firstTab = "tabItem" + tabs.FirstOrDefault().RelatedClassName;
 
             var applicationInitializationServiceContent = Template.GetByName("ApplicationInitializationService.cs").
                 Replace("%VIEWMODELUSINGS%", viewModelsUsings).

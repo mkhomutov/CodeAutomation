@@ -38,13 +38,13 @@
                         Console.WriteLine("Please make sure that configuration file exists");
                         break;
                     case true:
-                        var configuration = new LoadConfiguration(config.FullName).Config;
+                        var configuration = new LoadBaseConfiguration(config.FullName).Config;
 
                         var yamlPath = Path.Combine(configuration.ProjectPath, $"{configuration.ProjectName}.yaml");
 
                         if ( generateOnlyYaml || (generateProject && !File.Exists(yamlPath) ) )
                         {
-                            new CreateYaml(configuration).Content.SaveToFile(yamlPath);
+                            new CreateExtendedConfiguration(configuration).Content.SaveToFile(yamlPath);
                         }
 
                         if (generateProject)
