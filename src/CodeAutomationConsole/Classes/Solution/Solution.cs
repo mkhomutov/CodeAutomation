@@ -47,8 +47,7 @@
             new MainView().Save();
             new RibbonView().Save();
             new StatusBarView().Save();
-            //Global.Config.CsvList.ForEach(x => new Tabs(x).Save()); // Tabs view and viewmodels
-            Global.Config.GetProjectView("MainView").Tabs.ForEach(x => new Tabs(x).Save());
+            Global.Config.GetProjectView("MainView").Tabs.ForEach(x => new Tabs(x).Save()); // Tabs view and viewmodels
 
 
             // Project
