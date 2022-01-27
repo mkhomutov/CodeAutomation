@@ -22,32 +22,32 @@
             _csvPrefix = $"{_assembly.GetName().Name}.Csv.";
         }
 
-        [TestCase("SacramentocrimeJanuary2006")]
-        [TestCase("Sacramentorealestatetransactions")]
-        [TestCase("SalesJan2009")]
-        [TestCase("TechCrunchcontinentalUSA")]
-        [TestCase("MachineSiteSetups")]
-        public void CompareClasses(string name)
-        {
-            var config = new LoadExtendedConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
-            var nameSpace = config.NameSpace;
-            var csvSettings = config.GetCsv(name);
+        //[TestCase("SacramentocrimeJanuary2006")]
+        //[TestCase("Sacramentorealestatetransactions")]
+        //[TestCase("SalesJan2009")]
+        //[TestCase("TechCrunchcontinentalUSA")]
+        //[TestCase("MachineSiteSetups")]
+        //public void CompareClasses(string name)
+        //{
+        //    var config = new LoadExtendedConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
+        //    var nameSpace = config.NameSpace;
+        //    var csvSettings = config.GetCsv(name);
 
-            var className = csvSettings?.ClassName ?? name;
-            string classResource = _classesPrefix + className + ".cs";
+        //    var className = csvSettings?.ClassName ?? name;
+        //    string classResource = _classesPrefix + className + ".cs";
 
-            var tempCsvFilenme = GetTemporaryCsv(name);
+        //    var tempCsvFilenme = GetTemporaryCsv(name);
 
-            var gClass = csvSettings is null ? new ClassGenerator(nameSpace, tempCsvFilenme) : new ClassGenerator(nameSpace, tempCsvFilenme, csvSettings);
+        //    var gClass = csvSettings is null ? new ClassGenerator(nameSpace, tempCsvFilenme) : new ClassGenerator(nameSpace, tempCsvFilenme, csvSettings);
 
-            File.Delete(tempCsvFilenme);
+        //    File.Delete(tempCsvFilenme);
 
-            var generatedClass = gClass.GenerateClassCode();
+        //    var generatedClass = gClass.GenerateClassCode();
 
-            var currentClass = LoadResource(classResource);
+        //    var currentClass = LoadResource(classResource);
 
-            AssertClass(name, currentClass, generatedClass);
-        }
+        //    AssertClass(name, currentClass, generatedClass);
+        //}
 
         private void AssertClass(string className, string currentClass, string genereatedCurrentClass)
         {

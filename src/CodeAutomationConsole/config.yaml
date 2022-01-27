@@ -9,4 +9,7 @@ multipleValues:
   - value: nestedValue1
   - value: nestedValue2
 - value: testValue2
+  nested:
+  - value: nestedValue3
+  - value: nestedValue4
 - value: testValue3

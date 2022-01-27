@@ -13,8 +13,6 @@ namespace CodeAutomationConsole
         public IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext)
         {
             var solutionItem = translationContext.SolutionItem;
-            var context = solutionItem.Context;
-            var rootContext = solutionItem.GetRoot()?.Context ?? context;
             var template = translationContext.Text;
 
             var dictionary = new Dictionary<string, IReadOnlyCollection<TranslationResult>>();
@@ -44,7 +42,7 @@ namespace CodeAutomationConsole
                 new TranslationResult
                 {
                     TranslatedText = template,
-                    Context = context
+                    Context = solutionItem.Context
                 }
             };
 

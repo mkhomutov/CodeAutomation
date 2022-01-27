@@ -62,7 +62,7 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
                 {
                     result.Add( new TranslationResult
                     {
-                        Context = item,
+                        Context = childValue.Context ?? context,
                         TranslatedText = childValue.TranslatedText
                     });
                 }
@@ -75,7 +75,7 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
         {
             result.Add(new TranslationResult
             {
-                Context = value,
+                Context = childValue.Context ?? context,
                 TranslatedText = childValue.TranslatedText
             });
         }
@@ -89,7 +89,7 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
         {
             yield return new TranslationResult
             {
-                Context = item,
+                Context = null,
                 TranslatedText = stringValue
             };
         }

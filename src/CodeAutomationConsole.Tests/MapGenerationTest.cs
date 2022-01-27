@@ -21,32 +21,32 @@
             _csvPrefix = $"{_assembly.GetName().Name}.Csv.";
         }
 
-        [TestCase("SacramentocrimeJanuary2006")]
-        [TestCase("Sacramentorealestatetransactions")]
-        [TestCase("SalesJan2009")]
-        [TestCase("TechCrunchcontinentalUSA")]
-        [TestCase("MachineSiteSetups")]
-        public void CompareMaps(string name)
-        {
-            var config = new LoadExtendedConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
-            var nameSpace = config.NameSpace;
-            var csvSettings = config.GetCsv(name);
+        //[TestCase("SacramentocrimeJanuary2006")]
+        //[TestCase("Sacramentorealestatetransactions")]
+        //[TestCase("SalesJan2009")]
+        //[TestCase("TechCrunchcontinentalUSA")]
+        //[TestCase("MachineSiteSetups")]
+        //public void CompareMaps(string name)
+        //{
+        //    var config = new LoadExtendedConfiguration(@"..\..\..\Yaml\CodeAutomation.yml");
+        //    var nameSpace = config.NameSpace;
+        //    var csvSettings = config.GetCsv(name);
 
-            var className = csvSettings?.ClassName ?? name;
-            var mapResourceFilename = _mapsPrefix + className + "Map.cs";
+        //    var className = csvSettings?.ClassName ?? name;
+        //    var mapResourceFilename = _mapsPrefix + className + "Map.cs";
 
-            var tempCsvFilenme = GetTemporaryCsv(name);
+        //    var tempCsvFilenme = GetTemporaryCsv(name);
 
-            var gMap = csvSettings is null ? new MapGenerator(nameSpace, tempCsvFilenme) : new MapGenerator(nameSpace, tempCsvFilenme, csvSettings);
+        //    var gMap = csvSettings is null ? new MapGenerator(nameSpace, tempCsvFilenme) : new MapGenerator(nameSpace, tempCsvFilenme, csvSettings);
 
-            File.Delete(tempCsvFilenme);
+        //    File.Delete(tempCsvFilenme);
 
-            var generatedMap = gMap.GenerateMapCode();
+        //    var generatedMap = gMap.GenerateMapCode();
 
-            var currentClass = LoadResource(mapResourceFilename);
+        //    var currentClass = LoadResource(mapResourceFilename);
 
-            AssertMap(name, currentClass, generatedMap);
-        }
+        //    AssertMap(name, currentClass, generatedMap);
+        //}
 
         private void AssertMap(string className, string currentClass, string genereatedCurrentClass)
         {
