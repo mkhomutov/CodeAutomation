@@ -2,61 +2,37 @@
 {
     using System;
     using System.IO;
-    using System.CommandLine;
-    using System.CommandLine.Invocation;
 
     public class Program
     {
         public static int Main(string[] args)
         {
-            var rootCommand = new RootCommand
+            if (args.Length != 1)
             {
-                new Option<FileInfo>(
-                    new[] { "/c", "--config"},
-                    "Path to configuration file"),
-                new Option<bool>(
-                    new[] { "/y", "--generate-only-yaml"},
-                    getDefaultValue: () => false,
-                    description: "Generate YAML-description for project"),
-                new Option<bool>(
-                    new[] { "/p", "--generate-project"},
-                    getDefaultValue: () => false,
-                    description: "Generate project"),
+                Console.WriteLine("Please use path to the YAML file as a command line argument");
+                return 1;
+            }
 
-            };
+            var path = args[0];
+            var configFile = new FileInfo(path);
 
-            rootCommand.Description = "Code automation App";
-
-            rootCommand.Handler = CommandHandler.Create<FileInfo, bool, bool>((config, generateProject, generateOnlyYaml) =>
+            if (!configFile.Exists)
             {
-                switch (config?.Exists ?? null)
-                {
-                    case null:
-                        Console.WriteLine("Please use \"--config\" option to specify configuration file");
-                        break;
-                    case false:
-                        Console.WriteLine("Please make sure that configuration file exists");
-                        break;
-                    case true:
-                        var configuration = new LoadBaseConfiguration(config.FullName).Config;
+                Console.WriteLine("Please make sure that configuration file exists");
+                return 1;
+            }
 
-                        var yamlPath = Path.Combine(configuration.ProjectPath, $"{configuration.ProjectName}.yaml");
+            var settings = AutomationSettings.Load(configFile.FullName);
+            var extendedSettingsFile = Path.Combine(settings.OutputPath, $"{settings.ProjectName}.yaml");
+            if (File.Exists(extendedSettingsFile))
+            {
+                settings = AutomationSettings.Load(extendedSettingsFile);
+            }
 
-                        if ( generateOnlyYaml || (generateProject && !File.Exists(yamlPath) ) )
-                        {
-                            new CreateExtendedConfiguration(configuration).Content.SaveToFile(yamlPath);
-                        }
+            var codeMaker = new CodeBuilder(settings);
+            codeMaker.Run();
 
-                        if (generateProject)
-                        {
-                            new Solution(yamlPath).Generate();
-                        }
-
-                        break;
-                }
-            });
-
-            return rootCommand.InvokeAsync(args).Result;
+            return 0;
         }
     }
 }

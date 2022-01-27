@@ -40,7 +40,10 @@
 
             foreach (var t in _text)
             {
-                if (!Double.TryParse(t, style, provider, out var i)) { return false; }
+                if (!double.TryParse(t, style, provider, out var i))
+                {
+                    return false;
+                }
             }
 
             return true;

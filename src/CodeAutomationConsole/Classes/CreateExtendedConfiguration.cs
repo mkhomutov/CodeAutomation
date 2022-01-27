@@ -9,13 +9,13 @@
 
     public class CreateExtendedConfiguration
     {
-        public CreateExtendedConfiguration(BaseConfiguration baseConfig)
+        public CreateExtendedConfiguration(AutomationSettings initialConfig)
         {
-            var extendedConfig = new ExtendedConfiguration(baseConfig);
+            var extendedConfig = new ExtendedConfiguration(initialConfig);
 
             var mainView = extendedConfig.GetProjectView("MainView");
 
-            var files = GetFiles(baseConfig.CsvPath);
+            var files = GetFiles(initialConfig.CsvPath);
 
             foreach (var file in files)
             {

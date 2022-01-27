@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -15,39 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="SolutionResources\GlobalSuppressions.cs" />
-    <Compile Remove="SolutionResources\MethodTimeLogger.cs" />
-    <Compile Remove="SolutionResources\SolutionAssemblyInfo.cs" />
-    <Compile Remove="Templates\Project\App.xaml.cs" />
-    <Compile Remove="Templates\Project\Commands\ProjectOpenCommandContainer.cs" />
-    <Compile Remove="Templates\Project\Constants.cs" />
-    <Compile Remove="Templates\Project\Data\Models\Maps\[DataModelClassNameMap].cs" />
-    <Compile Remove="Templates\Project\Data\Models\[DataModelClassName].cs" />
-    <Compile Remove="Templates\Project\Data\ProjectManagement\MasterData.cs" />
-    <Compile Remove="Templates\Project\Data\ProjectManagement\Project.cs" />
-    <Compile Remove="Templates\Project\Data\ProjectManagement\ProjectReader.cs" />
-    <Compile Remove="Templates\Project\FontAwesome.cs" />
-    <Compile Remove="Templates\Project\ModuleInitializer.cs" />
-    <Compile Remove="Templates\Project\ProjectApplicationInfo.cs" />
-    <Compile Remove="Templates\Project\Properties\AssemblyInfo.cs" />
-    <Compile Remove="Templates\Project\Services\ApplicationInitializationService.cs" />
-    <Compile Remove="Templates\Project\UI\Models\ProjectViewConfiguration.cs" />
-    <Compile Remove="Templates\Project\UI\Services\RibbonService.cs" />
-    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\ViewModels\[DataGridViewModel].cs" />
-    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\Views\CsvClassNameDataGridView.xaml.cs" />
-    <Compile Remove="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml.cs" />
-    <Compile Remove="Templates\Project\UI\ViewModels\MainViewModel.cs" />
-    <Compile Remove="Templates\Project\UI\ViewModels\RibbonViewModel.cs" />
-    <Compile Remove="Templates\Project\UI\ViewModels\StatusBarViewModel.cs" />
-    <Compile Remove="Templates\Project\UI\Views\MainView.xaml.cs" />
-    <Compile Remove="Templates\Project\UI\Views\RibbonView.xaml.cs" />
-    <Compile Remove="Templates\Project\UI\Views\StatusBarView.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Orc.Csv" Version="4.3.2" />
-    <PackageReference Include="Spectre.Console" Version="0.41.0" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
@@ -56,72 +24,7 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
-  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />  
-  <ItemGroup>
-    <EmbeddedResource Include="ProjectResources\.manifest" />
-    <EmbeddedResource Include="ProjectResources\global.json" />
-    <EmbeddedResource Include="ProjectResources\Resources\Fonts\fontawesome-webfont.ttf" />
-    <EmbeddedResource Include="ProjectResources\Resources\Icons\Logo.ico" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\CompanyLogo.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\exit.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\explorer.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\file_menu.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\keyboard.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\open.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\print.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\refresh.png" />
-    <EmbeddedResource Include="ProjectResources\Resources\Images\save.png" />
-    <EmbeddedResource Include="ProjectResources\Themes\Generic.xaml" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.analyzers.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.nullable.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.project.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.explicit.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.implicit.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.mat.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.tests.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.shared.tools.props" />
-    <EmbeddedResource Include="SolutionResources\Directory.Build.targets" />
-    <EmbeddedResource Include="SolutionResources\global.json" />
-    <EmbeddedResource Include="SolutionResources\GlobalSuppressions.cs" />
-    <EmbeddedResource Include="SolutionResources\MethodTimeLogger.cs" />
-    <EmbeddedResource Include="SolutionResources\nuget.config" />
-    <EmbeddedResource Include="SolutionResources\resharper.settings" />
-    <EmbeddedResource Include="SolutionResources\Settings.StyleCop" />
-    <EmbeddedResource Include="SolutionResources\SolutionAssemblyInfo.cs" />
-    <EmbeddedResource Include="Templates\Project\App.xaml" />
-    <EmbeddedResource Include="Templates\Project\App.xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\Commands\ProjectOpenCommandContainer.cs" />
-    <EmbeddedResource Include="Templates\Project\Constants.cs" />
-    <EmbeddedResource Include="Templates\Project\Data\Models\[DataModelClassName].cs" />
-    <EmbeddedResource Include="Templates\Project\Data\Models\Maps\[DataModelClassNameMap].cs" />
-    <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\MasterData.cs" />
-    <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\Project.cs" />
-    <EmbeddedResource Include="Templates\Project\Data\ProjectManagement\ProjectReader.cs" />
-    <EmbeddedResource Include="Templates\Project\FontAwesome.cs" />
-    <EmbeddedResource Include="Templates\Project\ModuleInitializer.cs" />
-    <EmbeddedResource Include="Templates\Project\ProjectApplicationInfo.cs" />
-    <EmbeddedResource Include="Templates\Project\Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Templates\Project\Services\ApplicationInitializationService.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Models\ProjectViewConfiguration.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Services\RibbonService.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\ViewModels\[DataGridViewModel].cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml" />
-    <EmbeddedResource Include="Templates\Project\UI\Tabs\[TabName]\Views\[DataGridView].xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\ViewModels\MainViewModel.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\ViewModels\RibbonViewModel.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\ViewModels\StatusBarViewModel.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\MainView.xaml" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\MainView.xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\RibbonView.xaml" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\RibbonView.xaml.cs" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\StatusBarView.xaml" />
-    <EmbeddedResource Include="Templates\Project\UI\Views\StatusBarView.xaml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\Project\ProjectName.csproj" />
-    <EmbeddedResource Include="Templates\SolutionName.sln" />
-  </ItemGroup>
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>

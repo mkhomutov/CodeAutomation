@@ -1,4 +1,12 @@
 ﻿contractor: GFG
-projectName: Chameleon
+projectName: SomeProject
 csvPath: c:\temp\Csv
-projectPath: c:\temp\Generated project
+templatesPath: C:\source\CodeAutomation\data\templates
+outputPath: c:\temp\Generated project
+multipleValues:
+- value: testValue1
+  nested:
+  - value: nestedValue1
+  - value: nestedValue2
+- value: testValue2
+- value: testValue3
