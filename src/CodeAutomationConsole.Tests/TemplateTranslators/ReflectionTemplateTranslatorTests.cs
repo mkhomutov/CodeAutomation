@@ -16,6 +16,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
             public Model SingleNested { get; set; }
             public List<string> MultipleStrings { get; set; }
             public List<Model> MultipleNested { get; set; }
+            public object DynamicDictionary { get; set; }
         }
 
         private Model CreateModel()
@@ -71,6 +72,17 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
                             "multiple nested multiple string 9",
                         }
                     }
+                },
+                DynamicDictionary = new Dictionary<object, object>()
+                {
+                    {"single", "single value"},
+                    {"multiple", new List<object>{ "value 1", "value 2", "value 3"}},
+                    {"nested", new Dictionary<object, object>
+                        {
+                            {"single", "nested single value"}, // TODO: add test case
+                            {"multiple", new List<string> {"nested value 1", "nested value 2", "nested value 3"}} // TODO: add test case
+                        }
+                    },
                 }
             };
 
@@ -221,6 +233,58 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
             {
                 Assert.Contains(result.TranslatedText, expectedValues);
                 Assert.AreEqual(expectedContextByValue[result.TranslatedText], result.Context);
+            }
+        }
+
+        [Test]
+        public void CanGetSingleStringDynamicValues()
+        {
+            var translator = new ReflectionTemplateTranslator();
+
+            var model = CreateModel();
+
+            var translationContext = new TranslationContext
+            {
+                Context = model,
+                Text = $"{nameof(Model.DynamicDictionary)}.single"
+            };
+
+            var results = translator.Translate(translationContext);
+
+            var singleResult = results.Single();
+
+            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
+
+            Assert.AreEqual(dictionary["single"], singleResult.TranslatedText);
+            Assert.AreEqual(dictionary, singleResult.Context);
+        }
+
+        [Test]
+        public void CanGetMultipleStringDynamicValue()
+        {
+            var translator = new ReflectionTemplateTranslator();
+
+            var model = CreateModel();
+
+            var translationContext = new TranslationContext
+            {
+                Context = model,
+                Text = $"{nameof(Model.DynamicDictionary)}.multiple"
+            };
+
+            var results = translator.Translate(translationContext);
+
+            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
+
+            var multipleValues = (List<object>)dictionary["multiple"];
+            var expectedValues = multipleValues.Select(x => x).ToList();
+
+            Assert.AreEqual(results.Count, expectedValues.Count);
+
+            foreach (var result in results)
+            {
+                Assert.Contains(result.TranslatedText, expectedValues);
+                Assert.AreEqual(dictionary, result.Context);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -54,6 +55,35 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
         }
 
         var value = getter.Invoke(context, null);
+        if (value is IDictionary<object, object> dictionary)
+        {
+            if(dictionary.TryGetValue(childPropertyName, out var childValue))
+            {
+                if (childValue is string strChildValue)
+                {
+                    result.Add( new TranslationResult
+                    {
+                        Context = dictionary,
+                        TranslatedText = strChildValue
+                    });
+                }
+
+                if (childValue is IEnumerable enumerableChildValue and not string)
+                {
+                    foreach (var strChildValueItem in enumerableChildValue.OfType<string>())
+                    {
+                        result.Add( new TranslationResult
+                        {
+                            Context = dictionary,
+                            TranslatedText = strChildValueItem
+                        });
+                    }
+                }
+
+                return result;
+            }
+        }
+
         if (value is IEnumerable enumerableValue and not string)
         {
             foreach (var item in enumerableValue)
