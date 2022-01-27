@@ -16,8 +16,8 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
         var result = new List<TranslationResult>();
 
         var template = translationContext.Text;
-        var context = translationContext.SolutionItem?.Context ?? translationContext.Context;
-        var rootContext = translationContext.SolutionItem?.GetRoot().Context ?? context;
+        var context = translationContext.Context;
+        var rootContext = translationContext.RootContext;
 
         if (context is null)
         {

@@ -46,7 +46,8 @@ public abstract class SolutionItem : ICloneable
         {
             var translationContext = new TranslationContext
             {
-                SolutionItem = this,
+                RootContext = this.GetRoot().Context,
+                Context = Context,
                 Text = Name
             };
 
