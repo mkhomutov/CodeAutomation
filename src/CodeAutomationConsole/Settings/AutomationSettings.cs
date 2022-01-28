@@ -13,6 +13,7 @@ namespace CodeAutomationConsole
         public string TemplatesPath { get; set; }
         public object Config { get; set; }
 
+
         public static AutomationSettings Load(string path)
         {
             using var sr = new StreamReader(path, Encoding.Default);
