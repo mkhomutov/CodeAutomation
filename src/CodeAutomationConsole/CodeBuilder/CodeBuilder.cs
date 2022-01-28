@@ -20,7 +20,7 @@ namespace CodeAutomationConsole
         {
             var solutionTree = new SolutionTree(_settings.TemplatesPath, _settings);
 
-            UpdateCsvDetails(_settings);
+           // UpdateCsvDetails(_settings);
 
             solutionTree = BuildCode(_settings, solutionTree);
 
@@ -31,23 +31,23 @@ namespace CodeAutomationConsole
 
         private void UpdateCsvDetails(AutomationSettings settings)
         {
-            var files = Directory.GetFiles(settings.CsvPath, "*.csv");
+            //var files = Directory.GetFiles(settings.CsvPath, "*.csv");
 
-            settings.CsvList.Clear();
+            //settings.CsvList.Clear();
 
-            foreach (var file in files)
-            {
-                var fileName = Path.GetFileNameWithoutExtension(file);
+            //foreach (var file in files)
+            //{
+            //    var fileName = Path.GetFileNameWithoutExtension(file);
 
-                var csv = new CsvListMember
-                {
-                    Name = fileName,
-                    ClassName = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName,
-                    Details = new ParseCSV(file).Details
-                };
+            //    var csv = new CsvListMember
+            //    {
+            //        Name = fileName,
+            //        ClassName = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName,
+            //        Details = new ParseCSV(file).Details
+            //    };
 
-                settings.CsvList.Add(csv);
-            }
+            //    settings.CsvList.Add(csv);
+            //}
         }
 
         private SolutionTree BuildCode(AutomationSettings settings, SolutionTree solutionTree)

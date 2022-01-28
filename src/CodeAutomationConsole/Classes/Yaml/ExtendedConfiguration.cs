@@ -8,9 +8,9 @@
 
         public ExtendedConfiguration(AutomationSettings initialConfig)
         {
-            CsvImportPath = initialConfig.CsvPath;
+            CsvImportPath = "";//initialConfig.CsvPath;
             CodeExportPath = initialConfig.OutputPath;
-            NameSpace = $"SES.Projects.{initialConfig.Contractor}.{initialConfig.ProjectName}";
+            NameSpace = ""; //$"SES.Projects.{initialConfig.Contractor}.{initialConfig.ProjectName}";
 
             CsvList = new List<CsvListMember>();
 

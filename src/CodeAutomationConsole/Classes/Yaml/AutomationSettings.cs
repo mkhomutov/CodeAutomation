@@ -7,23 +7,11 @@ namespace CodeAutomationConsole
 {
     using System.Collections.Generic;
 
-    public class ValueContainer
-    {
-        public string Value { get; set; }
-        public List<ValueContainer> Nested { get; set; }
-    }
-
     public class AutomationSettings
     {
-        public string Contractor { get; set; }
-        public string ProjectName { get; set; }
-        public string CsvPath { get; set; }
         public string OutputPath { get; set; }
         public string TemplatesPath { get; set; }
-        public string NameSpace { get; set; }
-        public List<ValueContainer> MultipleValues { get; set; }
-
-        public List<CsvListMember> CsvList { get; set; } = new List<CsvListMember>();
+        public object Config { get; set; }
 
         public static AutomationSettings Load(string path)
         {
@@ -52,14 +40,6 @@ namespace CodeAutomationConsole
 
             File.WriteAllText(path, content);
         }
-
-        //public Dictionary<object, object> LoadMetadata(string path)
-        //{
-        //    using var textReader = new StreamReader(path);
-        //    var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
-
-        //    return (Dictionary<object, object>)deserializer.Deserialize(textReader);
-        //}
     }
 
     public class DataSource

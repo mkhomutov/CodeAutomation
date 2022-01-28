@@ -15,7 +15,7 @@
 
             var mainView = extendedConfig.GetProjectView("MainView");
 
-            var files = GetFiles(initialConfig.CsvPath);
+            var files = GetFiles(""/*initialConfig.CsvPath*/);
 
             foreach (var file in files)
             {

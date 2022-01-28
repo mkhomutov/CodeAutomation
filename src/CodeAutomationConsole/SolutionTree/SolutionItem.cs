@@ -19,9 +19,14 @@ public abstract class SolutionItem : ICloneable
     protected SolutionItem(SolutionItem obj)
     {
         Name = obj.Name;
+        Context = obj.Context;
+
         foreach (var child in obj.Children)
         {
-            AddChild((SolutionItem)child.Clone());
+            var solutionItem = (SolutionItem)child.Clone();
+            solutionItem.Context = child.Context;
+
+            AddChild(solutionItem);
         }
     }
 

@@ -15,7 +15,7 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
     {
         var result = new List<TranslationResult>();
 
-        var template = translationContext.Text;
+        var text = translationContext.Text;
         var context = translationContext.Context;
         var rootContext = translationContext.RootContext;
 
@@ -24,14 +24,24 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
             return result;
         }
 
-        var dotIndex = template.IndexOf('.');
-        var propertyName = template;
+        var dotIndex = text.IndexOf('.');
+        var propertyName = text;
         var childPropertyName = string.Empty;
+
+        var contextDictionary = ToDictionary(context);
+        if (contextDictionary is not null)
+        {
+            result.AddRange(GetValueFromDictionary(contextDictionary, propertyName));
+            if (result.Any())
+            {
+                return result;
+            }
+        }
 
         if (dotIndex > 0)
         {
-            propertyName = template.Substring(0, dotIndex);
-            childPropertyName = template.Substring(dotIndex + 1);
+            propertyName = text.Substring(0, dotIndex);
+            childPropertyName = text.Substring(dotIndex + 1);
         }
 
         if(!_gettersCache.TryGetValue(propertyName, out var gettersByType))
@@ -51,37 +61,18 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
 
         if (getter is null)
         {
-            return result;
+            return Translate(new TranslationContext
+            {
+                Context = rootContext,
+                Text = text
+            });
         }
 
         var value = getter.Invoke(context, null);
-        if (value is IDictionary<object, object> dictionary)
+        var dictionary = ToDictionary(value);
+        if (dictionary is not null)
         {
-            if(dictionary.TryGetValue(childPropertyName, out var childValue))
-            {
-                if (childValue is string strChildValue)
-                {
-                    result.Add( new TranslationResult
-                    {
-                        Context = dictionary,
-                        TranslatedText = strChildValue
-                    });
-                }
-
-                if (childValue is IEnumerable enumerableChildValue and not string)
-                {
-                    foreach (var strChildValueItem in enumerableChildValue.OfType<string>())
-                    {
-                        result.Add( new TranslationResult
-                        {
-                            Context = dictionary,
-                            TranslatedText = strChildValueItem
-                        });
-                    }
-                }
-
-                return result;
-            }
+            return GetValueFromDictionary(dictionary, childPropertyName);
         }
 
         if (value is IEnumerable enumerableValue and not string)
@@ -108,6 +99,82 @@ public class ReflectionTemplateTranslator : ITemplateTranslator
                 Context = childValue.Context ?? context,
                 TranslatedText = childValue.TranslatedText
             });
+        }
+
+        return result;
+    }
+
+    private IDictionary<object, object> ToDictionary(object obj)
+    {
+        if (obj is List<object> list && list.All(x => x is IDictionary<object, object>))
+        {
+            return list.OfType<IDictionary<object, object>>().SelectMany(x => x).ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        if (obj is IDictionary<object, object> dictionary)
+        {
+            return dictionary;
+        }
+
+        return null;
+    }
+
+    private IReadOnlyCollection<TranslationResult> GetValueFromDictionary(IDictionary<object, object> dictionary, string propertyName)
+    {
+        var result = new List<TranslationResult>();
+
+        if (dictionary is null)
+        {
+            return result;
+        }
+
+        var dotIndex = propertyName.IndexOf('.');
+        var childPropertyName = string.Empty;
+
+        if (dotIndex > 0)
+        {
+            childPropertyName = propertyName.Substring(dotIndex + 1);
+            propertyName = propertyName.Substring(0, dotIndex);
+        }
+
+        if(dictionary.TryGetValue(propertyName, out var value))
+        {
+            if (value is string strChildValue)
+            {
+                result.Add( new TranslationResult
+                {
+                    Context = dictionary,
+                    TranslatedText = strChildValue
+                });
+
+                return result;
+            }
+
+            if (value is IEnumerable enumerableValue and not string)
+            {
+                foreach (var item in enumerableValue)
+                {
+                    foreach (var childValue in GetChildValues(item, childPropertyName))
+                    {
+                        result.Add( new TranslationResult
+                        {
+                            Context = childValue.Context ?? dictionary,
+                            TranslatedText = childValue.TranslatedText
+                        });
+                    }
+                }
+
+                return result;
+            }
+
+            foreach (var childValue in GetChildValues(value, childPropertyName))
+            {
+                result.Add(new TranslationResult
+                {
+                    Context = childValue.Context ?? dictionary,
+                    TranslatedText = childValue.TranslatedText
+                });
+            }
         }
 
         return result;
