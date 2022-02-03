@@ -1,64 +1,12 @@
-﻿templatesPath: C:\source\CodeAutomation\data\templates
-outputPath: c:\temp\Generated project
+﻿outputPath: c:\temp\Generated project
+templatesPath: C:\source\CodeAutomation\data\templates
+config:
+  csvPath: c:\temp\Csv
+  project:
+    name: ExampleProject
+    csvList: []
 dataSource:
   settingsProcessor: default
   dataSourceType: csv
-  connectionString: c:\temp\Csv
   culture: en-AU
-config:
-- project:
-    name: ExampleProject
-    csvList:
-    - file: Carriers
-      className: Carrier
-      fields:
-      - name: CarrierName
-    - file: FleetCapacity
-      className: FleetCapacity
-      fields:
-      - name: TruckCode
-      - name: BaseFleet
-        type: double
-      - name: AutoAllocateFleet
-        type: double
-      - name: FirstDropQuantity
-        type: double
-      - name: AutoAllocateQuantity
-        type: double
-      - name: LoadTurnaroundTime
-        type: double
-    - file: FleetResources
-      className: FleetResource
-      fields:
-      - name: RegoNumber
-      - name: TruckCode
-    - file: MachineSiteSetups
-      className: MachineSiteSetup
-      fields:
-      - name: BranchCode
-        type: double
-      - name: RCCPValid
-        type: bool
-      - name: MachAbrev
-      - name: ValidMC
-        type: bool
-      - name: Comments
-      - name: MachineType
-      - name: MCLoc
-      - name: LocalEfficiency
-        type: double
-      - name: BndlKg
-      - name: StartTime
-      - name: EndTime
-    - file: ShapeCodes
-      className: ShapeCode
-      fields:
-      - name: Shape Code
-        alias: ShapeCode
-      - name: Efficiency
-        type: double
-      - file: SiteHolidays
-        className: SiteHoliday
-        fields:
-        - name: Holiday
-        - name: Description
+  connectionString: c:\temp\Csv
