@@ -23,9 +23,9 @@
 
                 var csv = new CsvListMember();
 
-                csv.Name = fileName;
+                csv.File = fileName;
                 csv.ClassName = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName;
-                csv.Details = new ParseCSV(file).Details;
+                csv.Fields = new ParseCSV(file).Details;
 
                 extendedConfig.CsvList.Add(csv);
 
@@ -36,10 +36,10 @@
                 mainView.Tabs = new List<ViewTab>();
                 extendedConfig.CsvList.ForEach(x =>
                 {
-                    var tab = new ViewTab(x.ClassName, x.Name);
+                    var tab = new ViewTab(x.ClassName, x.File);
                     var content = new Content();
 
-                    var dataGrid = new DataGrid(x.Details);
+                    var dataGrid = new DataGrid(x.Fields);
                     content.DataGrid = dataGrid;
 
                     tab.Content.Add(content);

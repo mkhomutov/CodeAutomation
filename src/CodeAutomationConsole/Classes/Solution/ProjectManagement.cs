@@ -8,17 +8,17 @@
         public static void Save()
         {
             var masterDataCollections = Global.Config.CsvList.
-                Select(x => $"public IReadOnlyCollection<{x.ClassName}> {x.Name} {{ get; set; }}").
+                Select(x => $"public IReadOnlyCollection<{x.ClassName}> {x.File} {{ get; set; }}").
                 ToArray().
                 JoinWithTabs(2);
 
             var files = Global.Config.CsvList.
-                Select(x => $"var {x.ClassName}File = Path.Combine(location, FileNames.{x.Name});").
+                Select(x => $"var {x.ClassName}File = Path.Combine(location, FileNames.{x.File});").
                 ToArray().
                 JoinWithTabs(2);
 
             var projectMasterData = Global.Config.CsvList.
-                Select(x => $"project.MasterData.{x.Name} = _projectSerializationService.LoadRecords<{x.ClassName}, {x.ClassName}Map>({x.ClassName}File);").
+                Select(x => $"project.MasterData.{x.File} = _projectSerializationService.LoadRecords<{x.ClassName}, {x.ClassName}Map>({x.ClassName}File);").
                 ToArray().
                 JoinWithTabs(2);
 
