@@ -12,5 +12,12 @@
 
         public DataGrid DataGrid { get; set; }
 
+        public Dictionary<object, object> ToObject()
+        {
+            return new Dictionary<object, object>
+            {
+                { "dataGrid", DataGrid.ToObject() }
+            };
+        }
     }
 }

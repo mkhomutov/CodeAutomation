@@ -26,7 +26,7 @@
             ViewModelContent = Template.GetByName("[DataGridViewModel].cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%CLASSNAME%", tab.RelatedClassName).
-                Replace("%CSVNAME%", tab.FromCsv).
+                Replace("%CSVNAME%", tab.RelatedFileName).
                 Replace("%ADDCOLUMNS%", addColumns);
         }
     }

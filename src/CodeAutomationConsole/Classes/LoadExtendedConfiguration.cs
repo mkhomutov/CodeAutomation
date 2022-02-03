@@ -30,7 +30,7 @@
 
         public CsvListMember GetCsv(string name)
         {
-            return _configuration.CsvList.Find(x => string.Equals(x.Name, name));
+            return _configuration.CsvList.Find(x => string.Equals(x.File, name));
         }
 
         public ProjectView GetProjectView(string name)

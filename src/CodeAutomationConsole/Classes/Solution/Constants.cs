@@ -10,7 +10,7 @@
             var scopeNames = Global.Config.CsvList.Select(x => $"public const string {x.ClassName} = \"{x.ClassName}\";").
                 ToArray().
                 JoinWithTabs(1);
-            var fileNames = Global.Config.CsvList.Select(x => $"public const string {x.Name} = \"{x.Name}.csv\";").
+            var fileNames = Global.Config.CsvList.Select(x => $"public const string {x.File} = \"{x.File}.csv\";").
                 ToArray().
                 JoinWithTabs(1);
 

@@ -25,14 +25,14 @@
             get => _headers;
         }
 
-        public List<CsvDetails> Details
+        public List<FieldDetails> Details
         {
             get => GetDeatils(_path);
         }
 
-        public CsvDetails GetField(string name)
+        public FieldDetails GetField(string name)
         {
-            return Details.Find(x => string.Equals(name, x.Field));
+            return Details.Find(x => string.Equals(name, x.Name));
         }
 
         private string[] GetHeaders (string path)
@@ -65,9 +65,9 @@
             return headers;
         }
 
-        private List<CsvDetails> GetDeatils(string path)
+        private List<FieldDetails> GetDeatils(string path)
         {
-            var fields = new List<CsvDetails>();
+            var fields = new List<FieldDetails>();
 
             var csvReaderService = new CsvReaderService();
 
@@ -106,7 +106,7 @@
                         var fieldType = new ParseType(columnValues).Type;
                         var fieldAlias = headers[i].Equals(validPropertyName) ? null : validPropertyName;
 
-                        fields.Add(new CsvDetails(field: headers[i], type: fieldType, alias: fieldAlias));
+                        fields.Add(new FieldDetails(name: headers[i], type: fieldType, alias: fieldAlias));
                     }
 
                 }

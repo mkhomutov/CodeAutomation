@@ -55,7 +55,7 @@ namespace CodeAutomationConsole
     {
         public string Name { get; set; }
 
-        public List<CsvDetails> Columns { get; set; }
+        public List<FieldDetails> Columns { get; set; }
     }
 
     public class DataColumn
