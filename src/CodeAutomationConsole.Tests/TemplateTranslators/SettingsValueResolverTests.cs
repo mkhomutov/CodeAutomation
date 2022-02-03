@@ -89,77 +89,6 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
             return model;
         }
 
-        [Test]
-        public void CanGetSingleReflectionString()
-        {
-            var valueResolver = new SettingsValueResolver();
-
-            var model = CreateModel();
-
-            var value = valueResolver.TryGetValuesUsingReflection(model, nameof(Model.SingleString));
-
-            var singleValue = value;
-
-            Assert.AreEqual(model.SingleString, singleValue);
-        }
-
-        [Test]
-        public void CanGetMultipleReflectionString()
-        {
-            var valueResolver = new SettingsValueResolver();
-
-            var model = CreateModel();
-
-            var value = valueResolver.TryGetValuesUsingReflection(model, nameof(Model.MultipleStrings)) as IEnumerable;
-
-            var stringValues = value.OfType<string>().ToList();
-
-            Assert.AreEqual(model.MultipleStrings.Count(), stringValues.Count());
-
-            foreach (var singleValue in model.MultipleStrings)
-            {
-                Assert.Contains(singleValue, stringValues.ToList());
-            }
-        }
-
-        [Test]
-        public void CanGetSingleDynamicString()
-        {
-            var valueResolver = new SettingsValueResolver();
-
-            var model = CreateModel();
-
-            var value = valueResolver.TryGetValuesByKey(model.DynamicDictionary, "single");
-
-            var singleValue = value;
-
-            var dictionary = (IDictionary<object, object>)model.DynamicDictionary;
-            Assert.AreEqual((string)dictionary["single"], singleValue);
-        }
-
-        [Test]
-        public void CanGetMultipleDynamicString()
-        {
-            var valueResolver = new SettingsValueResolver();
-
-            var model = CreateModel();
-
-            var value = valueResolver.TryGetValuesByKey(model.DynamicDictionary, "multiple") as IEnumerable;
-
-            var stringValues = value.OfType<string>().ToList();
-
-            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
-
-            var multipleValues = (List<object>)dictionary["multiple"];
-            var expectedValues = multipleValues.Select(x => x).ToList();
-
-            Assert.AreEqual(stringValues.Count, expectedValues.Count);
-
-            foreach (var expectedValue in expectedValues)
-            {
-                Assert.Contains(expectedValue, stringValues.OfType<string>().ToList());
-            }
-        }
 
         [Test]
         public void CanGetSingleStringValue()
@@ -172,7 +101,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var singleResult = results.Single();
 
-            Assert.AreEqual(model.SingleString, singleResult.TranslatedText);
+            Assert.AreEqual(model.SingleString, singleResult.Value);
             Assert.AreEqual(model, singleResult.Context);
         }
 
@@ -189,7 +118,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, model.MultipleStrings);
+                Assert.Contains(result.Value, model.MultipleStrings);
                 Assert.AreEqual(model, result.Context);
             }
         }
@@ -205,7 +134,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var singleResult = results.Single();
 
-            Assert.AreEqual(model.SingleNested.SingleString, singleResult.TranslatedText);
+            Assert.AreEqual(model.SingleNested.SingleString, singleResult.Value);
             Assert.AreEqual(model.SingleNested, singleResult.Context);
         }
 
@@ -222,7 +151,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, model.SingleNested.MultipleStrings);
+                Assert.Contains(result.Value, model.SingleNested.MultipleStrings);
                 Assert.AreEqual(model.SingleNested, result.Context);
             }
         }
@@ -243,8 +172,8 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
-                Assert.AreEqual(expectedContextByValue[result.TranslatedText], result.Context);
+                Assert.Contains(result.Value, expectedValues);
+                Assert.AreEqual(expectedContextByValue[(string)result.Value], result.Context);
             }
         }
 
@@ -254,6 +183,9 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
             var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
+
+            var automationSettings = new AutomationSettings();
+            var res = valueResolver.TryGetValues(automationSettings, "Config.project.name");
 
             var results = valueResolver.TryGetValues(model, $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}");
 
@@ -266,8 +198,8 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
-                Assert.AreEqual(expectedContextByValue[result.TranslatedText], result.Context);
+                Assert.Contains(result.Value, expectedValues);
+                Assert.AreEqual(expectedContextByValue[(string)result.Value], result.Context);
             }
         }
 
@@ -284,7 +216,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
 
-            Assert.AreEqual(dictionary["single"], singleResult.TranslatedText);
+            Assert.AreEqual(dictionary["single"], singleResult.Value);
             Assert.AreEqual(dictionary, singleResult.Context);
         }
 
@@ -306,7 +238,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
+                Assert.Contains(result.Value, expectedValues);
                 Assert.AreEqual(dictionary, result.Context);
             }
         }

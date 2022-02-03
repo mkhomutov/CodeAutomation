@@ -5,5 +5,5 @@ namespace CodeAutomationConsole;
 
 public interface ITemplateTranslator
 {
-    IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext);
+    IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext);
 }

@@ -60,7 +60,7 @@ public abstract class SolutionItem : ICloneable
             foreach (var translationResult in translationResults)
             {
                 var solutionItem = (SolutionItem)Clone();
-                solutionItem.Name = translationResult.TranslatedText;
+                solutionItem.Name = (string)translationResult.Value;
                 solutionItem.Context = translationResult.Context;
 
                 Parent.AddChild(solutionItem);

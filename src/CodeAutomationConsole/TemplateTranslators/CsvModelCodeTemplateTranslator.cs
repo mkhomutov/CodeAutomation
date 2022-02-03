@@ -5,7 +5,7 @@ namespace CodeAutomationConsole;
 
 public class CsvModelCodeTemplateTranslator : ITemplateTranslator
 {
-    public IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext)
+    public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
     {
         throw new NotImplementedException();
     }

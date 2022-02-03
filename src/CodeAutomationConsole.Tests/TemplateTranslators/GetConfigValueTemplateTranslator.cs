@@ -106,7 +106,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var singleResult = results.Single();
 
-            Assert.AreEqual(model.SingleString, singleResult.TranslatedText);
+            Assert.AreEqual(model.SingleString, singleResult.Value);
             Assert.AreEqual(model, singleResult.Context);
         }
 
@@ -129,7 +129,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, model.MultipleStrings);
+                Assert.Contains(result.Value, model.MultipleStrings);
                 Assert.AreEqual(model, result.Context);
             }
         }
@@ -151,7 +151,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var singleResult = results.Single();
 
-            Assert.AreEqual(model.SingleNested.SingleString, singleResult.TranslatedText);
+            Assert.AreEqual(model.SingleNested.SingleString, singleResult.Value);
             Assert.AreEqual(model.SingleNested, singleResult.Context);
         }
 
@@ -174,7 +174,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, model.SingleNested.MultipleStrings);
+                Assert.Contains(result.Value, model.SingleNested.MultipleStrings);
                 Assert.AreEqual(model.SingleNested, result.Context);
             }
         }
@@ -201,8 +201,8 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
-                Assert.AreEqual(expectedContextByValue[result.TranslatedText], result.Context);
+                Assert.Contains(result.Value, expectedValues);
+                Assert.AreEqual(expectedContextByValue[(string)result.Value], result.Context);
             }
         }
 
@@ -231,8 +231,8 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
-                Assert.AreEqual(expectedContextByValue[result.TranslatedText], result.Context);
+                Assert.Contains(result.Value, expectedValues);
+                Assert.AreEqual(expectedContextByValue[(string)result.Value], result.Context);
             }
         }
 
@@ -255,7 +255,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
 
-            Assert.AreEqual(dictionary["single"], singleResult.TranslatedText);
+            Assert.AreEqual(dictionary["single"], singleResult.Value);
             Assert.AreEqual(dictionary, singleResult.Context);
         }
 
@@ -283,7 +283,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             foreach (var result in results)
             {
-                Assert.Contains(result.TranslatedText, expectedValues);
+                Assert.Contains(result.Value, expectedValues);
                 Assert.AreEqual(dictionary, result.Context);
             }
         }

@@ -11,7 +11,7 @@ public class GetConfigValueTemplateTranslator : ITemplateTranslator
 {
     private readonly SettingsValueResolver _settingsValueResolver = new SettingsValueResolver();
 
-    public IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext)
+    public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
     {
         var propertyPath = translationContext.Text;
         var context = translationContext.Context;
@@ -19,7 +19,7 @@ public class GetConfigValueTemplateTranslator : ITemplateTranslator
 
         if (context is null)
         {
-            return new List<TranslationResult>();
+            return new List<SettingValue>();
         }
 
         var result = _settingsValueResolver.TryGetValues(context, propertyPath)

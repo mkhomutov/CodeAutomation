@@ -10,13 +10,13 @@ namespace CodeAutomationConsole
     {
         private readonly ITemplateTranslator _reflectionTemplateTranslator = new GetConfigValueTemplateTranslator();
 
-        public IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext)
+        public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
         {
             var rootContext = translationContext.RootContext;
             var context = translationContext.Context;
             var template = translationContext.Text;
 
-            var dictionary = new Dictionary<string, IReadOnlyCollection<TranslationResult>>();
+            var dictionary = new Dictionary<string, IReadOnlyCollection<SettingValue>>();
 
             // #[param]
             // #[param.name]
@@ -39,11 +39,11 @@ namespace CodeAutomationConsole
                 dictionary["#" + argument] = parser.Translate(customContext).ToList();
             }
 
-            var finalResult = new List<TranslationResult>
+            var finalResult = new List<SettingValue>
             {
-                new TranslationResult
+                new SettingValue
                 {
-                    TranslatedText = template,
+                    Value = template,
                     Context = context
                 }
             };
@@ -59,9 +59,9 @@ namespace CodeAutomationConsole
                 {
                     foreach (var value in keyValuePair.Value)
                     {
-                        var result = new TranslationResult()
+                        var result = new SettingValue()
                         {
-                            TranslatedText = preResult.TranslatedText.Replace(key, value.TranslatedText),
+                            Value = ((string)preResult.Value).Replace(key, (string)value.Value),
                             Context = value.Context
                         };
 

@@ -2,8 +2,8 @@
 
 namespace CodeAutomationConsole;
 
-public class TranslationResult
+public class SettingValue
 {
-    public string TranslatedText { get; set; }
+    public object Value { get; set; }
     public object Context { get; set; }
 }

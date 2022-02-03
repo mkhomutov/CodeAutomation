@@ -11,9 +11,9 @@ public class SettingsValueResolver
 {
     private readonly Dictionary<string, Dictionary<Type, MethodInfo>> _gettersCache = new Dictionary<string, Dictionary<Type, MethodInfo>>();
 
-    public IReadOnlyCollection<TranslationResult> TryGetValues(object obj, string propertyPath)
+    public IReadOnlyCollection<SettingValue> TryGetValues(object obj, string propertyPath)
     {
-        var result = new List<TranslationResult>();
+        var result = new List<SettingValue>();
 
         var properties = propertyPath.Split('.');
         var stack = new Stack<string>();
@@ -79,9 +79,9 @@ public class SettingsValueResolver
 
                 if (values.Any())
                 {
-                    result.AddRange(values.Select(x => new TranslationResult
+                    result.AddRange(values.Select(x => new SettingValue
                     {
-                        TranslatedText = x.Value.ToString(),
+                        Value = x.Value,
                         Context = values.Count > 1 ? x.Key : context
                     }));
                 }
@@ -91,7 +91,7 @@ public class SettingsValueResolver
         return result;
     }
 
-    public object TryGetValuesUsingReflection(object obj, string propertyName)
+    private object TryGetValuesUsingReflection(object obj, string propertyName)
     {
         if(!_gettersCache.TryGetValue(propertyName, out var gettersByType))
         {
@@ -117,7 +117,7 @@ public class SettingsValueResolver
         return value;
     }
 
-    public object TryGetValuesByKey(object obj, string key)
+    private object TryGetValuesByKey(object obj, string key)
     {
         if (obj is IDictionary<object, object> dictionary && dictionary.TryGetValue(key, out var value))
         {
