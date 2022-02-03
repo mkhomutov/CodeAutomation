@@ -184,9 +184,6 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var model = CreateModel();
 
-            var automationSettings = new AutomationSettings();
-            var res = valueResolver.TryGetValues(automationSettings, "Config.project.name");
-
             var results = valueResolver.TryGetValues(model, $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}");
 
             var expectedValues = model.MultipleNested.SelectMany(x => x.MultipleStrings).ToList();
