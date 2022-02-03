@@ -12,6 +12,7 @@ namespace CodeAutomationConsole
         public string OutputPath { get; set; }
         public string TemplatesPath { get; set; }
         public object Config { get; set; }
+        public DataSource DataSource { get; set; }
 
 
         public static AutomationSettings Load(string path)
@@ -45,10 +46,10 @@ namespace CodeAutomationConsole
 
     public class DataSource
     {
+        public string SettingsProcessor { get; set; }
         public string DataSourceType { get; set; } // CSV, DataBase, Excel
         public string Culture { get; set; }
-        public List<DataItem> Tables { get; set; }
-
+        public string ConnectionString { get; set; }
     }
 
     public class DataItem

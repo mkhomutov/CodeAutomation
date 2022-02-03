@@ -8,7 +8,7 @@ namespace CodeAutomationConsole
 {
     public class MainTemplateTranslator : ITemplateTranslator
     {
-        private readonly ITemplateTranslator _reflectionTemplateTranslator = new ReflectionTemplateTranslator();
+        private readonly ITemplateTranslator _reflectionTemplateTranslator = new GetConfigValueTemplateTranslator();
 
         public IReadOnlyCollection<TranslationResult> Translate(TranslationContext translationContext)
         {

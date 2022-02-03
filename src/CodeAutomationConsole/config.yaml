@@ -1,10 +1,14 @@
 ﻿templatesPath: C:\source\CodeAutomation\data\templates
 outputPath: c:\temp\Generated project
+dataSource:
+  settingsProcessor: default
+  dataSourceType: csv
+  connectionString: c:\temp\Csv
+  culture: en-AU
 config:
-- csvPath: c:\temp\Csv
 - project:
-  - name: ExampleProject
-  - csvList:
+    name: ExampleProject
+    csvList:
     - file: Carriers
       className: Carrier
       fields:

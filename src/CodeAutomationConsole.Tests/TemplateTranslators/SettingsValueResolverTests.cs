@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace CodeAutomationConsole.Tests.TemplateTranslators
 {
-    public class ReflectionTemplateTranslatorTests
+    public class SettingsValueResolverTests
     {
         private class Model
         {
@@ -90,19 +90,85 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         }
 
         [Test]
-        public void CanGetSingleStringValue()
+        public void CanGetSingleReflectionString()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = nameof(Model.SingleString)
-            };
+            var value = valueResolver.TryGetValuesUsingReflection(model, nameof(Model.SingleString));
 
-            var results = translator.Translate(translationContext);
+            var singleValue = value;
+
+            Assert.AreEqual(model.SingleString, singleValue);
+        }
+
+        [Test]
+        public void CanGetMultipleReflectionString()
+        {
+            var valueResolver = new SettingsValueResolver();
+
+            var model = CreateModel();
+
+            var value = valueResolver.TryGetValuesUsingReflection(model, nameof(Model.MultipleStrings)) as IEnumerable;
+
+            var stringValues = value.OfType<string>().ToList();
+
+            Assert.AreEqual(model.MultipleStrings.Count(), stringValues.Count());
+
+            foreach (var singleValue in model.MultipleStrings)
+            {
+                Assert.Contains(singleValue, stringValues.ToList());
+            }
+        }
+
+        [Test]
+        public void CanGetSingleDynamicString()
+        {
+            var valueResolver = new SettingsValueResolver();
+
+            var model = CreateModel();
+
+            var value = valueResolver.TryGetValuesByKey(model.DynamicDictionary, "single");
+
+            var singleValue = value;
+
+            var dictionary = (IDictionary<object, object>)model.DynamicDictionary;
+            Assert.AreEqual((string)dictionary["single"], singleValue);
+        }
+
+        [Test]
+        public void CanGetMultipleDynamicString()
+        {
+            var valueResolver = new SettingsValueResolver();
+
+            var model = CreateModel();
+
+            var value = valueResolver.TryGetValuesByKey(model.DynamicDictionary, "multiple") as IEnumerable;
+
+            var stringValues = value.OfType<string>().ToList();
+
+            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
+
+            var multipleValues = (List<object>)dictionary["multiple"];
+            var expectedValues = multipleValues.Select(x => x).ToList();
+
+            Assert.AreEqual(stringValues.Count, expectedValues.Count);
+
+            foreach (var expectedValue in expectedValues)
+            {
+                Assert.Contains(expectedValue, stringValues.OfType<string>().ToList());
+            }
+        }
+
+        [Test]
+        public void CanGetSingleStringValue()
+        {
+            var valueResolver = new SettingsValueResolver();
+
+            var model = CreateModel();
+
+            var results = valueResolver.TryGetValues(model, nameof(Model.SingleString));
 
             var singleResult = results.Single();
 
@@ -113,17 +179,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringValues()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = nameof(Model.MultipleStrings)
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, nameof(Model.MultipleStrings));
 
             Assert.AreEqual(results.Count, model.MultipleStrings.Count);
 
@@ -137,17 +197,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedSingleStringValue()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.SingleNested)}.{nameof(Model.SingleString)}"
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.SingleNested)}.{nameof(Model.SingleString)}");
 
             var singleResult = results.Single();
 
@@ -158,17 +212,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedMultipleStringValue()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.SingleNested)}.{nameof(Model.MultipleStrings)}"
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.SingleNested)}.{nameof(Model.MultipleStrings)}");
 
             Assert.AreEqual(results.Count, model.SingleNested.MultipleStrings.Count);
 
@@ -182,17 +230,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedSingleStringValues()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.MultipleNested)}.{nameof(Model.SingleString)}"
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.MultipleNested)}.{nameof(Model.SingleString)}");
 
             var expectedValues = model.MultipleNested.Select(x => x.SingleString).ToList();
             var expectedContextByValue = model.MultipleNested.ToDictionary(x => x.SingleString, x => x);
@@ -209,18 +251,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedMultipleStringValues()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}"
-            };
-
-            var results = translator.Translate(translationContext);
-
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}");
 
             var expectedValues = model.MultipleNested.SelectMany(x => x.MultipleStrings).ToList();
             var expectedContextByValue = model.MultipleNested
@@ -239,17 +274,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleStringDynamicValues()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.DynamicDictionary)}.single"
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.DynamicDictionary)}.single");
 
             var singleResult = results.Single();
 
@@ -262,17 +291,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringDynamicValue()
         {
-            var translator = new ReflectionTemplateTranslator();
+            var valueResolver = new SettingsValueResolver();
 
             var model = CreateModel();
 
-            var translationContext = new TranslationContext
-            {
-                Context = model,
-                Text = $"{nameof(Model.DynamicDictionary)}.multiple"
-            };
-
-            var results = translator.Translate(translationContext);
+            var results = valueResolver.TryGetValues(model, $"{nameof(Model.DynamicDictionary)}.multiple");
 
             var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
 
