@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 namespace CodeAutomationConsole;
 
@@ -45,5 +46,25 @@ public class SolutionFile : SolutionItem
     public override object Clone()
     {
         return new SolutionFile(this);
+    }
+
+    public override void TranslateTemplate()
+    {
+        base.TranslateTemplate();
+
+        if (IsTemplate)
+        {
+            return;
+        }
+
+        var translationContext = new TranslationContext
+        {
+            RootContext = this.GetRoot().Context,
+            Context = Context,
+            Argument = Content
+        };
+
+        var translationResults = Translator.Translate(translationContext);
+        Content = (string)translationResults.FirstOrDefault()?.Value;
     }
 }

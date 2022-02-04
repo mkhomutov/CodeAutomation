@@ -5,7 +5,7 @@ using Gum;
 using Gum.Commands;
 using Orc.ProjectManagement;
 
-namespace %PROJECTNAMESPACE%.Commands
+namespace #[$Namespace(name)]#.Commands
 {
     public class ProjectOpenCommandContainer : ProjectOpenAsDirectoryCommandContainerBase
     {

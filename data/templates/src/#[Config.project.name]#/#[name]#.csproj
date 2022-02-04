@@ -4,8 +4,8 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <SelfContained>true</SelfContained>
-    <AssemblyName>%PROJECTNAMESPACE%</AssemblyName>
-    <RootNamespace>%PROJECTNAMESPACE%</RootNamespace>
+    <AssemblyName>#[$AssemblyName(name)]#</AssemblyName>
+    <RootNamespace>#[$Namespace(name)]#</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <SonarQubeExclude>true</SonarQubeExclude>
     <UseWpf>true</UseWpf>
@@ -17,7 +17,8 @@
     <NoWarn>$(NoWarn);SA1652</NoWarn>
     <ApplicationIcon>Resources\Icons\Logo.ico</ApplicationIcon>
     <ApplicationManifest>.manifest</ApplicationManifest>
-    <ProjectGuid>%PROJECTGUID2%</ProjectGuid>
+	<!-- SonarQube requires a project guid -->
+    <ProjectGuid>#[$Guid(2)]#</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.6.0" PrivateAssets="all">

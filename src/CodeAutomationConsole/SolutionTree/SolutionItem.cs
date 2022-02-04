@@ -10,7 +10,7 @@ public abstract class SolutionItem : ICloneable
 {
     private readonly List<SolutionItem> _children = new List<SolutionItem>();
 
-    private static readonly ITemplateTranslator Translator = new MainTemplateTranslator();
+    protected static readonly ITemplateTranslator Translator = new MainTemplateTranslator();
 
     protected SolutionItem()
     {
@@ -44,16 +44,15 @@ public abstract class SolutionItem : ICloneable
 
     public abstract void Save(string path);
 
-    public void TranslateTemplate()
+    public virtual void TranslateTemplate()
     {
-
         if (IsTemplate)
         {
             var translationContext = new TranslationContext
             {
                 RootContext = this.GetRoot().Context,
                 Context = Context,
-                Text = Name
+                Argument = Name
             };
 
             var translationResults = Translator.Translate(translationContext);

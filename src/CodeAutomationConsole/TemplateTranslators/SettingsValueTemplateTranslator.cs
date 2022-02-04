@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace CodeAutomationConsole;
 
-public class GetConfigValueTemplateTranslator : ITemplateTranslator
+public class SettingsValueTemplateTranslator : ITemplateTranslator
 {
     private readonly SettingsValueResolver _settingsValueResolver = new SettingsValueResolver();
 
     public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
     {
-        var propertyPath = translationContext.Text;
+        var propertyPath = translationContext.Argument;
         var context = translationContext.Context;
         var rootContext = translationContext.RootContext;
 
@@ -22,8 +22,11 @@ public class GetConfigValueTemplateTranslator : ITemplateTranslator
             return new List<SettingValue>();
         }
 
-        var result = _settingsValueResolver.TryGetValues(context, propertyPath)
-                     ?? _settingsValueResolver.TryGetValues(rootContext, propertyPath);
+        var result = _settingsValueResolver.TryGetValues(context, propertyPath);
+        if (result is null || !result.Any())
+        {
+            result = _settingsValueResolver.TryGetValues(rootContext, propertyPath);
+        }
 
         return result;
     }

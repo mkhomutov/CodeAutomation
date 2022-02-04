@@ -6,15 +6,26 @@ using System.Threading.Tasks;
 
 namespace CodeAutomationConsole
 {
-    public class MainTemplateTranslator : ITemplateTranslator
+    public class MainTemplateTranslator : TemplateTranslatorBase
     {
-        private readonly ITemplateTranslator _reflectionTemplateTranslator = new GetConfigValueTemplateTranslator();
+        private readonly Dictionary<string, ITemplateTranslator> _templateTranslators;
 
-        public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
+        public MainTemplateTranslator()
+        {
+            _templateTranslators = new Dictionary<string, ITemplateTranslator>()
+            {
+                { "Guid", new GuidTemplateTranslator() },
+                { "AssemblyName", new AssemblyNameTemplateTranslator() },
+                { "Namespace", new NamespaceTemplateTranslator() },
+                { "MapProperties", new MapPropertiesTemplateTranslator() },
+            };
+        }
+
+        public override IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
         {
             var rootContext = translationContext.RootContext;
             var context = translationContext.Context;
-            var template = translationContext.Text;
+            var template = translationContext.Argument;
 
             var dictionary = new Dictionary<string, IReadOnlyCollection<SettingValue>>();
 
@@ -25,47 +36,52 @@ namespace CodeAutomationConsole
             var arguments = ExtractTemplateArguments(template);
             foreach (var argument in arguments)
             {
-                var trimmedArgument = argument.Trim('[', ']');
-                var parser = GetCustomParser(trimmedArgument);
-                var parameter = GetParserParameter(trimmedArgument);
+                var parser = GetCustomParser(argument);
+                var parameter = GetParserParameter(argument);
 
                 var customContext = new TranslationContext
                 {
                     RootContext = rootContext,
                     Context = context,
-                    Text = parameter
+                    Argument = parameter
                 };
 
-                dictionary["#" + argument] = parser.Translate(customContext).ToList();
+                dictionary["#[" + argument + "]#"] = parser.Translate(customContext).ToList();
             }
 
-            var finalResult = new List<SettingValue>
+            var resultsCount = 1;
+            foreach (var count in dictionary.Select(x => x.Value.Count))
             {
-                new SettingValue
+                resultsCount *= count;
+            }
+
+            if (resultsCount == 0)
+            {
+            }
+
+            var finalResult = new List<SettingValue>();
+
+            for (var i = 0; i < resultsCount; i++)
+            {
+                finalResult.Add(new SettingValue
                 {
                     Value = template,
                     Context = context
-                }
-            };
+                });
+            }
 
             foreach (var keyValuePair in dictionary)
             {
                 var key = keyValuePair.Key;
 
-                var preResults = finalResult.ToList();
-                finalResult.Clear();
-
-                foreach (var preResult in preResults)
+                var index = 0;
+                while (index < finalResult.Count)
                 {
-                    foreach (var value in keyValuePair.Value)
+                    foreach (var item in keyValuePair.Value)
                     {
-                        var result = new SettingValue()
-                        {
-                            Value = ((string)preResult.Value).Replace(key, (string)value.Value),
-                            Context = value.Context
-                        };
-
-                        finalResult.Add(result);
+                        var settingValue = finalResult[index++];
+                        settingValue.Value = ((string)settingValue.Value).Replace(key, (string)item.Value);
+                        settingValue.Context = item.Context;
                     }
                 }
             }
@@ -77,11 +93,16 @@ namespace CodeAutomationConsole
         {
             if (template.StartsWith('$'))
             {
-                throw new NotImplementedException();
+                template = template.TrimStart('$');
+                var endIndex = template.IndexOf('(');
+                var translatorName = template.Substring(0, endIndex);
+
+                _templateTranslators.TryGetValue(translatorName, out var templateTranslator);
+                return templateTranslator;
             }
             else
             {
-                return _reflectionTemplateTranslator;
+                return SettingsValueTemplateTranslator;
             }
         }
 
@@ -89,7 +110,9 @@ namespace CodeAutomationConsole
         {
             if (template.StartsWith('$'))
             {
-                throw new NotImplementedException();
+                var startIndex = template.IndexOf('(') + 1;
+                var endIndex = template.IndexOf(')', startIndex) - 1;
+                return template.Substring(startIndex, endIndex - startIndex + 1);
             }
             else
             {
@@ -102,20 +125,18 @@ namespace CodeAutomationConsole
             var template = new StringBuilder();
             var bracketsCount = 0;
 
-            foreach (var ch in text)
+            for (var index = 0; index < text.Length; index++)
             {
-                // TODO work with #, which means start of the template
-                if (ch == '[')
+                var ch = text[index];
+                if (ch == '[' && index != 0 && text[index - 1] == '#')
                 {
                     bracketsCount++;
-                    template.Append(ch);
                     continue;
                 }
 
-                if (ch == ']')
+                if (ch == ']' && index < text.Length - 1 && text[index + 1] == '#')
                 {
                     bracketsCount--;
-                    template.Append(ch);
                 }
 
                 if (bracketsCount == 0 && template.Length > 0)

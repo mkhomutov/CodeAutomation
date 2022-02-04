@@ -92,14 +92,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleStringValue()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = nameof(Model.SingleString)
+                Argument = nameof(Model.SingleString)
             };
 
             var results = translator.Translate(translationContext);
@@ -113,14 +113,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringValues()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = nameof(Model.MultipleStrings)
+                Argument = nameof(Model.MultipleStrings)
             };
 
             var results = translator.Translate(translationContext);
@@ -137,14 +137,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedSingleStringValue()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.SingleNested)}.{nameof(Model.SingleString)}"
+                Argument = $"{nameof(Model.SingleNested)}.{nameof(Model.SingleString)}"
             };
 
             var results = translator.Translate(translationContext);
@@ -158,14 +158,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedMultipleStringValue()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.SingleNested)}.{nameof(Model.MultipleStrings)}"
+                Argument = $"{nameof(Model.SingleNested)}.{nameof(Model.MultipleStrings)}"
             };
 
             var results = translator.Translate(translationContext);
@@ -182,14 +182,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedSingleStringValues()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.MultipleNested)}.{nameof(Model.SingleString)}"
+                Argument = $"{nameof(Model.MultipleNested)}.{nameof(Model.SingleString)}"
             };
 
             var results = translator.Translate(translationContext);
@@ -209,14 +209,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedMultipleStringValues()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}"
+                Argument = $"{nameof(Model.MultipleNested)}.{nameof(Model.MultipleStrings)}"
             };
 
             var results = translator.Translate(translationContext);
@@ -239,14 +239,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleStringDynamicValues()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.DynamicDictionary)}.single"
+                Argument = $"{nameof(Model.DynamicDictionary)}.single"
             };
 
             var results = translator.Translate(translationContext);
@@ -262,14 +262,14 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringDynamicValue()
         {
-            var translator = new GetConfigValueTemplateTranslator();
+            var translator = new SettingsValueTemplateTranslator();
 
             var model = CreateModel();
 
             var translationContext = new TranslationContext
             {
                 Context = model,
-                Text = $"{nameof(Model.DynamicDictionary)}.multiple"
+                Argument = $"{nameof(Model.DynamicDictionary)}.multiple"
             };
 
             var results = translator.Translate(translationContext);
