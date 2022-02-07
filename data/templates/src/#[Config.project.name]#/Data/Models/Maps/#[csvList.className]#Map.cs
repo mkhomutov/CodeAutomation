@@ -7,7 +7,7 @@ public sealed class #[className]#Map : ClassMapBase<#[className]#>
     #region Constructors
     public #[className]#Map()
     {
-		#[$MapProperties(fields.name)]#
+		#[$CsvMap().ctor]#
     }
     #endregion
 }

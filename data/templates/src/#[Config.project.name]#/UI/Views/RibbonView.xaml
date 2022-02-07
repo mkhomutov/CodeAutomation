@@ -1,11 +1,11 @@
-<catel:UserControl x:Class="%PROJECTNAMESPACE%.UI.Views.RibbonView"
+<catel:UserControl x:Class="#[$Namespace(Config.project.name)]#.UI.Views.RibbonView"
                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:fluent="urn:fluent-ribbon"
                    xmlns:catel="http://schemas.catelproject.com"
                    xmlns:orchestra="http://schemas.wildgums.com/orchestra"
                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
-                   xmlns:%PROJECTNAME%="clr-namespace:%PROJECTNAMESPACE%"
+                   xmlns:%PROJECTNAME%="clr-namespace:#[$Namespace(Config.project.name)]#"
                    xmlns:gumui="http://schemas.wildgums.com/gum/controls"
                    xmlns:views="http://schemas.wildgums.com/gum/ui">
     <Grid>

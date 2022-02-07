@@ -1,7 +1,7 @@
 ﻿using Orc.ProjectManagement;
-using %PROJECTNAMESPACE%.Data.Models;
+using #[$Namespace(Config.project.name)]#.Data.Models;
 
-namespace %PROJECTNAMESPACE%.Data.ProjectManagement;
+namespace #[$Namespace(Config.project.name)]#.Data.ProjectManagement;
 
 public class Project : ProjectBase
 {

@@ -22,13 +22,13 @@ using Gum.Services;
 using Orc.FilterBuilder;
 using Orc.ProjectManagement;
 using Orc.Theming;
-using %PROJECTNAMESPACE%.Data.ProjectManagement;
+using #[$Namespace(Config.project.name)]#.Data.ProjectManagement;
 
-namespace %PROJECTNAMESPACE%.UI.Tabs.%CLASSNAME%.ViewModels;
+namespace #[$Namespace(Config.project.name)]#.UI.Tabs.%CLASSNAME%.ViewModels;
 
-public class %CLASSNAME%DataGridViewModel : IntegratedDataGridViewModelBase<Project, Data.Models.%CLASSNAME%>
+public class #[className]#DataGridViewModel : IntegratedDataGridViewModelBase<Project, Data.Models.#[className]#>
 {
-    private readonly DataGridConfiguration<Data.Models.%CLASSNAME%> _defaultConfiguration =
+    private readonly DataGridConfiguration<Data.Models.#[className]#> _defaultConfiguration =
         CreateDataGridConfiguration();
 
     public %CLASSNAME%DataGridViewModel(DataGridContext context, IProjectManager projectManager,

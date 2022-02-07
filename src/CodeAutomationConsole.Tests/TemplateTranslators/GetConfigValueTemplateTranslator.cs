@@ -92,7 +92,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleStringValue()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -113,7 +113,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringValues()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -137,7 +137,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedSingleStringValue()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -158,7 +158,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleNestedMultipleStringValue()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -182,7 +182,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedSingleStringValues()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -209,7 +209,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleNestedMultipleStringValues()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -239,7 +239,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetSingleStringDynamicValues()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 
@@ -262,7 +262,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
         [Test]
         public void CanGetMultipleStringDynamicValue()
         {
-            var translator = new SettingsValueTemplateTranslator();
+            var translator = new ValueResolver();
 
             var model = CreateModel();
 

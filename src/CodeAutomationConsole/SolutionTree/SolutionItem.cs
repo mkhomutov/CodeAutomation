@@ -10,7 +10,7 @@ public abstract class SolutionItem : ICloneable
 {
     private readonly List<SolutionItem> _children = new List<SolutionItem>();
 
-    protected static readonly ITemplateTranslator Translator = new MainTemplateTranslator();
+    protected static readonly ITemplateTranslator Translator = new MainTemplateResolver();
 
     protected SolutionItem()
     {

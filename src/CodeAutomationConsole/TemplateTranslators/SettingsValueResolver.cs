@@ -13,6 +13,18 @@ public class SettingsValueResolver
 
     public IReadOnlyCollection<SettingValue> TryGetValues(object obj, string propertyPath)
     {
+        if (string.IsNullOrEmpty(propertyPath))
+        {
+            return new[]
+            {
+                new SettingValue
+                {
+                    Context = obj,
+                    Value = obj
+                }
+            };
+        }
+
         var result = new List<SettingValue>();
 
         var properties = propertyPath.Split('.');

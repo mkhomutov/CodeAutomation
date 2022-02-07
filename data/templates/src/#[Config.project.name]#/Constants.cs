@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace %PROJECTNAMESPACE%;
+namespace #[$Namespace(name)]#;
 
 internal static class ScopeNames
 {
     //public const string CsvClassName = "CsvClassName";
-    %SCOPENAMES%
+    #[$ConstScopeNames(csvList.className)]#
 }
 
 internal static class FileNames

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace %PROJECTNAMESPACE%.UI.Models;
+namespace #[$Namespace(Config.project.name)]#.UI.Models;
 
 public class ProjectViewConfiguration
 {

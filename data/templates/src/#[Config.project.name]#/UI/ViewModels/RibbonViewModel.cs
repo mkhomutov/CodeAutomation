@@ -1,9 +1,9 @@
 ﻿using Catel.Fody;
 using Catel.MVVM;
 using Catel.Reflection;
-using %PROJECTNAMESPACE%.UI.Models;
+using #[$Namespace(Config.project.name)]#.UI.Models;
 
-namespace %PROJECTNAMESPACE%.UI.ViewModels;
+namespace #[$Namespace(Config.project.name)]#.UI.ViewModels;
 
 public sealed class RibbonViewModel : ViewModelBase
 {

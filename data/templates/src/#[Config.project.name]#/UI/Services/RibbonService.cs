@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using Orchestra.Services;
-using %PROJECTNAMESPACE%.UI.Views;
+using #[$Namespace(Config.project.name)]#.UI.Views;
 
-namespace %PROJECTNAMESPACE%.UI.Services;
+namespace #[$Namespace(Config.project.name)]#.UI.Services;
 
 public class RibbonService : IRibbonService
 {

@@ -1,5 +1,5 @@
 <Application xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="%PROJECTNAMESPACE%.App"
+             x:Class="#[$Namespace(Config.project.name)]#.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <Application.Resources>
         <ResourceDictionary>

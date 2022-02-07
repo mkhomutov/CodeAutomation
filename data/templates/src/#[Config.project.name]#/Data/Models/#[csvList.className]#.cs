@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace %PROJECTNAMESPACE%.Data.Models;
+namespace #[$Namespace(Config.project.name)]#.Data.Models;
 
-public class %CLASSNAME%
+public class #[className]#
 {
     #region Properties
-    // public string PropertyName { get; set; }
-    %PROPERTIES%
+    #[$CsvModelProperties(fields.name)]#
     #endregion
 }

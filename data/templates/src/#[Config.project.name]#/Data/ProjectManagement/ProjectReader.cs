@@ -6,11 +6,11 @@ using Gum.ProjectManagement;
 using Gum.Projects.Services;
 using Orc.FileSystem;
 using Orc.ProjectManagement;
-using %PROJECTNAMESPACE%.Data.Models;
-using %PROJECTNAMESPACE%.Data.Models.Maps;
+using #[$Namespace(Config.project.name)]#.Data.Models;
+using #[$Namespace(Config.project.name)]#.Data.Models.Maps;
 using ProjectReaderBase = Gum.ProjectManagement.ProjectReaderBase;
 
-namespace %PROJECTNAMESPACE%.Data.ProjectManagement;
+namespace #[$Namespace(Config.project.name)]#.Data.ProjectManagement;
 
 public class ProjectReader : ProjectReaderBase
 {
@@ -29,9 +29,7 @@ public class ProjectReader : ProjectReaderBase
     {
         var project = new Project(location);
 
-        %FILES%
-
-        %PROJECTMASTERDATA%
+		#[$MasterData().loadRecords]#
 
         return project;
     }

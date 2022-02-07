@@ -7,25 +7,28 @@ using System.Runtime.InteropServices;
 
 namespace CodeAutomationConsole;
 
-public class SettingsValueTemplateTranslator : ITemplateTranslator
+public class ValueResolver : ITemplateTranslator
 {
     private readonly SettingsValueResolver _settingsValueResolver = new SettingsValueResolver();
 
     public IReadOnlyCollection<SettingValue> Translate(TranslationContext translationContext)
     {
-        var propertyPath = translationContext.Argument;
-        var context = translationContext.Context;
-        var rootContext = translationContext.RootContext;
+        return Resolve(translationContext.Context, translationContext.RootContext, translationContext.Argument);
+    }
 
-        if (context is null)
+    public IReadOnlyCollection<SettingValue> Resolve(object target, object fallbackTarget, params string[] parameters)
+    {
+        if (target is null)
         {
             return new List<SettingValue>();
         }
 
-        var result = _settingsValueResolver.TryGetValues(context, propertyPath);
+        var propertyPath = parameters[0];
+
+        var result = _settingsValueResolver.TryGetValues(target, propertyPath);
         if (result is null || !result.Any())
         {
-            result = _settingsValueResolver.TryGetValues(rootContext, propertyPath);
+            result = _settingsValueResolver.TryGetValues(fallbackTarget, propertyPath);
         }
 
         return result;

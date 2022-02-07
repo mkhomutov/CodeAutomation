@@ -3,10 +3,10 @@ using Catel.MVVM;
 using Gum;
 using Gum.Drawing;
 using Orchestra.Services;
-using %PROJECTNAMESPACE%.Services;
-using %PROJECTNAMESPACE%.UI.Services;
+using #[$Namespace(name)]#.Services;
+using #[$Namespace(name)]#.UI.Services;
 
-namespace %PROJECTNAMESPACE%;
+namespace #[$Namespace(name)]#;
 
 public static class ModuleInitializer
 {

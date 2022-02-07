@@ -7,6 +7,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-//[assembly: AssemblyTitle("%PROJECTNAMESPACE%")]
-//[assembly: AssemblyProduct("%PROJECTNAMESPACE%")]
-//[assembly: AssemblyDescription("%PROJECTNAMESPACE%")]
+//[assembly: AssemblyTitle("#[$Namespace(Config.project.name)]#")]
+//[assembly: AssemblyProduct("#[$Namespace(Config.project.name)]#")]
+//[assembly: AssemblyDescription("#[$Namespace(Config.project.name)]#")]

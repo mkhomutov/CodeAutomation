@@ -7,7 +7,7 @@ using Gum.Services;
 using Gum;
 using Gum.Licensing;
 
-namespace %PROJECTNAMESPACE%;
+namespace #[$Namespace(name)]#;
 
 internal class ProjectApplicationInfo : Gum.ApplicationInfo
 {

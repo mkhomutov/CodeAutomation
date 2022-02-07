@@ -9,12 +9,12 @@ using Gum.ProjectManagement;
 using Gum.Services;
 using Orc.Metadata;
 using Orc.ProjectManagement;
-using %PROJECTNAMESPACE%.Data.ProjectManagement;
+using #[$Namespace(Config.project.name)]#.Data.ProjectManagement;
 %VIEWMODELUSINGS%
 using WildGums = Gum.Fonts.WildGums;
 using Orchestra.Services;
 
-namespace %PROJECTNAMESPACE%.Services;
+namespace #[$Namespace(Config.project.name)]#.Services;
 
 public class ApplicationInitializationService : Gum.Services.ApplicationInitializationServiceBase
 {

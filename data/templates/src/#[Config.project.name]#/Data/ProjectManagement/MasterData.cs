@@ -4,10 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace %PROJECTNAMESPACE%.Data.Models
+namespace #[$Namespace(Config.project.name)]#.Data.Models
 {
     public class MasterData
     {
-        %MASTERDATACOLLECTIONS%
+		#region Constructors
+		public MasterData()
+		{
+			#[$MasterData().ctor]#
+		}
+		#endregion
+
+        #region Properties
+		#[$MasterData().properties]#
+		#endregion
     }
 }

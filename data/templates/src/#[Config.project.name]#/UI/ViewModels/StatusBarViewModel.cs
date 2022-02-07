@@ -1,6 +1,6 @@
 ﻿using Catel.MVVM;
 
-namespace %PROJECTNAMESPACE%.UI.ViewModels;
+namespace #[$Namespace(Config.project.name)]#.UI.ViewModels;
 
 public class StatusBarViewModel : ViewModelBase
 {

@@ -1,4 +1,4 @@
-﻿namespace %PROJECTNAMESPACE%.UI.Views;
+﻿namespace #[$Namespace(Config.project.name)]#.UI.Views;
 
 public partial class RibbonView
 {

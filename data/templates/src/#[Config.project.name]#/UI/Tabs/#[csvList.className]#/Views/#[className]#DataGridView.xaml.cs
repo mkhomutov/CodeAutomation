@@ -1,11 +1,11 @@
 ﻿using System;
-using %PROJECTNAMESPACE%.UI.Tabs.%CLASSNAME%.ViewModels;
+using #[$Namespace(Config.project.name)]#.UI.Tabs.#[className]#.ViewModels;
 
-namespace %PROJECTNAMESPACE%.UI.Tabs.%CLASSNAME%.Views;
+namespace #[$Namespace(Config.project.name)]#.UI.Tabs.#[className]#.Views;
 
-public partial class %CLASSNAME%DataGridView
+public partial class #[className]#DataGridView
 {
-    public %CLASSNAME%DataGridView()
+    public #[className]#DataGridView()
     {
         InitializeComponent();
     }

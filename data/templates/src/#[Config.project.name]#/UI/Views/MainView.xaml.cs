@@ -1,4 +1,4 @@
-﻿namespace %PROJECTNAMESPACE%.UI.Views;
+﻿namespace #[$Namespace(Config.project.name)]#.UI.Views;
 
 /// <summary>
 /// Interaction logic for MainView.xaml

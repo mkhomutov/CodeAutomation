@@ -1,4 +1,4 @@
-﻿namespace %PROJECTNAMESPACE%
+﻿namespace #[$Namespace(name)]#
 {
     using System;
     using System.Globalization;
