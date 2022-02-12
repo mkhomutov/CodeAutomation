@@ -31,10 +31,6 @@ namespace CodeAutomationConsole
 
             var dictionary = new Dictionary<string, IReadOnlyCollection<SettingValue>>();
 
-            // #[param]
-            // #[param.name]
-            // #[$Code.param.name.name] generate code
-
             var arguments = ExtractTemplateArguments(template);
             foreach (var argument in arguments)
             {
@@ -47,7 +43,7 @@ namespace CodeAutomationConsole
                     continue;
                 }
 
-                dictionary["#[" + argument + "]#"] = parser.Resolve(context,  rootContext, resolverParameters).ToList();
+                dictionary["{{" + argument + "}}"] = parser.Resolve(context,  rootContext, resolverParameters).ToList();
             }
 
             var resultsCount = 1;
@@ -176,13 +172,13 @@ namespace CodeAutomationConsole
             for (var index = 0; index < text.Length; index++)
             {
                 var ch = text[index];
-                if (ch == '[' && index != 0 && text[index - 1] == '#')
+                if (ch == '{' && index != 0 && text[index - 1] == '{')
                 {
                     bracketsCount++;
                     continue;
                 }
 
-                if (ch == ']' && index < text.Length - 1 && text[index + 1] == '#')
+                if (ch == '}' && index < text.Length - 1 && text[index + 1] == '}')
                 {
                     bracketsCount--;
                 }

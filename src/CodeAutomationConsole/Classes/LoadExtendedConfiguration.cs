@@ -1,4 +1,7 @@
-﻿namespace CodeAutomationConsole
+﻿using Scriban;
+using Scriban.Runtime;
+
+namespace CodeAutomationConsole
 {
     using System.Collections.Generic;
     using System.IO;

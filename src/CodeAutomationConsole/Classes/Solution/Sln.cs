@@ -5,7 +5,7 @@
 
     public static class Sln
     {
-        public static string Content = Template.GetByName("SolutionName.sln").
+        public static string Content = CodeTemplate.GetByName("SolutionName.sln").
             Replace("%PROJECTGUID2%", Global.ProjectGuid).
             Replace("%PROJECTGUID1%", Guid.NewGuid().ToString().ToUpper()).
             Replace("%SOLUTIONGUID%", Guid.NewGuid().ToString().ToUpper());

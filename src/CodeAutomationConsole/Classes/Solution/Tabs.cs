@@ -15,15 +15,15 @@
                 ToArray().
                 JoinWithTabs(2);
 
-            ViewContent = Template.GetByName("[DataGridView].xaml").
+            ViewContent = CodeTemplate.GetByName("[DataGridView].xaml").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%CLASSNAME%", tab.RelatedClassName);
 
-            ViewCsContent = Template.GetByName("[DataGridView].xaml.cs").
+            ViewCsContent = CodeTemplate.GetByName("[DataGridView].xaml.cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%CLASSNAME%", tab.RelatedClassName);
 
-            ViewModelContent = Template.GetByName("[DataGridViewModel].cs").
+            ViewModelContent = CodeTemplate.GetByName("[DataGridViewModel].cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%CLASSNAME%", tab.RelatedClassName).
                 Replace("%CSVNAME%", tab.RelatedFileName).

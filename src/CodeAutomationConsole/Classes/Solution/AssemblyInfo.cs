@@ -6,7 +6,7 @@
     {
         public static void Save()
         {
-            var content = Template.GetByName("AssemblyInfo.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
+            var content = CodeTemplate.GetByName("AssemblyInfo.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
             var fileName = Path.Combine(Global.Path, "Properties", "AssemblyInfo.cs");
 

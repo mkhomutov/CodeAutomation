@@ -22,14 +22,14 @@
                 ToArray().
                 JoinWithTabs(2);
 
-            var project = Template.GetByName("Project.cs").
+            var project = CodeTemplate.GetByName("Project.cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
-            var projectReader = Template.GetByName("ProjectReader.cs").
+            var projectReader = CodeTemplate.GetByName("ProjectReader.cs").
                 Replace("%FILES%", files).
                 Replace("%PROJECTMASTERDATA%", projectMasterData);
 
-            var masterData = Template.GetByName("MasterData.cs").
+            var masterData = CodeTemplate.GetByName("MasterData.cs").
                 Replace("%PROJECTNAMESPACE%", Global.Namespace).
                 Replace("%MASTERDATACOLLECTIONS%", masterDataCollections);
 

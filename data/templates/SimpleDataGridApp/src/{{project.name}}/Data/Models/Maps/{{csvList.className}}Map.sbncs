@@ -1,0 +1,19 @@
+﻿using Orc.Csv;
+
+namespace {{root.project.name}}.Data.Models.Maps;
+
+public sealed class {{className}}Map : ClassMapBase<{{className}}>
+{
+    #region Constructors
+    public {{className}}Map()
+    {
+	{{
+        for field in fields
+            property = field.alias == null ? field.name : field.alias
+            type = field.type == null ? "string" : field.type
+    }}
+		Map(x => x.{{property}}).Name("{{field.name}}");
+	{{end}}	
+    }
+    #endregion
+}

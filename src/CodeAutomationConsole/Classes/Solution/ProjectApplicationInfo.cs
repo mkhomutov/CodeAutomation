@@ -4,7 +4,7 @@
 
     public static class ProjectApplicationInfo
     {
-        private static readonly string Content = Template.GetByName("ProjectApplicationInfo.cs");
+        private static readonly string Content = CodeTemplate.GetByName("ProjectApplicationInfo.cs");
         public static void Save()
         {
             var projectViewConfigurationFile = Path.Combine(Global.Path, "ProjectApplicationInfo.cs");

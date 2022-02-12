@@ -1,10 +1,28 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Scriban;
+using Scriban.Runtime;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace CodeAutomationConsole;
 
 public class SolutionFile : SolutionItem
 {
+    private static readonly Dictionary<string, string> _extensionByTemplateExtensions;
+
+    static SolutionFile()
+    {
+        _extensionByTemplateExtensions = new Dictionary<string, string>
+        {
+            {".sbncs", ".cs"},
+            {".sbnsln", ".sln"},
+            {".sbnxaml", ".xaml"},
+            {".sbncsproj", ".csproj"},
+        };
+    }
+
     public SolutionFile(string path)
     {
         Name = Path.GetFileName(path);
@@ -22,12 +40,16 @@ public class SolutionFile : SolutionItem
 
     public sealed override void Save(string path)
     {
-        if (IsTemplate)
+        if (IsFileSystemTemplate)
         {
             return;
         }
 
-        path = Path.Combine(path, Name);
+        var directoryPath = path;
+
+        var fileName = GetFileName();
+
+        path = Path.Combine(path, fileName);
 
         if (File.Exists(path))
         {
@@ -41,6 +63,41 @@ public class SolutionFile : SolutionItem
         }
 
         File.WriteAllText(path, Content);
+
+        SaveContext(directoryPath);
+    }
+
+    private string GetFileName()
+    {
+        var fileName = Name;
+        var extension = Path.GetExtension(fileName);
+
+        if (_extensionByTemplateExtensions.TryGetValue(extension ?? string.Empty, out var finalExtension))
+        {
+            return Path.ChangeExtension(fileName, finalExtension);
+        }
+
+        return fileName;
+    }
+
+    public void SaveContext(string path)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(Name) + ".yaml";
+        var fullName = Path.Combine(path, fileName);
+
+        var serializer = new SerializerBuilder().
+            WithNamingConvention(CamelCaseNamingConvention.Instance).
+            ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).
+            Build();
+
+        var content = serializer.Serialize(Context);
+
+        if (File.Exists(fullName))
+        {
+            File.Delete(fullName);
+        }
+
+        File.WriteAllText(fullName, content);
     }
 
     public override object Clone()
@@ -48,23 +105,31 @@ public class SolutionFile : SolutionItem
         return new SolutionFile(this);
     }
 
-    public override void TranslateTemplate()
+    public override void RenderTemplate()
     {
-        base.TranslateTemplate();
+        base.RenderTemplate();
 
-        if (IsTemplate)
+        if (IsFileSystemTemplate)
         {
             return;
         }
 
-        var translationContext = new TranslationContext
+        if (!_extensionByTemplateExtensions.ContainsKey(Path.GetExtension(Name) ?? string.Empty))
         {
-            RootContext = this.GetRoot().Context,
-            Context = Context,
-            Argument = Content
-        };
+            return;
+        }
 
-        var translationResults = Translator.Translate(translationContext);
-        Content = (string)translationResults.FirstOrDefault()?.Value;
+        RenderContent();
+    }
+
+    private void RenderContent()
+    {
+        var template = Template.Parse(Content);
+
+        var model = (ScriptObject)Context.FixTypes();
+        model.Add("root", this.GetRoot().Context.FixTypes());
+        model.Import(typeof(CustomFunctions));
+
+        Content = template.Render(model);
     }
 }

@@ -1,0 +1,12 @@
+﻿using System;
+using {{root.project.name}}.UI.ViewModels;
+
+namespace {{root.project.name}}.UI.Views;
+
+public partial class {{relatedClassName}}DataGridView
+{
+    public {{relatedClassName}}DataGridView()
+    {
+        InitializeComponent();
+    }
+}

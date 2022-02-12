@@ -6,7 +6,7 @@
     {
         public static void Save()
         {
-            var content = Template.GetByName("FontAwesome.cs");
+            var content = CodeTemplate.GetByName("FontAwesome.cs");
 
             var fileName = Path.Combine(Global.Path, "FontAwesome.cs");
 

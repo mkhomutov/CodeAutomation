@@ -4,7 +4,7 @@
 
     public static class Csproj
     {
-        public static string Content = Template.GetByName("ProjectName.csproj").Replace("%PROJECTGUID2%", Global.ProjectGuid);
+        public static string Content = CodeTemplate.GetByName("ProjectName.csproj").Replace("%PROJECTGUID2%", Global.ProjectGuid);
 
         public static void Save()
         {

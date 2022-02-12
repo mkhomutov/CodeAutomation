@@ -18,7 +18,7 @@ namespace CodeAutomationConsole
 
         public void Run()
         {
-            var solutionTree = new SolutionTree(_settings.TemplatesPath, _settings);
+            var solutionTree = new SolutionTree(_settings.TemplatesPath, _settings.Config);
 
             ISettingsProcessor settingsProcessor = new SettingsProcessor();
             _settings = settingsProcessor.Run(_settings);
@@ -32,7 +32,7 @@ namespace CodeAutomationConsole
 
         private SolutionTree BuildCode(AutomationSettings settings, SolutionTree solutionTree)
         {
-            solutionTree.TranslateTemplate();
+            solutionTree.RenderTemplate();
 
             return solutionTree;
         }

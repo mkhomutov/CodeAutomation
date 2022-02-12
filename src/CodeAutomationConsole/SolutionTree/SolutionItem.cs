@@ -39,14 +39,14 @@ public abstract class SolutionItem : ICloneable
     /// </summary>
     public object Context { get; set; }
 
-    protected bool IsTemplate => Name.StartsWith('#');
+    protected bool IsFileSystemTemplate => Name.Contains("{{");
     public IReadOnlyCollection<SolutionItem> Children => _children;
 
     public abstract void Save(string path);
 
-    public virtual void TranslateTemplate()
+    public virtual void RenderTemplate()
     {
-        if (IsTemplate)
+        if (IsFileSystemTemplate)
         {
             var translationContext = new TranslationContext
             {
@@ -64,7 +64,7 @@ public abstract class SolutionItem : ICloneable
 
                 Parent.AddChild(solutionItem);
 
-                solutionItem.TranslateTemplate();
+                solutionItem.RenderTemplate();
             }
 
             return;
@@ -73,7 +73,7 @@ public abstract class SolutionItem : ICloneable
         foreach (var child in Children.ToList())
         {
             child.Context = Context;
-            child.TranslateTemplate();
+            child.RenderTemplate();
         }
     }
 

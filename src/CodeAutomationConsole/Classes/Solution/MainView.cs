@@ -6,11 +6,11 @@
     {
         public MainView() : base(Path.Combine(Global.Path, "UI"), "MainView")
         {
-            ViewContent = Template.GetByName("MainView.xaml").Replace("%PROJECTNAMESPACE%", Global.Namespace);
+            ViewContent = CodeTemplate.GetByName("MainView.xaml").Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
-            ViewCsContent = Template.GetByName("MainView.xaml.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
+            ViewCsContent = CodeTemplate.GetByName("MainView.xaml.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
-            ViewModelContent = Template.GetByName("MainViewModel.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
+            ViewModelContent = CodeTemplate.GetByName("MainViewModel.cs").Replace("%PROJECTNAMESPACE%", Global.Namespace);
         }
     }
 }

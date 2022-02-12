@@ -6,7 +6,7 @@
     {
         private static readonly string Filename = "ProjectViewConfiguration.cs";
 
-        private static readonly string ProjectViewConfiguration = Template.GetByName(Filename).
+        private static readonly string ProjectViewConfiguration = CodeTemplate.GetByName(Filename).
             Replace("%PROJECTNAMESPACE%", Global.Namespace);
 
         public static void Save()

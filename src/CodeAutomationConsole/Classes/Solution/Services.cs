@@ -24,13 +24,13 @@
 
             var firstTab = "tabItem" + tabs.FirstOrDefault().RelatedClassName;
 
-            var applicationInitializationServiceContent = Template.GetByName("ApplicationInitializationService.cs").
+            var applicationInitializationServiceContent = CodeTemplate.GetByName("ApplicationInitializationService.cs").
                 Replace("%VIEWMODELUSINGS%", viewModelsUsings).
                 Replace("%TABITEMS%", tabItems).
                 Replace("%ADDTABITEMS%", addTabItems).
                 Replace("%FIRSTTAB%", firstTab);
 
-            var ribbonServiceContent = Template.GetByName("RibbonService.cs");
+            var ribbonServiceContent = CodeTemplate.GetByName("RibbonService.cs");
 
             var applicationInitializationServiceFile = Path.Combine(Global.Path, "Services", "ApplicationInitializationService.cs");
             applicationInitializationServiceContent.AddCopyright("ApplicationInitializationService.cs").SaveToFile(applicationInitializationServiceFile);

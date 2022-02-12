@@ -6,7 +6,7 @@
     {
         private static readonly string Filename = "ProjectOpenCommandContainer.cs";
 
-        public static string Content = Template.GetByName(Filename);
+        public static string Content = CodeTemplate.GetByName(Filename);
 
         public static void Save()
         {

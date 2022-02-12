@@ -7,11 +7,11 @@
     {
         public StatusBarView() : base(Path.Combine(Global.Path, "UI"), "StatusBarView")
         {
-            ViewContent = Template.GetByName("StatusBarView.xaml");
+            ViewContent = CodeTemplate.GetByName("StatusBarView.xaml");
 
-            ViewCsContent = Template.GetByName("StatusBarView.xaml.cs");
+            ViewCsContent = CodeTemplate.GetByName("StatusBarView.xaml.cs");
 
-            ViewModelContent = Template.GetByName("StatusBarViewModel.cs");
+            ViewModelContent = CodeTemplate.GetByName("StatusBarViewModel.cs");
         }
 
     }

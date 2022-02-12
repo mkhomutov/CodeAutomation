@@ -1,0 +1,16 @@
+﻿using System;
+
+namespace {{root.project.name}}.Data.Models;
+
+public class {{className}}
+{
+    #region Properties
+	{{
+        for field in fields
+            property = field.alias == null ? field.name : field.alias
+            type = field.type == null ? "string" : field.type
+    }}
+	public {{type}} {{property}} { get; set; }
+	{{end}}	
+    #endregion
+}

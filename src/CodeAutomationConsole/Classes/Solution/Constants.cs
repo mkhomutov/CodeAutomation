@@ -14,7 +14,7 @@
                 ToArray().
                 JoinWithTabs(1);
 
-            var content = Template.GetByName("Constants.cs").
+            var content = CodeTemplate.GetByName("Constants.cs").
                 Replace("%SCOPENAMES%", scopeNames).
                 Replace("%FILENAMES%", fileNames);
 

@@ -48,7 +48,7 @@ public class SettingsProcessor : ISettingsProcessor
 
             csvList.ForEach(csvObj =>
             {
-                var csv = csvObj.ToDictionary();
+                var csv = csvObj.ToObjectDictionary();
 
                 var tab = new ViewTab(csv["className"].ToString(), csv["file"].ToString());
                 var content = new Content();

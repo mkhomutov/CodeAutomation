@@ -38,7 +38,7 @@ public class SolutionDirectory : SolutionItem
 
     public sealed override void Save(string path)
     {
-        if (IsTemplate)
+        if (IsFileSystemTemplate)
         {
             return;
         }
