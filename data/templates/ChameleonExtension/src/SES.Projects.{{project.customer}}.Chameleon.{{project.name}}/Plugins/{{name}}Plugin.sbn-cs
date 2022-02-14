@@ -1,0 +1,142 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Plugins
+{
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using Catel;
+    using Catel.IoC;
+    using Catel.MVVM;
+    using Catel.Reflection;
+    using Fluent;
+    using global::Chameleon;
+    using global::Chameleon.Services;
+    using Orc.ProjectManagement;
+    using ProjectManagement;
+    using Services;
+    using Views;
+    using Gum;
+    using Gum.Attributes;
+    using Gum.Controls;
+    using Gum.Controls.Services;
+    using Gum.Projects.Services;
+    using Gum.Services;
+    using ViewModels;
+    using Application = System.Windows.Application;
+    using TabbedDataGridScopeService = Services.TabbedDataGridScopeService;
+
+    [PluginName("{{root.project.name}}")]
+    [ExceptionFiles("")]
+    public class {{root.project.name}}Plugin : PluginBase
+    {
+        public override bool UsesFilters { get { return true; } }
+
+        public override bool UsesProjectSystem { get { return true; } }
+
+        public override bool UsesWorkspaces { get { return true; } }
+
+        public override async Task InitializeAsync()
+        {
+            var serviceLocator = this.GetServiceLocator();
+            var typeFactory = serviceLocator.ResolveType<ITypeFactory>();
+
+            GridViewSettings.ApproximateHeaderHeightCalculation = true;
+
+            serviceLocator.ResolveType<IUiContextService<UiContext>>().UiContext = new UiContext();
+
+            serviceLocator.RegisterType<global::Chameleon.Validation.IValidator, Validation.{{root.project.name}}Validator>();
+            serviceLocator.RegisterType<IDataGridScopeService, TabbedDataGridScopeService>();
+            serviceLocator.RegisterType<IProductSuiteService, Services.ProductSuiteService>();
+            //serviceLocator.RegisterType<IFilterCustomizationService, Gum.Filtering.FilterCustomizationService>();
+
+            serviceLocator.RegisterType<IProjectInitializer, DirectoryProjectInitializer>();
+            serviceLocator.RegisterType<IProjectReader, ProjectReader>();
+            serviceLocator.RegisterType<IProjectWriter, ProjectWriter>();
+
+            serviceLocator.RegisterTypeAndInstantiate<SaveProjectWatcher>();
+
+            //serviceLocator.RegisterType<IWorkspaceInitializer, WorkspaceInitializer>();
+
+            //serviceLocator.RegisterType<ICalculator, Calculator>();
+            ////serviceLocator.RegisterType<ISequencer, Sequencer>();
+            //serviceLocator.RegisterType<global::FactorySequencer.Validation.IValidator, Validator>();
+
+            var commandManager = serviceLocator.ResolveType<ICommandManager>();
+            commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Data), nameof(DataGridCommands.Data.ExportDataToCsvFile));
+            commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Data), nameof(DataGridCommands.Data.ExportDataToCsvClipboard));
+            // commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Filtering), nameof(DataGridCommands.Filtering.ClearDataGridFilters));
+            commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Settings), nameof(DataGridCommands.Settings.ToggleTooltips));
+            commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Settings), nameof(DataGridCommands.Settings.ToggleQuickFilters));
+
+            /*
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Tabs), nameof({{root.project.customer}}Commands.Tabs.Tear));
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.Production));
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.AddOrder));
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.Restore));
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Views), nameof({{root.project.customer}}Commands.Views.ShowInventory));
+            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Views), nameof({{root.project.customer}}Commands.Views.ShowResources));
+            */
+
+            // Note: force load themes for now
+            var application = Application.Current;
+            application.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("/Gum.Ui.Apps.Controls;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute)
+            });
+
+            application.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("/SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}};component/themes/generic.xaml", UriKind.RelativeOrAbsolute)
+            });
+        }
+
+        public override async Task RegisterScopesAsync(IScopeManager scopeManager)
+        {
+            foreach (var fieldInfo in typeof(ScopeNames).GetFieldsEx(allowStaticMembers: true))
+            {
+                var scopeName = fieldInfo.GetValue(null) as string;
+                if (!string.IsNullOrWhiteSpace(scopeName))
+                {
+                    await scopeManager.RegisterScopeAsync(scopeName);
+                }
+            }
+        }
+
+        public override async Task InitializeAfterShowingShellAsync()
+        {
+            InitializeTabs();
+        }
+
+        private void InitializeTabs()
+        {
+            var serviceLocator = this.GetServiceLocator();
+            var tabService = serviceLocator.ResolveType<ITabService>();
+    {{-  view = views | array.first
+        for tab in view.tabs
+            className = tab.relatedClassName}}
+            var tabItem{{className}} = tabService.CreateAndAddDataGridTab<{{className}}DataGridViewModel>("{{tab.title}}", ScopeNames.{{className}}, false);
+            tabService.Add(tabItem{{className}});
+
+    {{-  end}}
+    {{- if view?.tabs != null
+            firstTab = view.tabs | array.first}}
+            tabService.Activate(tabItem{{firstTab.relatedClassName}});
+    {{-  end}}
+        }
+
+        public override void CustomizeRibbon(Ribbon ribbon)
+        {
+            base.CustomizeRibbon(ribbon);
+
+            var ribbonView = ribbon.FindOrCreateRibbonGroupBox(RibbonTabs.View.Name, RibbonTabs.View.Project.Name);
+            ribbonView.Items.Add(new ExportImportRibbonView());
+
+            ProjectViewConfiguration.IsProjectRibbonViewSaveButtonVisible = true;
+            ProjectViewConfiguration.IsProjectRibbonViewRefreshButtonVisible = true;
+        }
+
+        public override FrameworkElement GetSettingsView()
+        {
+            return new SettingsView();
+        }
+    }
+}

@@ -1,0 +1,54 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows</TargetFrameworks>
+    <AssemblyName>SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}</AssemblyName>
+    <RootNamespace>SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <PackageId>SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}</PackageId>
+    <PackageVersion>1.0.0-alpha0001</PackageVersion>
+    <Description>{{root.project.customer}} - Chameleon - {{root.project.name}} extension.</Description>
+    <PackageTags>chameleon;ch</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UseWpf>true</UseWpf>
+    <ExtrasEnableImplicitWpfReferences>true</ExtrasEnableImplicitWpfReferences>
+    <ExtrasEnableImplicitWinFormsReferences>true</ExtrasEnableImplicitWinFormsReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- SonarQube requires a project guid -->
+    <ProjectGuid>{{guid "4"}}</ProjectGuid>
+  </PropertyGroup>
+
+  <!-- Note: all should be private assets (embedded using Costura) except for the app API -->
+  <ItemGroup>
+    <PackageReference Include="Catel.Fody" Version="4.5.0" PrivateAssets="all" />
+    <PackageReference Include="Chameleon.Api" Version="4.2.1" />
+    <PackageReference Include="ControlzEx" Version="4.4.0" PrivateAssets="all" />
+    <PackageReference Include="Costura.Fody" Version="5.0.0-alpha0281" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.5.2" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Gum.DataValidation.Providers.Csv" Version="4.2.0" PrivateAssets="all" />
+    <PackageReference Include="Gum.Projects" Version="2.3.1" PrivateAssets="all" />
+    <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.5.0" PrivateAssets="all" />
+    <PackageReference Include="MethodTimer.Fody" Version="3.1.2" PrivateAssets="all" />
+    <PackageReference Include="ModuleInit.Fody" Version="2.1.1" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /s /f /y &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;%25AppData%25\WildGums\Chameleon\plugins\$(TargetName)\&quot;" />
+  </Target>
+
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
+</Project>

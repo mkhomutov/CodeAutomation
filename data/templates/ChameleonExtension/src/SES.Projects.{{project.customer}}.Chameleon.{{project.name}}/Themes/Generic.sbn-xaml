@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:gumui="http://schemas.wildgums.com/gum/ui"
+                    xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
+                    xmlns:catel="http://schemas.catelproject.com"
+                    xmlns:gumcontrols="http://schemas.wildgums.com/gum/controls"
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:converters="clr-namespace:SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Converters">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Gum.Ui.Apps.Controls;component/themes/generic.xaml" />
+        <ResourceDictionary Source="/SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}};component/themes/styles.xaml" />
+        <ResourceDictionary Source="/Gum.Projects;component/Themes/Generic.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <SolidColorBrush Color="White" x:Key="DataGridReadonlyBrush"/>
+    <SolidColorBrush Color="#effffd" x:Key="DataGridReadonlyAlternativeBrush"/>
+</ResourceDictionary>

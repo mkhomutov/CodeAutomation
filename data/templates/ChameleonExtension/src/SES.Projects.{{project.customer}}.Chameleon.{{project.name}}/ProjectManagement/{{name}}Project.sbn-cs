@@ -1,0 +1,33 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.ProjectManagement
+{
+    using System;
+    using System.Collections.Generic;
+    using Orc.ProjectManagement;
+    using System.Linq;
+
+    public class {{root.project.name}}Project : ProjectBase
+    {
+        public {{root.project.name}}Project(string location)
+            : this(location, location)
+        {
+        }
+
+        public {{root.project.name}}Project(string location, string title)
+            : base(location, title)
+        {
+    {{- for csvFile in csvList
+            property = csvFile.file 
+            type = csvFile.className}}
+            {{property}} = new List<{{type}}>(); 
+    {{- end}}
+        }
+
+        #region Properties
+{{- for csvFile in csvList
+		property = csvFile.file 
+		type = csvFile.className}}
+		public IReadOnlyCollection<{{type}}> {{property}} { get; set; }
+{{- end}}
+		#endregion
+    }
+}

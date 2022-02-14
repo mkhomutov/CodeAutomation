@@ -1,0 +1,17 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Views
+{
+    using Gum.Controls;
+    using Orc.Analytics;
+
+    public partial class {{relatedClassName}}DataGridView
+    {
+        public {{relatedClassName}}DataGridView()
+        {
+            OpaqueAccentColorHelper.CreateOpaqueAccentColorResourceDictionary();
+
+            InitializeComponent();
+
+            this.TrackViewForAnalyticsAsync();
+        }
+    }
+}

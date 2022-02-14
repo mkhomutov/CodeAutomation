@@ -1,0 +1,19 @@
+namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Validation
+{
+    using System.Threading.Tasks;
+    using Catel.Data;
+    using global::Chameleon.Validation;
+    using Orc.ProjectManagement;
+
+    public class {{root.project.name}}Validator : ValidatorBase
+    {
+        protected override async Task<IValidationContext> ValidateAsync(IProject project)
+        {
+            var validationContext = new ValidationContext();
+
+            // TODO: implement business rule validations
+
+            return validationContext;
+        }
+    }
+}

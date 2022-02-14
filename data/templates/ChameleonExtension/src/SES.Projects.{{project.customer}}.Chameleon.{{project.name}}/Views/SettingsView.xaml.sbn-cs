@@ -1,0 +1,10 @@
+namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Views
+{
+    public partial class SettingsView
+    {
+        public SettingsView()
+        {
+            InitializeComponent();
+        }
+    }
+}

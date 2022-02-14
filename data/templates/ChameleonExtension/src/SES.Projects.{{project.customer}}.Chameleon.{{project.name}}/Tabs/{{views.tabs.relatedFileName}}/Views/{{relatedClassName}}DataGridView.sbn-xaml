@@ -1,0 +1,14 @@
+<catel:UserControl x:Class="SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Views.{{relatedClassName}}DataGridView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:gumprojects="http://schemas.wildgums.com/gum/projects">
+
+    <Grid>
+        <gumprojects:DataGridEx x:Name="dataGrid"
+                                DataGridInteraction="{Binding Interaction, Mode=OneWayToSource}"
+                                ItemsSource="{Binding Records}"
+                                SelectionMode="ExtendedRowSelection"
+                                IsEditEnabled="False"/>
+    </Grid>
+</catel:UserControl>

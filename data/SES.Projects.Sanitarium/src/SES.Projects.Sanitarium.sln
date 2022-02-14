@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{7D94443A-4D1D-4458-8B46-58F238C3BD7B}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.build.project.props = Directory.build.project.props
+		Directory.build.props = Directory.build.props
+		Directory.build.shared.explicit.props = Directory.build.shared.explicit.props
+		Directory.build.shared.implicit.props = Directory.build.shared.implicit.props
+		Directory.build.targets = Directory.build.targets
+		GlobalSuppressions.cs = GlobalSuppressions.cs
+		MethodTimeLogger.cs = MethodTimeLogger.cs
+		nuget.config = nuget.config
+		SES.Projects.Sanitarium.sln.DotSettings = SES.Projects.Sanitarium.sln.DotSettings
+		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
+		SolutionAssemblyInfo.customer.cs = SolutionAssemblyInfo.customer.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9B48B9BF-A533-4DB2-B286-A15892104A2B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SES.Projects.Sanitarium.Chameleon.FactoryPlanning", "SES.Projects.Sanitarium.Chameleon.FactoryPlanning\SES.Projects.Sanitarium.Chameleon.FactoryPlanning.csproj", "{A83219F0-6E0A-4C73-B56D-505F9B5759E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A83219F0-6E0A-4C73-B56D-505F9B5759E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83219F0-6E0A-4C73-B56D-505F9B5759E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83219F0-6E0A-4C73-B56D-505F9B5759E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83219F0-6E0A-4C73-B56D-505F9B5759E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A83219F0-6E0A-4C73-B56D-505F9B5759E0} = {9B48B9BF-A533-4DB2-B286-A15892104A2B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA50B0CA-0196-436E-A2A2-9C3D0CC997EC}
+	EndGlobalSection
+EndGlobal

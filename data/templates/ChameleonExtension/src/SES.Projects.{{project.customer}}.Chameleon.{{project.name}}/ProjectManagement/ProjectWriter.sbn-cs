@@ -1,0 +1,56 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.ProjectManagement
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Catel;
+    using Catel.Configuration;
+    using Catel.Logging;
+    using Catel.Messaging;
+    using Catel.Services;
+    using CsvHelper.Configuration;
+    using Gum.ProjectManagement;
+    using MethodTimer;
+    using Orc.Controls.Converters;
+    using Orc.Csv;
+    using Orc.FileSystem;
+    using Orc.ProjectManagement;
+
+    public class ProjectWriter : Gum.ProjectManagement.ProjectWriterBase<{{root.project.name}}Project>
+    {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
+
+        private readonly ICsvWriterService _csvWriterService;
+        private readonly IPleaseWaitService _pleaseWaitService;
+        private readonly IDirectoryService _directoryService;
+        private readonly ICsvReaderService _csvReaderService;
+        private readonly IProjectManager _projectManager;
+
+        public ProjectWriter(ICsvWriterService csvWriterService, IPleaseWaitService pleaseWaitService, IDirectoryService directoryService,
+            IFileService fileService, IProjectSettingsSerializationService projectSettingsSerializationService,
+            IConfigurationService configurationService, ICsvReaderService csvReaderService,
+            IProjectManager projectManager)
+            : base(directoryService, fileService, projectSettingsSerializationService, configurationService)
+        {
+            Argument.IsNotNull(() => csvWriterService);
+            Argument.IsNotNull(() => pleaseWaitService);
+            Argument.IsNotNull(() => csvReaderService);
+            Argument.IsNotNull(() => projectManager);
+
+            _csvWriterService = csvWriterService;
+            _pleaseWaitService = pleaseWaitService;
+            _directoryService = directoryService;
+            _csvReaderService = csvReaderService;
+            _projectManager = projectManager;
+        }
+
+        protected override async Task<bool> WriteToLocationAsync(DemoProjectProject project, string location, ProjectSettings projectSettings)
+        {
+            return false;
+        }
+    }
+}

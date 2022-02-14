@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SES.Projects.Sanitarium.Chameleon.FactoryPlanning": {
+      "commandName": "Executable",
+      "executablePath": "C:\\source\\Chameleon\\output\\Debug\\Chameleon\\net5.0-windows\\Chameleon.exe",
+      "commandLineArgs": "-extension \"SES.Projects.Sanitarium.Chameleon.FactoryPlanning.Plugins.FactoryPlanningPlugin\" -project \"C:\\Source\\SES.Projects.Sanitarium\\data\\Chameleon.FactoryPlanning\""
+    }
+  }
+}

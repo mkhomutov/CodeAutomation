@@ -1,0 +1,14 @@
+<Project>
+  <!-- 
+    This file applies to all projects automatically, this file contains all the project specific data
+  -->
+
+  <PropertyGroup>
+    <Authors>simplyeffectivesolutions</Authors>
+    <PackageIconUrl>https://github.com/WildGums/Assets/raw/master/packages/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://bitbucket.org/SimplyEffectiveSolutions/SES.Projects.{{root.project.customer}}</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://bitbucket.org/SimplyEffectiveSolutions/SES.Projects.{{root.project.customer}}</RepositoryUrl>
+  </PropertyGroup>
+   
+</Project>

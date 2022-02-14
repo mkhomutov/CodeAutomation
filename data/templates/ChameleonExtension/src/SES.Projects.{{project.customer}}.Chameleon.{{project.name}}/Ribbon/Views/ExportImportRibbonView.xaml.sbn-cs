@@ -1,0 +1,11 @@
+﻿
+namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Views
+{
+    public partial class ExportImportRibbonView
+    {
+        public ExportImportRibbonView()
+        {
+            InitializeComponent();
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}": {
+      "commandName": "Executable",
+      "executablePath": "C:\\source\\Chameleon\\output\\Debug\\Chameleon\\net5.0-windows\\Chameleon.exe",
+      "commandLineArgs": "-extension \"SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.Plugins.{{root.project.name}}Plugin\" -project \"C:\\Source\\SES.Projects.{{root.project.customer}}\\data\\Chameleon.{{root.project.name}}\""
+    }
+  }
+}

@@ -1,0 +1,70 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}
+{
+    using Catel.Windows.Input;
+    using Gum.Controls;
+    using Orc.Theming;
+    using System.Globalization;
+    using System.Windows.Media;
+
+    public static partial class {{root.project.customer}}Environment
+    {
+        public static readonly CultureInfo Culture = new CultureInfo("en-AU");
+    }
+
+    public static class {{root.project.customer}}Settings
+    {
+        // public const string MySetting = "{{root.project.customer}}.{{root.project.name}}.MySetting";
+        // public static readonly SomeType MySettingDefaultValue = null;
+
+        public static class Validations
+        {
+
+        }
+    }
+
+    public static class {{root.project.customer}}Commands
+    {
+        public static class Tabs
+        {
+            // public const string Command = "Tabs.Command";
+            // public static readonly InputGesture CommandInputGesture = null;
+        }
+
+        public static class Edit
+        {
+            // public const string Command = "Edit.Command";
+            // public static readonly InputGesture CommandInputGesture = null;
+        }
+
+        public static class Views
+        {
+            // public const string Command = "Views.Command";
+            // public static readonly InputGesture CommandInputGesture = null;
+        }
+    }
+
+    public static class FileNameFilters
+    {
+        public const string CsvFiles = "Csv files (*.csv)|*.csv";
+    }
+
+    public static class DirectoryNames
+    {
+        public const string SharedData = "SharedData";
+    }
+
+    public static class FileNames
+    {
+        {{- for csvFile in root.project.csvList}}
+        public const string {{csvFile.file}} = "{{csvFile.file}}.csv";
+        {{- end}}
+    }
+
+    public static class ScopeNames
+    {
+        public const string Default = "default";
+        {{- for csvFile in root.project.csvList}}
+        public const string {{csvFile.className}} = "{{csvFile.className}}";
+        {{- end}}
+    }
+}

@@ -1,0 +1,120 @@
+﻿namespace SES.Projects.Sanitarium.Chameleon.FactoryPlanning
+{
+    using System;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Windows;
+    using Catel;
+    using Catel.IoC;
+    using Gum;
+    using Gum.Controls;
+    using Gum.Controls.WorkspaceManagement;
+    using Gum.WorkspaceManagement.Providers;
+    using Orc.WorkspaceManagement;
+
+    public static class IDataGridInteractionExtensions
+    {
+        #region Methods
+        public static void ResetSettingsEx(this IDataGridInteraction interaction, string wsScope, string strScope)
+        {
+            Argument.IsNotNull(() => interaction);
+
+            interaction.ResetSettings();
+
+            var workspaceManager = interaction.GetServiceLocator().ResolveType<IWorkspaceManager>(wsScope);
+            var provider = workspaceManager.Providers.OfType<DataGridWorkspaceProvider>().FirstOrDefault();
+            if (provider is not null)
+            {
+                workspaceManager.RemoveProvider(provider);
+                provider.Dispose();
+            }
+
+            var typeFactory = interaction.GetTypeFactory();
+
+            provider = typeFactory.CreateInstanceWithParametersAndAutoCompletionWithTag<DataGridWorkspaceProvider>(strScope, interaction, workspaceManager);
+            provider.Tag = strScope;
+            provider.Scope = wsScope;
+            provider.UniqueScopeKey = strScope;
+            workspaceManager.AddProvider(provider);
+
+            var filterProvider = workspaceManager.Providers.OfType<FilterWorkspaceProvider>().FirstOrDefault();
+            if (filterProvider is null)
+            {
+                filterProvider = interaction.GetTypeFactory().CreateInstanceWithParametersAndAutoCompletionWithTag<FilterWorkspaceProvider>(wsScope);
+                filterProvider.Tag = strScope;
+                filterProvider.Scope = strScope;
+                workspaceManager.AddProvider(filterProvider);
+
+                filterProvider.ApplyWorkspaceAsync(workspaceManager.Workspace);
+            }
+
+            if (!workspaceManager.Workspace.IsDefault())
+            {
+                provider.ApplyWorkspaceAsync(workspaceManager.Workspace);
+            }
+        }
+
+        public static void SyncWith(this IDataGridInteraction destination, IDataGridInteraction source, int delay = 0)
+        {
+            if (source is null || destination is null)
+            {
+                return;
+            }
+
+            if (Equals(destination, source))
+            {
+                return;
+            }
+
+            var postponeAction = new PostponeDispatcherOperation(() =>
+            {
+                var sourceSettings = source.GetSettings();
+                destination.ApplySettings(sourceSettings);
+            });
+
+            postponeAction.Execute(delay);
+        }
+
+        public static void ConfigureDataGrid(this IDataGridInteraction dataGridInteraction, Action<DataGrid> configureAction)
+        {
+            Argument.IsNotNull(() => dataGridInteraction);
+
+            var dataGrid = TryGetDataGrid(dataGridInteraction);
+            if (dataGrid is null)
+            {
+                return;
+            }
+
+            configureAction?.Invoke(dataGrid);
+        }
+
+        public static void RedrawEx(this IDataGridInteraction dataGridInteraction)
+        {
+            Argument.IsNotNull(() => dataGridInteraction);
+
+            dataGridInteraction.TryGetDataGrid()?.Redraw();
+        }
+
+        public static void InvokeOnBecameVisible(this IDataGridInteraction dataGridInteraction, Action<DataGrid> actionOnVisible)
+        {
+            Argument.IsNotNull(() => dataGridInteraction);
+
+            new InvokeActionOnDataGridVisible(dataGridInteraction, actionOnVisible).Execute();
+        }
+
+        public static void TrySetPropertyValue(this IDataGridInteraction dataGridInteraction, DependencyProperty dependencyProperty, object value)
+        {
+            Argument.IsNotNull(() => dataGridInteraction);
+
+            dataGridInteraction.TryGetDataGrid()?.SetCurrentValue(DataGrid.CellBackgroundColorProviderProperty, value);
+        }
+
+        public static DataGrid TryGetDataGrid(this IDataGridInteraction dataGridInteraction)
+        {
+            Argument.IsNotNull(() => dataGridInteraction);
+
+            return dataGridInteraction.GetFrameworkElement() as DataGrid;
+        }
+        #endregion
+    }
+}

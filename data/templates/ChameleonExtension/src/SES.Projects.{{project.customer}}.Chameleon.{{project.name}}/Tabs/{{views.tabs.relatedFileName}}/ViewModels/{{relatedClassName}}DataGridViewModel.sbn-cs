@@ -1,0 +1,93 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.ViewModels
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Catel.Configuration;
+    using Catel.IoC;
+    using Catel.Logging;
+    using Catel.Services;
+    using Gum;
+    using Gum.Controls;
+    using Gum.Controls.Adapters;
+    using Gum.Controls.Services;
+    using Gum.Controls.ViewModels;
+    using Gum.Controls.WorkspaceManagement;
+    using Gum.Projects;
+    using Gum.Projects.Controls.Configuration;
+    using Gum.Services;
+    using Orc.FilterBuilder;
+    using Orc.ProjectManagement;
+    using Orc.Theming;
+    using ProjectManagement;
+
+    public class {{relatedClassName}}DataGridViewModel : IntegratedDataGridViewModelBase<{{root.project.name}}Project, {{relatedClassName}}>
+    {
+        private readonly DataGridConfiguration<{{relatedClassName}}> _defaultConfiguration =
+            CreateDataGridConfiguration();
+
+        public {{relatedClassName}}DataGridViewModel(DataGridContext context, IProjectManager projectManager,
+            IProjectStateService projectStateService,
+            IFilterService filterService, IDispatcherService dispatcherService,
+            IProjectDataGridService projectDataGridService, ITabService tabService,
+            IAccentColorService accentColorService, IConfigurationService configurationService, IScopeManager scopeManager,
+            IServiceLocator serviceLocator)
+            : base(context, projectManager, projectStateService, filterService, dispatcherService, projectDataGridService,
+                tabService, accentColorService,
+                configurationService, scopeManager, serviceLocator)
+        {
+        }
+
+        protected override Task InitializeAsync()
+        {
+            return base.InitializeAsync();
+        }
+
+        protected override Task CloseAsync()
+        {
+            return base.CloseAsync();
+        }
+
+        protected override void OnInteractionUpdated(IDataGridInteraction oldInteraction, IDataGridInteraction newInteraction)
+        {
+            base.OnInteractionUpdated(oldInteraction, newInteraction);
+        }
+
+        protected override IPropertyProvider GetPropertyProvider() => _defaultConfiguration.PropertyProvider;
+        protected override ISettingsAdapter GetSettingsAdapter() => _defaultConfiguration.SettingsAdapter;
+
+        protected override string GetTabScope()
+        {
+            return ScopeNames.{{relatedClassName}};
+        }
+
+        protected override async Task<IList<{{relatedClassName}}>> GetProjectRecordsAsync({{root.project.name}}Project project)
+        {
+            {{- for csvFile in root.project.csvList
+                    if csvFile.className != relatedClassName
+                        continue
+                    end
+                    property = csvFile.file}}
+            return project?.{{property}}.ToList() ?? new List<{{relatedClassName}}>(0);
+            {{- end}}
+        }
+
+        protected override async void InitializeDataGrid(IDataGridInteraction interaction)
+        {
+            base.InitializeDataGrid(interaction);
+
+            interaction.ApplyDefaultDataGridConfiguration(_defaultConfiguration);
+        }
+
+        private static DataGridConfiguration<{{relatedClassName}}> CreateDataGridConfiguration()
+        {
+            var dataGridConfiguration = new DataGridConfiguration<{{relatedClassName}}>();
+    {{- for item in content
+            for column in item.dataGrid.columns}}
+            dataGridConfiguration.AddColumn(x => x.{{column.relatedPropertyName}});
+    {{-     end
+        end}}
+            return dataGridConfiguration;
+        }
+    }
+}

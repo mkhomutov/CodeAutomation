@@ -1,0 +1,16 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}
+{
+    using Catel.MVVM;
+    using Catel.Services;
+    using Gum;
+    using Orc.ProjectManagement;
+
+    public class ProjectSaveAsCommandContainer : ProjectSaveAsDirectoryCommandContainerBase
+    {
+        public ProjectSaveAsCommandContainer(ICommandManager commandManager, IProjectManager projectManager,
+            ISelectDirectoryService selectDirectoryService, IDispatcherService dispatcherService)
+            : base(commandManager, projectManager, selectDirectoryService, dispatcherService)
+        {
+        }
+    }
+}

@@ -1,0 +1,19 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}.ProjectManagement;
+
+    public class UiUpdateRequiredMsg
+    {
+        public UiUpdateRequiredMsg({{root.project.name}}Project project)
+        {
+            Project = project;
+        }
+
+        public {{root.project.name}}Project Project { get; }
+    }
+}

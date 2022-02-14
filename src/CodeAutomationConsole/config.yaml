@@ -3,7 +3,8 @@ templatesPath: C:\source\CodeAutomation\data\templates
 config:
   csvPath: c:\temp\Csv
   project:
-    name: ExampleProject
+    customer: Customer
+    name: DemoProject
     csvList: []
 dataSource:
   settingsProcessor: default

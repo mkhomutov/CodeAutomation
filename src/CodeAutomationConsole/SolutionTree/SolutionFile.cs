@@ -16,10 +16,14 @@ public class SolutionFile : SolutionItem
     {
         _extensionByTemplateExtensions = new Dictionary<string, string>
         {
-            {".sbncs", ".cs"},
-            {".sbnsln", ".sln"},
-            {".sbnxaml", ".xaml"},
-            {".sbncsproj", ".csproj"},
+            {".sbn-cs", ".cs"},
+            {".sbn-sln", ".sln"},
+            {".sbn-xaml", ".xaml"},
+            {".sbn-csproj", ".csproj"},
+            {".sbn-DotSettings", ".DotSettings"},
+            {".sbn-cake", ".cake"},
+            {".sbn-props", ".props"},
+            {".sbn-json", ".json"},
         };
     }
 

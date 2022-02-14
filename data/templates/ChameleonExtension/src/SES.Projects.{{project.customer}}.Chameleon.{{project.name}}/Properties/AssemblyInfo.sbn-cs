@@ -1,0 +1,9 @@
+using System.Reflection;
+using System.Resources;
+
+// All other assembly info is defined in SolutionAssemblyInfo.cs
+
+[assembly: AssemblyTitle("SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}")]
+[assembly: AssemblyProduct("SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}")]
+[assembly: AssemblyDescription("SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}}")]
+[assembly: NeutralResourcesLanguage("en-US")]

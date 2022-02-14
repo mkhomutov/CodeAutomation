@@ -1,6 +1,0 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
-
-//[assembly: AssemblyTitle("{{root.project.name}}")]
-//[assembly: AssemblyProduct("{{root.project.name}}")]
-//[assembly: AssemblyDescription("{{root.project.name}}")]

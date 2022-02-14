@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Weavers VerifyAssembly="true"
+         VerifyIgnoreCodes="0x80131854,0x80131869"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <ModuleInit />
+  <MethodTimer />
+  <Catel />
+  <LoadAssembliesOnStartup ExcludePrivateAssemblies="false" >
+    <IncludeAssemblies>
+      Gum.DataValidation*
+    </IncludeAssemblies>
+  </LoadAssembliesOnStartup>
+  <Costura DisableCleanup="true">
+    <IncludeAssemblies>
+      EPPlus
+      Gum.DataValidation*
+      Gum.Projects
+      OxyPlot*
+    </IncludeAssemblies>
+  </Costura>
+</Weavers>

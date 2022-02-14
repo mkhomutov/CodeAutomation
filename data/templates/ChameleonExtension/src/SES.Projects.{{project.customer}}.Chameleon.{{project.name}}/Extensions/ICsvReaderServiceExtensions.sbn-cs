@@ -1,0 +1,91 @@
+﻿
+namespace SES.Projects.{{root.project.customer}}.Chameleon
+{
+    using System.IO;
+    using System.Runtime.CompilerServices;
+    using Catel.Logging;
+    using CsvHelper.Configuration;
+    using Orc.Csv;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Catel.IoC;
+    using Catel.Messaging;
+    using {{root.project.name}};
+    using {{root.project.name}}.ProjectManagement;
+
+    public static class ICsvReaderServiceExtensions
+    {
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private static readonly IMessageMediator MessageMediator;
+
+        static ICsvReaderServiceExtensions()
+        {
+            MessageMediator = ServiceLocator.Default.ResolveType<IMessageMediator>();
+        }
+
+        public static async Task<List<TRecord>> LoadRecordsAsync<TRecord, TRecordMap>(this ICsvReaderService csvReaderService, string fileName)
+            where TRecordMap : ClassMap, new()
+        {
+            var result = new List<TRecord>();
+
+            try
+            {
+                if (!File.Exists(fileName))
+                {
+                    return result;
+                }
+
+                var csvContext = new CsvContext<TRecord, TRecordMap>
+                {
+                    Culture = {{root.project.customer}}Environment.Culture,
+                    ThrowOnError = false,
+                };
+
+                csvContext.Configuration = csvReaderService.CreateDefaultConfiguration(csvContext);
+                //csvContext.Configuration.ShouldSkipRecord = (x) => x.Record.All(y => string.IsNullOrWhiteSpace(y)); // Very slow
+
+                csvContext.Configuration.IgnoreBlankLines = true;
+
+                // Enable this configuration if values contain quotes (e.g. 3" bottle)
+                //csvContext.Configuration.IgnoreQuotes = true;
+
+                var records = await csvReaderService.ReadRecordsAsync<TRecord>(fileName, csvContext);
+                if (records is not null)
+                {
+                    result.AddRange(records);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Failed to load records data from '{fileName}'");
+                throw;
+            }
+
+            return result;
+        }
+
+        public static async Task LoadAndApplySharedAsync(this ICsvReaderService csvReaderService, {{root.project.name}}Project project)
+        {
+            await csvReaderService.LoadProjectFilesAsync(project);
+
+            project.Initialise();
+
+            MessageMediator.SendMessage(new UiUpdateRequiredMsg(project));
+        }
+
+
+        public static async Task LoadProjectFilesAsync(this ICsvReaderService csvReaderService, {{root.project.name}}Project project)
+        {
+            var location = project.Location;
+
+    {{- for csvFile in csvList
+        property = csvFile.file 
+        type = csvFile.className}}
+            project.{{property}} = await csvReaderService.LoadRecordsAsync<{{type}}, {{type}}Map>(Path.Combine(location, FileNames.{{csvFile.file}}));
+    {{- end}}
+        }
+    }
+}
