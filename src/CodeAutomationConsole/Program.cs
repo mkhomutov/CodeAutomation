@@ -23,11 +23,11 @@
             }
 
             var settings = AutomationSettings.Load(configFile.FullName);
-            //var extendedSettingsFile = Path.Combine(settings.OutputPath, "config.yaml");
-            //if (File.Exists(extendedSettingsFile))
-            //{
-            //    settings = AutomationSettings.Load(extendedSettingsFile);
-            //}
+            var extendedSettingsFile = Path.Combine(settings.OutputPath, "config.yaml");
+            if (File.Exists(extendedSettingsFile))
+            {
+                settings = AutomationSettings.Load(extendedSettingsFile);
+            }
 
             var codeMaker = new CodeBuilder(settings);
             codeMaker.Run();
