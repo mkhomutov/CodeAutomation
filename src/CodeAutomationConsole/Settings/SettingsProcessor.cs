@@ -15,32 +15,40 @@ public class SettingsProcessor : ISettingsProcessor
 
         var config = GetConfig(settings);
         var project = GetProject(config);
-        var csvList = GetCsvList(project);
+        var csvList = GetKey(project, "csvList");
         var existsCsv = GetExistsCsv(csvList);
 
         // Csv processing
 
-        foreach (var file in Directory.GetFiles(config["csvPath"].ToString(),"*.csv"))
+        if (settings.DataSource.DataSourceType.Equals("csv"))
         {
-            var csv = new CsvListMember(file);
+            var csvPath = settings.DataSource.ConnectionString;
 
-            if (existsCsv.Contains(csv.File))
+            foreach (var file in Directory.GetFiles(csvPath,"*.csv"))
             {
-                continue;
+                if (existsCsv.Contains(Path.GetFileNameWithoutExtension(file)))
+                {
+                    continue;
+                }
+
+                var csv = new CsvListMember(file);
+
+                csvList.Add(csv.ToObject());
             }
-
-            csv.Fields = new ParseCSV(file).Details;
-
-            csvList.Add(csv.ToObject());
         }
 
-        project["csvList"] = csvList;
+        var csvListExportFile = Path.Combine(settings.OutputPath, "csvList.yml");
+        csvList.ExportYaml(csvListExportFile);
+
+        //Uncomment for using ScriptObject instead this object
+        //project["csvList"] = new Dictionary<string, string>() { { "import ", csvListExportFile } };
+        project["csvList"] = csvList;       // remove after implement using ScriptObject instead this object
 
         // Views processing
 
-        var views = GetViews(project);
+        var views = GetKey(project, "views");
 
-        var mainView = GetViewByName(views, "mainView");
+        var mainView = SearchByKeyValue(views, "name", "mainView");
 
         if (mainView.Count == 1)
         {
@@ -65,7 +73,12 @@ public class SettingsProcessor : ISettingsProcessor
             views.Add(mainView);
         }
 
-        project["views"] = views;
+        var viewsExportFile = Path.Combine(settings.OutputPath, "views.yml");
+        views.ExportYaml(viewsExportFile);
+
+        //Uncomment for using ScriptObject instead this object
+        //project["views"] = new Dictionary<string, string>() { { "import ", viewsExportFile } };
+        project["views"] = views;       // remove after implement using ScriptObject instead this object
 
         config["project"] = project;
         settings.Config = config;
@@ -75,14 +88,7 @@ public class SettingsProcessor : ISettingsProcessor
 
     private Dictionary<object, object> GetConfig(AutomationSettings settings)
     {
-        var config = settings.Config is null ? new Dictionary<object, object>() : (Dictionary<object, object>)settings.Config;
-
-        if (!config.ContainsKey("csvPath"))
-        {
-            config.Add("csvPath", "c:\\");
-        }
-
-        return config;
+        return settings.Config is null ? new Dictionary<object, object>() : (Dictionary<object, object>)settings.Config;
     }
 
     private Dictionary<object, object> GetProject(Dictionary<object, object> config)
@@ -96,9 +102,26 @@ public class SettingsProcessor : ISettingsProcessor
         }
     }
 
-    private List<object> GetCsvList(Dictionary<object, object> project)
+    private List<object> GetKey(Dictionary<object, object> @object, string key)
     {
-        return project.ContainsKey("csvList") ? (List<object>)project["csvList"] : new List<object>();
+        if (@object.ContainsKey(key))
+        {
+            if (@object[key].GetType() == typeof(List<object>))
+            {
+                return (List<object>) @object[key];
+            }
+
+            if (@object[key].GetType() == typeof(Dictionary<object, object>))
+            {
+                var keyObj = (Dictionary<object, object>)@object[key];
+                if (keyObj.ContainsKey(key))
+                {
+                    return (List<object>)keyObj["import"].ToString().ImportFromYaml();
+                }
+            }
+        }
+
+        return new List<object>();
     }
 
     private IEnumerable<string> GetExistsCsv(List<object> csvList)
@@ -110,27 +133,14 @@ public class SettingsProcessor : ISettingsProcessor
         });
     }
 
-    private List<object> GetViews(Dictionary<object, object> project)
+    private Dictionary<object, object> SearchByKeyValue(List<object> obj, string key, string value)
     {
-        if (project.ContainsKey("views"))
-        {
-            return (List<object>)project["views"];
-        }
-        else
-        {
-            return new List<object>();
-        }
-
-    }
-
-    private Dictionary<object, object> GetViewByName(List<object> views, string name)
-    {
-        var namedView = views.Find(v =>
+        var result = obj.Find(v =>
         {
             var view = (Dictionary<object, object>)v;
-            if (view.ContainsKey("name"))
+            if (view.ContainsKey(key))
             {
-                return name.Equals(view["name"].ToString());
+                return value.Equals(view[key].ToString());
             }
             else
             {
@@ -138,13 +148,13 @@ public class SettingsProcessor : ISettingsProcessor
             }
         });
 
-        if (namedView is null)
+        if (result is null)
         {
-            return new Dictionary<object, object> { { "name", name } };
+            return new Dictionary<object, object> { { key, value } };
         }
         else
         {
-            return (Dictionary<object, object>)namedView;
+            return (Dictionary<object, object>)result;
         }
     }
 

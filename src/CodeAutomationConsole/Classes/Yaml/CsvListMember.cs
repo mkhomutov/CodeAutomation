@@ -14,6 +14,8 @@
 
             File = fileName;
             ClassName = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName;
+
+            Fields = new ParseCSV(file).Details;
         }
 
         public string File { get; set; }
