@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Scriban.Runtime;
 
 namespace CodeAutomationConsole;
 
@@ -10,7 +11,7 @@ public abstract class SolutionItem : ICloneable
 {
     private readonly List<SolutionItem> _children = new List<SolutionItem>();
 
-    protected static readonly ITemplateTranslator Translator = new MainTemplateResolver();
+    protected static readonly ITemplateResolver Resolver = new TemplateResolver();
 
     protected SolutionItem()
     {
@@ -48,14 +49,7 @@ public abstract class SolutionItem : ICloneable
     {
         if (IsFileSystemTemplate)
         {
-            var translationContext = new TranslationContext
-            {
-                RootContext = this.GetRoot().Context,
-                Context = Context,
-                Argument = Name
-            };
-
-            var translationResults = Translator.Translate(translationContext);
+            var translationResults = Resolver.Resolve(Context, this.GetRoot().Context, Name);
             foreach (var translationResult in translationResults)
             {
                 var solutionItem = (SolutionItem)Clone();

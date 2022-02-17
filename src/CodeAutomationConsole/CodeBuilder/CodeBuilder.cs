@@ -18,10 +18,11 @@ namespace CodeAutomationConsole
 
         public void Run()
         {
-            var solutionTree = new SolutionTree(_settings.TemplatesPath, _settings.Config);
-
             ISettingsProcessor settingsProcessor = new SettingsProcessor();
             _settings = settingsProcessor.Run(_settings);
+
+            var context = _settings.Config.FixTypes();
+            var solutionTree = new SolutionTree(_settings.TemplatesPath, context);
 
             solutionTree = BuildCode(_settings, solutionTree);
 

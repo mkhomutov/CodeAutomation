@@ -73,11 +73,11 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
                         }
                     }
                 },
-                DynamicDictionary = new Dictionary<object, object>()
+                DynamicDictionary = new Dictionary<string, object>()
                 {
                     {"single", "single value"},
-                    {"multiple", new List<object>{ "value 1", "value 2", "value 3"}},
-                    {"nested", new Dictionary<object, object>
+                    {"multiple", new List<string>{ "value 1", "value 2", "value 3"}},
+                    {"nested", new Dictionary<string, object>
                         {
                             {"single", "nested single value"}, // TODO: add test case
                             {"multiple", new List<string> {"nested value 1", "nested value 2", "nested value 3"}} // TODO: add test case
@@ -85,6 +85,8 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
                     },
                 }
             };
+
+            model.DynamicDictionary = model.DynamicDictionary.FixTypes();
 
             return model;
         }
@@ -211,7 +213,7 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var singleResult = results.Single();
 
-            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
+            var dictionary = (Dictionary<string, object>)model.DynamicDictionary;
 
             Assert.AreEqual(dictionary["single"], singleResult.Value);
             Assert.AreEqual(dictionary, singleResult.Context);
@@ -226,9 +228,9 @@ namespace CodeAutomationConsole.Tests.TemplateTranslators
 
             var results = valueResolver.TryGetValues(model, $"{nameof(Model.DynamicDictionary)}.multiple");
 
-            var dictionary = (Dictionary<object, object>)model.DynamicDictionary;
+            var dictionary = (Dictionary<string, object>)model.DynamicDictionary;
 
-            var multipleValues = (List<object>)dictionary["multiple"];
+            var multipleValues = (List<string>)dictionary["multiple"];
             var expectedValues = multipleValues.Select(x => x).ToList();
 
             Assert.AreEqual(results.Count, expectedValues.Count);

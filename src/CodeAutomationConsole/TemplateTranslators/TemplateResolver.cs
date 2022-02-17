@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace CodeAutomationConsole
 {
-    public class MainTemplateResolver : TemplateResolverBase
+    public class TemplateResolver : TemplateResolverBase
     {
-        private readonly Dictionary<string, ITemplateTranslator> _templateTranslators;
+        private readonly Dictionary<string, ITemplateResolver> _templateTranslators;
 
-        public MainTemplateResolver()
+        public TemplateResolver()
         {
-            _templateTranslators = new Dictionary<string, ITemplateTranslator>()
+            _templateTranslators = new Dictionary<string, ITemplateResolver>()
             {
                 { "Guid", new GuidTemplateResolver() },
-                { "AssemblyName", new AssemblyNameTemplateResolver() },
-                { "Namespace", new NamespaceTemplateResolver() },
-                { "CsvMap", new CsvMapTemplateResolver() },
-                { "CsvModelProperties", new CsvModelPropertiesTemplateResolver() },
-                { "MasterData", new MasterDataTemplateResolver() },
             };
         }
 

@@ -130,8 +130,14 @@ public class SolutionFile : SolutionItem
     {
         var template = Template.Parse(Content);
 
-        var model = (ScriptObject)Context.FixTypes();
-        model.Add("root", this.GetRoot().Context.FixTypes());
+        var model = (ScriptObject)Context;
+        var root = (ScriptObject)this.GetRoot().Context;
+        
+        if (!model.ContainsKey("root"))
+        {
+            model.Add("root", root.Clone(true));
+        }
+
         model.Import(typeof(CustomFunctions));
 
         Content = template.Render(model);

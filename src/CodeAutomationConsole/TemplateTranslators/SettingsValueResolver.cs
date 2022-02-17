@@ -76,7 +76,7 @@ public class SettingsValueResolver
 
                     if (value is IEnumerable enumerable and not string)
                     {
-                        var resultContext = context is IDictionary<object, object>
+                        var resultContext = context is IDictionary<object, object> || context is IDictionary<string, object>
                             ? context
                             : context is IEnumerable and not string
                                 ? contextItem
@@ -136,9 +136,19 @@ public class SettingsValueResolver
             return value;
         }
 
+        if (obj is IDictionary<string, object> stringDictionary && stringDictionary.TryGetValue(key, out value))
+        {
+            return value;
+        }
+
         if (obj is KeyValuePair<object, object> keyValuePair && keyValuePair.Key.Equals(key))
         {
             return keyValuePair.Value;
+        }
+
+        if (obj is KeyValuePair<string, object> stringKeyValuePair && stringKeyValuePair.Key.Equals(key))
+        {
+            return stringKeyValuePair.Value;
         }
 
         if (obj is IEnumerable enumerable and not string)

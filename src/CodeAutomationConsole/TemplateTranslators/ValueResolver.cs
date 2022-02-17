@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace CodeAutomationConsole;
 
-public class ValueResolver : ITemplateTranslator
+public class ValueResolver : ITemplateResolver
 {
     private readonly SettingsValueResolver _settingsValueResolver = new SettingsValueResolver();
 
