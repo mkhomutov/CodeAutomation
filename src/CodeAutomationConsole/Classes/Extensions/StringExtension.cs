@@ -1,10 +1,13 @@
 ﻿namespace CodeAutomationConsole
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using YamlDotNet.Serialization;
+    using YamlDotNet.Serialization.NamingConventions;
 
     public static class StringExtension
     {
@@ -127,6 +130,29 @@
             }
 
             return strBuilder.ToString();
+        }
+
+        public static object ImportFromYaml(this string path)
+        {
+            if (File.Exists(path))
+            {
+                using var sr = new StreamReader(path, Encoding.Default);
+                var yaml = sr.ReadToEnd();
+
+                var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
+                var result = deserializer.Deserialize<object>(yaml);
+
+                return result;
+            }
+            else
+            {
+                return new Dictionary<string, string>
+                {
+                    { "import", path },
+                    { "error", "File doesn't exist" }
+                };
+            }
+
         }
     }
 }

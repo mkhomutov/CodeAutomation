@@ -1,11 +1,9 @@
 ﻿outputPath: c:\temp\Generated project
 templatesPath: C:\source\CodeAutomation\data\templates
 config:
-  csvPath: c:\temp\Csv
   project:
     customer: Customer
     name: DemoProject
-    csvList: []
 dataSource:
   settingsProcessor: default
   dataSourceType: csv

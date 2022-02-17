@@ -8,16 +8,22 @@
     using System;
     using System.Data;
     using CsvHelper;
+    using System.IO;
 
     public class ParseCSV
     {
         private readonly IEnumerable<string> _headers;
         private readonly string _path;
+        private readonly string _className;
 
         public ParseCSV(string path)
         {
             _path = path;
             _headers = GetHeaders(path);
+
+            var fileName = Path.GetFileNameWithoutExtension(_path);
+
+            _className = fileName.EndsWith('s') ? fileName.Substring(0, fileName.Length - 1) : fileName;
         }
 
         public IEnumerable<string> Headers
@@ -101,7 +107,10 @@
                     for(var i =0; i < headers.Length;i++)
                     {
                         var columnValues = dt.AsEnumerable().Select(x => x.Field<string>(i)).ToArray();
+
                         var validPropertyName = headers[i].ToValidPopertyName();
+                        if (validPropertyName.Equals(_className))
+                            validPropertyName += "Property";
 
                         var fieldType = new ParseType(columnValues).Type;
                         var fieldAlias = headers[i].Equals(validPropertyName) ? null : validPropertyName;
