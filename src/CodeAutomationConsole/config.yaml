@@ -4,7 +4,7 @@ git:
   userName: user
   email: user@mail.com
   branchName: develop
-  commitName: Initial code generation
+  commitName: Code generation
 script:
   tool: powershell.exe
   setup: dotnet tool install Cake.Tool --version 1.1.0 -g

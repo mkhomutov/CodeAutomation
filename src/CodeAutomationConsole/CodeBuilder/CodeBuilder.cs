@@ -106,7 +106,7 @@ namespace CodeAutomationConsole
             var gitFolder = GetGitFolder(path);
             using var repo = new Repository(gitFolder);
 
-            var developBranch = repo.Branches["develop"];
+            var developBranch = repo.Branches[_settings.Git.BranchName];
             if (developBranch is null)
             {
                 CreateDevelopBranch(repo);
@@ -119,10 +119,10 @@ namespace CodeAutomationConsole
             var author = GetAuthorSignature();
             var committer = author;
 
-            var commit = repo.Commit("Code generation", author, committer);
+            var commit = repo.Commit(_settings.Git.CommitName, author, committer);
         }
 
-        private static void InitializeGitRepo(string path)
+        private void InitializeGitRepo(string path)
         {
             var gitFolder = GetGitFolder(path);
             if (Directory.Exists(gitFolder))
@@ -142,9 +142,9 @@ namespace CodeAutomationConsole
             CreateDevelopBranch(repo);
         }
 
-        private static void CreateDevelopBranch(Repository repo)
+        private void CreateDevelopBranch(Repository repo)
         {
-            var developBranch = repo.CreateBranch("develop", repo.Commits.Single());
+            var developBranch = repo.CreateBranch(_settings.Git.BranchName, repo.Commits.Single());
         }
 
         private static string GetGitFolder(string path)
@@ -152,9 +152,9 @@ namespace CodeAutomationConsole
             return Path.Combine(path, ".git");
         }
 
-        private static Signature GetAuthorSignature()
+        private Signature GetAuthorSignature()
         {
-            return new Signature("Max", "mkhomutov@gmail.com", DateTimeOffset.Now);
+            return new Signature(_settings.Git.UserName, _settings.Git.Email, DateTimeOffset.Now);
         }
 
         private SolutionTree BuildCode(AutomationSettings settings, SolutionTree solutionTree)
