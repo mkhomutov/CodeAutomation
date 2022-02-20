@@ -1,5 +1,5 @@
-﻿outputPath: c:\temp\Generated project
-templatesPath: C:\source\CodeAutomation\data\templates
+﻿outputPath: c:\temp\Generated project\ChamExtension
+templatesPath: C:\source\CodeAutomation\data\templates\ChamExtension
 config:
   project:
     customer: Customer

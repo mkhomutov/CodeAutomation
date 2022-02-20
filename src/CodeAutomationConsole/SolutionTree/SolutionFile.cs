@@ -10,11 +10,11 @@ namespace CodeAutomationConsole;
 
 public class SolutionFile : SolutionItem
 {
-    private static readonly Dictionary<string, string> _extensionByTemplateExtensions;
+    private static readonly Dictionary<string, string> ExtensionByTemplateExtensions;
 
     static SolutionFile()
     {
-        _extensionByTemplateExtensions = new Dictionary<string, string>
+        ExtensionByTemplateExtensions = new Dictionary<string, string>
         {
             {".sbn-cs", ".cs"},
             {".sbn-sln", ".sln"},
@@ -68,7 +68,7 @@ public class SolutionFile : SolutionItem
 
         File.WriteAllText(path, Content);
 
-        SaveContext(directoryPath);
+        // SaveContext(directoryPath);
     }
 
     private string GetFileName()
@@ -76,7 +76,7 @@ public class SolutionFile : SolutionItem
         var fileName = Name;
         var extension = Path.GetExtension(fileName);
 
-        if (_extensionByTemplateExtensions.TryGetValue(extension ?? string.Empty, out var finalExtension))
+        if (ExtensionByTemplateExtensions.TryGetValue(extension ?? string.Empty, out var finalExtension))
         {
             return Path.ChangeExtension(fileName, finalExtension);
         }
@@ -118,7 +118,7 @@ public class SolutionFile : SolutionItem
             return;
         }
 
-        if (!_extensionByTemplateExtensions.ContainsKey(Path.GetExtension(Name) ?? string.Empty))
+        if (!ExtensionByTemplateExtensions.ContainsKey(Path.GetExtension(Name) ?? string.Empty))
         {
             return;
         }
