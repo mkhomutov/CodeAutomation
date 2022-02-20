@@ -39,8 +39,6 @@ namespace CodeAutomationConsole
             CommitChanges(_settings.OutputPath);
 
             ExecuteTeardownCommand(_settings.OutputPath);
-
-            //           _settings.Save(Path.Combine(_settings.OutputPath, "config.yaml")); // save updated settings
         }
 
         private void ExecuteSetupCommand(string path)
@@ -119,6 +117,8 @@ namespace CodeAutomationConsole
             var author = GetAuthorSignature();
             var committer = author;
 
+            Console.WriteLine($"Creating commit '{_settings.Git.CommitName}'");
+
             var commit = repo.Commit(_settings.Git.CommitName, author, committer);
         }
 
@@ -130,12 +130,16 @@ namespace CodeAutomationConsole
                 return;
             }
 
+            Console.WriteLine($"Initializing Git repository at '{path}'");
+
             _ = Repository.Init(gitFolder, false);
 
             using var repo = new Repository(gitFolder);
 
             var author = GetAuthorSignature();
             var committer = author;
+
+            Console.WriteLine($"Creating initial commit");
 
             var commit = repo.Commit("Initial commit", author, committer);
 
@@ -159,6 +163,8 @@ namespace CodeAutomationConsole
 
         private SolutionTree BuildCode(AutomationSettings settings, SolutionTree solutionTree)
         {
+            Console.WriteLine($"Creating file system from the templates");
+
             solutionTree.RenderTemplate();
 
             return solutionTree;
