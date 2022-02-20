@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Scriban;
 using Scriban.Runtime;
@@ -13,8 +14,10 @@ namespace CodeAutomationConsole
     {
         public string OutputPath { get; set; }
         public string TemplatesPath { get; set; }
-        public object Config { get; set; }
+        public object CodeModel { get; set; }
         public DataSource DataSource { get; set; }
+        public GitSettings Git { get; set; }
+        public ScriptsSettings Script { get; set; }
 
 
         public static AutomationSettings Load(string path)
@@ -44,14 +47,6 @@ namespace CodeAutomationConsole
 
             File.WriteAllText(path, content);
         }
-    }
-
-    public class DataSource
-    {
-        public string SettingsProcessor { get; set; }
-        public string DataSourceType { get; set; } // CSV, DataBase, Excel
-        public string Culture { get; set; }
-        public string ConnectionString { get; set; }
     }
 
     public class DataItem

@@ -81,14 +81,14 @@ public class SettingsProcessor : ISettingsProcessor
         project["views"] = views;       // remove after implement using ScriptObject instead this object
 
         config["project"] = project;
-        settings.Config = config;
+        settings.CodeModel = config;
 
         return settings;
     }
 
     private Dictionary<object, object> GetConfig(AutomationSettings settings)
     {
-        return settings.Config is null ? new Dictionary<object, object>() : (Dictionary<object, object>)settings.Config;
+        return settings.CodeModel is null ? new Dictionary<object, object>() : (Dictionary<object, object>)settings.CodeModel;
     }
 
     private Dictionary<object, object> GetProject(Dictionary<object, object> config)

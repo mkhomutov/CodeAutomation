@@ -1,11 +1,20 @@
 ﻿outputPath: c:\temp\Generated project\ChamExtension
 templatesPath: C:\source\CodeAutomation\data\templates\ChamExtension
-config:
-  project:
-    customer: Customer
-    name: DemoProject
+git:
+  userName: user
+  email: user@mail.com
+  branchName: develop
+  commitName: Initial code generation
+script:
+  tool: powershell.exe
+  setup: dotnet tool install Cake.Tool --version 1.1.0 -g
+  teardown: .\build.ps1 --target BuildAndPackageLocal
 dataSource:
   settingsProcessor: default
   dataSourceType: csv
   culture: en-AU
   connectionString: c:\temp\Csv
+codeModel:
+  project:
+    customer: Customer
+    name: DemoProject
