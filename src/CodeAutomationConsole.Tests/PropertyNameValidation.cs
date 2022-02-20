@@ -33,7 +33,7 @@
                 var wrongName = row.Field<string>("In");
                 var rightName = row.Field<string>("Out");
 
-                Assert.AreEqual(rightName, wrongName.ToValidPopertyName());
+                Assert.AreEqual(rightName, wrongName.ToValidPropertyName(string.Empty));
             }
         }
 

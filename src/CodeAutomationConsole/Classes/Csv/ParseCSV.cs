@@ -108,7 +108,7 @@
                     {
                         var columnValues = dt.AsEnumerable().Select(x => x.Field<string>(i)).ToArray();
 
-                        var validPropertyName = headers[i].ToValidPopertyName();
+                        var validPropertyName = headers[i].ToValidPropertyName(_className);
                         if (validPropertyName.Equals(_className))
                             validPropertyName += "Property";
 

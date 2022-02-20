@@ -11,12 +11,15 @@
 
     public static class StringExtension
     {
+        public static Dictionary<string, HashSet<string>> PropertyNamesByClass =
+            new Dictionary<string, HashSet<string>>();
+
         public static string Capitalize(this string txt)
         {
             return txt[0].ToString().ToUpper() + txt.Substring(1, txt.Length - 1);
         }
 
-        public static string ToValidPopertyName(this string txt)
+        public static string ToValidPropertyName(this string txt, string className)
         {
             var digits = new [] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -33,7 +36,31 @@
                 flag = !char.IsLetterOrDigit(charArray[i]);
             }
 
-            return string.Concat(charArray.Where(x => char.IsLetterOrDigit(x)));
+            var propertyName = string.Concat(charArray.Where(x => char.IsLetterOrDigit(x)));
+
+            propertyName = ToUniquePropertyName(className, propertyName);
+
+            return propertyName;
+        }
+
+        private static string ToUniquePropertyName(string className, string propertyName)
+        {
+            if (!PropertyNamesByClass.TryGetValue(className, out var properties))
+            {
+                properties = new HashSet<string>();
+                PropertyNamesByClass[className] = properties;
+            }
+
+            var resultName = propertyName;
+            var count = 1;
+            while (properties.Contains(resultName))
+            {
+                resultName = propertyName + (++count);
+            }
+
+            properties.Add(resultName);
+
+            return resultName;
         }
 
         public static void SaveToFile(this string txt, string fileName)
