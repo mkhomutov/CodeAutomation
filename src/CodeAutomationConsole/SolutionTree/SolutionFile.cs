@@ -67,8 +67,6 @@ public class SolutionFile : SolutionItem
         }
 
         File.WriteAllText(path, Content);
-
-        // SaveContext(directoryPath);
     }
 
     private string GetFileName()

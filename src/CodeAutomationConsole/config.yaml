@@ -4,11 +4,16 @@ git:
   userName: user
   email: user@mail.com
   branchName: develop
-  commitName: Code generation
+  commitName: Code generation Number 5
 script:
-  tool: powershell.exe
-  setup: dotnet tool install Cake.Tool --version 1.1.0 -g
-  teardown: .\build.ps1 --target BuildAndPackageLocal
+  tool: powershell.exe  
+  commands:
+  - command: dotnet tool install Cake.Tool --version 1.1.0 -g  
+    workingFolder: c:\temp\Generated project\ChamExtension
+  - command: dotnet restore
+    workingFolder: c:\temp\Generated project\ChamExtension\src
+  - command: .\build.ps1 --target BuildAndPackageLocal
+    workingFolder: c:\temp\Generated project\ChamExtension
 dataSource:
   settingsProcessor: default
   dataSourceType: csv

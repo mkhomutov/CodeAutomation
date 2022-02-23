@@ -30,37 +30,16 @@ namespace CodeAutomationConsole
 
             InitializeGitRepo(_settings.OutputPath);
 
-            ExecuteSetupCommand(_settings.OutputPath);
-
             solutionTree = BuildCode(_settings, solutionTree);
 
             solutionTree.Save(_settings.OutputPath); // save generated code
 
             CommitChanges(_settings.OutputPath);
 
-            ExecuteTeardownCommand(_settings.OutputPath);
-        }
-
-        private void ExecuteSetupCommand(string path)
-        {
-            var command = _settings.Script.Setup;
-            if (string.IsNullOrEmpty(command))
+            foreach (var command in _settings.Script.Commands)
             {
-                return;
+                ExecuteCommand(command.WorkingFolder, command.Command);
             }
-
-            ExecuteCommand(path, command);
-        }
-
-        private void ExecuteTeardownCommand(string path)
-        {
-            var command = _settings.Script.Teardown;
-            if (string.IsNullOrEmpty(command))
-            {
-                return;
-            }
-
-            ExecuteCommand(path, command);
         }
 
         private void ExecuteCommand(string workingDirectory, string command)
@@ -69,7 +48,7 @@ namespace CodeAutomationConsole
             {
                 FileName = _settings.Script.Tool,
                 Arguments = command,
-                RedirectStandardOutput = false,
+                RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -84,18 +63,26 @@ namespace CodeAutomationConsole
             Console.WriteLine($"\nExecuting command: {_settings.Script.Tool} {command}");
             Console.WriteLine("Please wait ...");
 
-            process.WaitForExit();
+            while (!process.StandardOutput.EndOfStream || !process.HasExited)
+            {
+                Thread.Sleep(10);
+
+                if (process.StandardOutput.EndOfStream)
+                {
+                    continue;
+                }
+
+                var output = process.StandardOutput.ReadLine();
+                Console.WriteLine(output);
+            }
 
             var errors = process.StandardError.ReadToEnd();
 
-            if (!string.IsNullOrEmpty(errors))
-            {
-                Console.Write($"{errors}\n");
-            }
-            else
-            {
-                Console.Write("Completed successfully\n");
-            }
+            var resultMessage = !string.IsNullOrEmpty(errors) 
+                ? $"\n-----------ERROR-----------------------------\n{errors}\n" 
+                : "Completed successfully\n";
+
+            Console.Write(resultMessage);
         }
         
 
