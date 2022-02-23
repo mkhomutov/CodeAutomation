@@ -26,7 +26,7 @@
 
     [PluginName("{{root.project.name}}")]
     [ExceptionFiles("")]
-    public class {{root.project.name}}Plugin : PluginBase
+    public partial class {{root.project.name}}Plugin : PluginBase
     {
         public override bool UsesFilters { get { return true; } }
 
@@ -46,7 +46,6 @@
             serviceLocator.RegisterType<global::Chameleon.Validation.IValidator, Validation.{{root.project.name}}Validator>();
             serviceLocator.RegisterType<IDataGridScopeService, TabbedDataGridScopeService>();
             serviceLocator.RegisterType<IProductSuiteService, Services.ProductSuiteService>();
-            //serviceLocator.RegisterType<IFilterCustomizationService, Gum.Filtering.FilterCustomizationService>();
 
             serviceLocator.RegisterType<IProjectInitializer, DirectoryProjectInitializer>();
             serviceLocator.RegisterType<IProjectReader, ProjectReader>();
@@ -54,27 +53,11 @@
 
             serviceLocator.RegisterTypeAndInstantiate<SaveProjectWatcher>();
 
-            //serviceLocator.RegisterType<IWorkspaceInitializer, WorkspaceInitializer>();
-
-            //serviceLocator.RegisterType<ICalculator, Calculator>();
-            ////serviceLocator.RegisterType<ISequencer, Sequencer>();
-            //serviceLocator.RegisterType<global::FactorySequencer.Validation.IValidator, Validator>();
-
             var commandManager = serviceLocator.ResolveType<ICommandManager>();
             commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Data), nameof(DataGridCommands.Data.ExportDataToCsvFile));
             commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Data), nameof(DataGridCommands.Data.ExportDataToCsvClipboard));
-            // commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Filtering), nameof(DataGridCommands.Filtering.ClearDataGridFilters));
             commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Settings), nameof(DataGridCommands.Settings.ToggleTooltips));
             commandManager.CreateCommandWithGesture(typeof(DataGridCommands.Settings), nameof(DataGridCommands.Settings.ToggleQuickFilters));
-
-            /*
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Tabs), nameof({{root.project.customer}}Commands.Tabs.Tear));
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.Production));
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.AddOrder));
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Edit), nameof({{root.project.customer}}Commands.Edit.Restore));
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Views), nameof({{root.project.customer}}Commands.Views.ShowInventory));
-            commandManager.CreateCommandWithGesture(typeof({{root.project.customer}}Commands.Views), nameof({{root.project.customer}}Commands.Views.ShowResources));
-            */
 
             // Note: force load themes for now
             var application = Application.Current;
@@ -103,24 +86,13 @@
 
         public override async Task InitializeAfterShowingShellAsync()
         {
+            InitializeAutoTabs();
             InitializeTabs();
         }
 
         private void InitializeTabs()
         {
-            var serviceLocator = this.GetServiceLocator();
-            var tabService = serviceLocator.ResolveType<ITabService>();
-    {{-  view = views | array.first
-        for tab in view.tabs
-            className = tab.relatedClassName}}
-            var tabItem{{className}} = tabService.CreateAndAddDataGridTab<{{className}}DataGridViewModel>("{{tab.title}}", ScopeNames.{{className}}, false);
-            tabService.Add(tabItem{{className}});
-
-    {{-  end}}
-    {{- if view?.tabs != null
-            firstTab = view.tabs | array.first}}
-            tabService.Activate(tabItem{{firstTab.relatedClassName}});
-    {{-  end}}
+            // TODO: add custom implementation here
         }
 
         public override void CustomizeRibbon(Ribbon ribbon)

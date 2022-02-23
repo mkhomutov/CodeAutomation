@@ -1,0 +1,8 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}};
+
+using System;
+
+public partial class {{className}}
+{
+    // TODO: add custom implementation here
+}

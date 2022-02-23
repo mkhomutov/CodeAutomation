@@ -1,0 +1,9 @@
+﻿namespace SES.Projects.{{root.project.customer}}.Chameleon.{{root.project.name}};
+
+using Orc.Csv;
+using System;
+
+public sealed partial class {{className}}Map : ClassMapBase<{{className}}>
+{
+    // TODO: add custom implementation here
+}

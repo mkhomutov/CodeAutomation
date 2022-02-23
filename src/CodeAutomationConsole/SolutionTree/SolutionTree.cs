@@ -8,11 +8,12 @@ namespace CodeAutomationConsole;
 
 public class SolutionTree : SolutionDirectory
 {
-    private readonly SolutionItemsFactory _solutionItemsFactory = new SolutionItemsFactory();
+    private readonly SolutionItemsFactory _solutionItemsFactory;
 
-    public SolutionTree(string templatesPath, object context)
-        : base(new SolutionItemsFactory(), templatesPath)
+    public SolutionTree(string templatesPath, object context, AutomationSettings settings)
+        : base(new SolutionItemsFactory(settings), templatesPath, settings)
     {
+        _solutionItemsFactory = new SolutionItemsFactory(settings);
         Context = context;
     }
 

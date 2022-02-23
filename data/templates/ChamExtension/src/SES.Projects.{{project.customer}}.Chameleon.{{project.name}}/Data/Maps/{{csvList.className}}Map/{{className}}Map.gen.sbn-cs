@@ -3,7 +3,8 @@
 using Orc.Csv;
 using System;
 
-public sealed class {{className}}Map : ClassMapBase<{{className}}>
+// IMPORTANT: do not make changes in this file
+public sealed partial class {{className}}Map : ClassMapBase<{{className}}>
 {
     #region Constructors
     public {{className}}Map()

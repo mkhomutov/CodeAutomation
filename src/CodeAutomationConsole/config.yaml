@@ -19,6 +19,25 @@ dataSource:
   dataSourceType: csv
   culture: en-AU
   connectionString: c:\temp\Csv
+fileSystem:
+  updateableFileMask: '*.gen.*'
+  extensions:
+  - template: .sbn-cs 
+    result: .cs
+  - template: .sbn-sln 
+    result: .sln
+  - template: .sbn-xaml
+    result: .xaml
+  - template: .sbn-csproj
+    result: .csproj
+  - template: .sbn-DotSettings
+    result: .DotSettings
+  - template: .sbn-cake
+    result: .cake
+  - template: .sbn-props
+    result: .props
+  - template: .sbn-json
+    result: .json
 codeModel:
   project:
     customer: Customer

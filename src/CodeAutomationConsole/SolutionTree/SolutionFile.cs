@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Scriban;
 using Scriban.Runtime;
 using YamlDotNet.Serialization;
@@ -10,24 +11,8 @@ namespace CodeAutomationConsole;
 
 public class SolutionFile : SolutionItem
 {
-    private static readonly Dictionary<string, string> ExtensionByTemplateExtensions;
-
-    static SolutionFile()
-    {
-        ExtensionByTemplateExtensions = new Dictionary<string, string>
-        {
-            {".sbn-cs", ".cs"},
-            {".sbn-sln", ".sln"},
-            {".sbn-xaml", ".xaml"},
-            {".sbn-csproj", ".csproj"},
-            {".sbn-DotSettings", ".DotSettings"},
-            {".sbn-cake", ".cake"},
-            {".sbn-props", ".props"},
-            {".sbn-json", ".json"},
-        };
-    }
-
-    public SolutionFile(string path)
+    public SolutionFile(string path, AutomationSettings settings)
+    : base(settings)
     {
         Name = Path.GetFileName(path);
 
@@ -55,10 +40,19 @@ public class SolutionFile : SolutionItem
 
         path = Path.Combine(path, fileName);
 
-        if (File.Exists(path))
+        var exists = File.Exists(path);
+        var isUpdateableFile = IsUpdateableFile();
+
+        if (exists && isUpdateableFile)
         {
             File.Delete(path);
         }
+
+        if (exists && !isUpdateableFile)
+        {
+            return;
+        }
+
 
         var directory = Path.GetDirectoryName(path);
         if (!Directory.Exists(directory))
@@ -69,37 +63,24 @@ public class SolutionFile : SolutionItem
         File.WriteAllText(path, Content);
     }
 
+    private bool IsUpdateableFile()
+    {
+        var pattern = Settings.FileSystem.UpdateableFileMask.WildCardToRegular();
+        return Regex.IsMatch(Name, pattern);
+    }
+
     private string GetFileName()
     {
         var fileName = Name;
         var extension = Path.GetExtension(fileName);
 
-        if (ExtensionByTemplateExtensions.TryGetValue(extension ?? string.Empty, out var finalExtension))
+        var resultExtension = Settings.FileSystem.Extensions.FirstOrDefault(x => string.Equals(x.Template, extension))?.Result;
+        if (resultExtension is null)
         {
-            return Path.ChangeExtension(fileName, finalExtension);
+            return fileName;
         }
 
-        return fileName;
-    }
-
-    public void SaveContext(string path)
-    {
-        var fileName = Path.GetFileNameWithoutExtension(Name) + ".yaml";
-        var fullName = Path.Combine(path, fileName);
-
-        var serializer = new SerializerBuilder().
-            WithNamingConvention(CamelCaseNamingConvention.Instance).
-            ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull).
-            Build();
-
-        var content = serializer.Serialize(Context);
-
-        if (File.Exists(fullName))
-        {
-            File.Delete(fullName);
-        }
-
-        File.WriteAllText(fullName, content);
+        return Path.ChangeExtension(fileName, resultExtension);
     }
 
     public override object Clone()
@@ -116,7 +97,9 @@ public class SolutionFile : SolutionItem
             return;
         }
 
-        if (!ExtensionByTemplateExtensions.ContainsKey(Path.GetExtension(Name) ?? string.Empty))
+        var extension = Path.GetExtension(Name);
+
+        if (!Settings.FileSystem.Extensions.Any(x => string.Equals(x.Template, extension)))
         {
             return;
         }

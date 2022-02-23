@@ -21,7 +21,7 @@
     using Orc.Theming;
     using ProjectManagement;
 
-    public class {{relatedClassName}}DataGridViewModel : IntegratedDataGridViewModelBase<{{root.project.name}}Project, {{relatedClassName}}>
+    public partial class {{relatedClassName}}DataGridViewModel : IntegratedDataGridViewModelBase<{{root.project.name}}Project, {{relatedClassName}}>
     {
         private readonly DataGridConfiguration<{{relatedClassName}}> _defaultConfiguration =
             CreateDataGridConfiguration();
@@ -77,17 +77,6 @@
             base.InitializeDataGrid(interaction);
 
             interaction.ApplyDefaultDataGridConfiguration(_defaultConfiguration);
-        }
-
-        private static DataGridConfiguration<{{relatedClassName}}> CreateDataGridConfiguration()
-        {
-            var dataGridConfiguration = new DataGridConfiguration<{{relatedClassName}}>();
-    {{- for item in content
-            for column in item.dataGrid.columns}}
-            dataGridConfiguration.AddColumn(x => x.{{column.relatedPropertyName}});
-    {{-     end
-        end}}
-            return dataGridConfiguration;
         }
     }
 }

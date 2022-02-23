@@ -11,8 +11,6 @@
         public static void Save()
         {
             var file = Path.Combine(Global.Path, "Commands", Filename);
-
-            Content.AddCopyright(Filename).SaveToFile(file);
         }
     }
 }

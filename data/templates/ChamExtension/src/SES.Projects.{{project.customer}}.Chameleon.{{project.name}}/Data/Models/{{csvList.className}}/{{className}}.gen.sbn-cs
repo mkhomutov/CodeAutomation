@@ -2,7 +2,8 @@
 
 using System;
 
-public class {{className}}
+// IMPORTANT: do not make changes in this file
+public partial class {{className}}
 {
     #region Properties
 	{{-

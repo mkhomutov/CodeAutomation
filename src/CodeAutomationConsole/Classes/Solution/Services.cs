@@ -33,7 +33,6 @@
             var ribbonServiceContent = CodeTemplate.GetByName("RibbonService.cs");
 
             var applicationInitializationServiceFile = Path.Combine(Global.Path, "Services", "ApplicationInitializationService.cs");
-            applicationInitializationServiceContent.AddCopyright("ApplicationInitializationService.cs").SaveToFile(applicationInitializationServiceFile);
 
             var ribbonServiceFile = Path.Combine(Global.Path, "UI", "Services", "RibbonService.cs");
             ribbonServiceContent.SaveToFile(ribbonServiceFile);

@@ -9,7 +9,8 @@ public class SolutionDirectory : SolutionItem
 {
     private readonly SolutionItemsFactory _solutionItemsFactory;
 
-    public SolutionDirectory(SolutionItemsFactory solutionItemsFactory, string path)
+    public SolutionDirectory(SolutionItemsFactory solutionItemsFactory, string path, AutomationSettings settings)
+    : base(settings)
     {
         _solutionItemsFactory = solutionItemsFactory;
         Name = Path.GetFileName(path);

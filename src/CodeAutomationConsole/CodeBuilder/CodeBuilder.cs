@@ -26,7 +26,7 @@ namespace CodeAutomationConsole
             _settings = settingsProcessor.Run(_settings);
 
             var context = _settings.CodeModel.FixTypes();
-            var solutionTree = new SolutionTree(_settings.TemplatesPath, context);
+            var solutionTree = new SolutionTree(_settings.TemplatesPath, context, _settings);
 
             InitializeGitRepo(_settings.OutputPath);
 
@@ -88,25 +88,32 @@ namespace CodeAutomationConsole
 
         private void CommitChanges(string path)
         {
-            var gitFolder = GetGitFolder(path);
-            using var repo = new Repository(gitFolder);
-
-            var developBranch = repo.Branches[_settings.Git.BranchName];
-            if (developBranch is null)
+            try
             {
-                CreateDevelopBranch(repo);
+                var gitFolder = GetGitFolder(path);
+                using var repo = new Repository(gitFolder);
+
+                var developBranch = repo.Branches[_settings.Git.BranchName];
+                if (developBranch is null)
+                {
+                    CreateDevelopBranch(repo);
+                }
+
+                LibGit2Sharp.Commands.Checkout(repo, developBranch);
+
+                LibGit2Sharp.Commands.Stage(repo, "*");
+
+                var author = GetAuthorSignature();
+                var committer = author;
+
+                Console.WriteLine($"Creating commit '{_settings.Git.CommitName}'");
+
+                var commit = repo.Commit(_settings.Git.CommitName, author, committer);
             }
-
-            LibGit2Sharp.Commands.Checkout(repo, developBranch);
-
-            LibGit2Sharp.Commands.Stage(repo, "*");
-
-            var author = GetAuthorSignature();
-            var committer = author;
-
-            Console.WriteLine($"Creating commit '{_settings.Git.CommitName}'");
-
-            var commit = repo.Commit(_settings.Git.CommitName, author, committer);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void InitializeGitRepo(string path)

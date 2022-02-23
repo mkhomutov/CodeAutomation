@@ -18,8 +18,8 @@ namespace CodeAutomationConsole
         public DataSource DataSource { get; set; }
         public GitSettings Git { get; set; }
         public ScriptsSettings Script { get; set; }
-
-
+        public FileSystemSettings FileSystem { get; set; }
+        
         public static AutomationSettings Load(string path)
         {
             using var sr = new StreamReader(path, Encoding.Default);

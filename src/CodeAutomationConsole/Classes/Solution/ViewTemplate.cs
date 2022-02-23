@@ -58,8 +58,6 @@
             var viewModelFile = Path.Combine(ProjectPath, "ViewModels", $"{ViewName}Model.cs");
 
             ViewContent.SaveToFile(viewFile);
-            ViewCsContent.AddCopyright($"{ViewName}.xaml.cs").SaveToFile(viewCsFile);
-            ViewModelContent.AddCopyright($"{ViewName}Model.cs").SaveToFile(viewModelFile);
         }
     }
 }

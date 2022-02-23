@@ -13,14 +13,18 @@ public abstract class SolutionItem : ICloneable
 
     protected static readonly ITemplateResolver Resolver = new TemplateResolver();
 
-    protected SolutionItem()
+    protected readonly AutomationSettings Settings;
+
+    protected SolutionItem(AutomationSettings settings)
     {
+        Settings = settings;
     }
 
     protected SolutionItem(SolutionItem obj)
     {
         Name = obj.Name;
         Context = obj.Context;
+        Settings = obj.Settings;
 
         foreach (var child in obj.Children)
         {
@@ -35,9 +39,6 @@ public abstract class SolutionItem : ICloneable
 
     public string Name { get; protected set; }
 
-    /// <summary>
-    /// The part deserialized of yaml configuration, directly related to this SolutionItem
-    /// </summary>
     public object Context { get; set; }
 
     protected bool IsFileSystemTemplate => Name.Contains("{{");
