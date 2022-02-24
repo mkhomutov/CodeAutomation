@@ -39,44 +39,5 @@
 
             return obj;
         }
-
-        public string GenerateClass()
-        {
-            var properties = Fields.Select(x =>
-            {
-                var field = x.Alias ?? x.Name;
-                var type = x.Type ?? "string";
-
-                if (field.Equals(ClassName)) { field += "Property"; }
-
-                return $"public {type} {field} {{ get; set; }}";
-            }).JoinWithTabs(2);
-
-            var content = CodeTemplate.GetByName("[DataModelClassName].cs").
-                Replace("%CLASSNAME%", ClassName).
-                Replace("%PROPERTIES%", properties);
-
-            return content;
-        }
-
-        public string GenerateMap()
-        {
-            var mappings = Fields.Select(x =>
-            {
-                var alias = x.Alias ?? x.Name;
-                var fieldType = x.Type is null ? "" : $".As{x.Type.Capitalize()}()";
-                var fieldDefault = x.Default is null ? "" : $".Default({x.Default})";
-
-                if (alias.Equals(ClassName)) { alias += "Property"; }
-
-                return $"Map(x => x.{alias}).Name(\"{x.Name}\"){fieldType}{fieldDefault};";
-            }).JoinWithTabs(2);
-
-            var content = CodeTemplate.GetByName("[DataModelClassNameMap].cs").
-                Replace("%CLASSNAME%", ClassName).
-                Replace("%MAPPINGS%", mappings);
-
-            return content;
-        }
     }
 }
