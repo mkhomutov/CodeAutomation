@@ -14,14 +14,9 @@
         public static Dictionary<string, HashSet<string>> PropertyNamesByClass =
             new Dictionary<string, HashSet<string>>();
 
-        public static string WildCardToRegular(this string value) 
+        public static string WildCardToRegular(this string value)
         {
-            return "^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$"; 
-        }
-
-        public static string Capitalize(this string txt)
-        {
-            return txt[0].ToString().ToUpper() + txt.Substring(1, txt.Length - 1);
+            return "^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$";
         }
 
         public static string ToValidPropertyName(this string txt, string className)
@@ -68,41 +63,6 @@
             return resultName;
         }
 
-        public static void SaveToFile(this string txt, string fileName)
-        {
-            var dir = Path.GetDirectoryName(fileName);
-
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            using (var fstream = new FileStream(fileName, FileMode.Create))
-            {
-                byte[] array = System.Text.Encoding.Default.GetBytes(txt);
-                fstream.Write(array, 0, array.Length);
-                Console.WriteLine($"Generated: {fileName}");
-            }
-        }
-
-        public static string Tabulate(this string txt, int count)
-        {
-            string t;
-
-            var strBuilder = new StringBuilder();
-
-            var tabs = string.Concat(Enumerable.Repeat("\t", count));
-
-            using (var strReader = new StringReader(txt))
-            {
-                while ((t = strReader.ReadLine()) is not null)
-                {
-                    strBuilder.AppendLine($"{tabs}{t}");
-                }
-            }
-
-            return strBuilder.ToString();
-        }
 
         public static object ImportFromYaml(this string path)
         {

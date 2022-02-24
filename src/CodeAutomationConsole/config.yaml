@@ -6,14 +6,14 @@ git:
   branchName: develop
   commitName: Code generation Number 5
 script:
-  tool: powershell.exe  
+  tool: powershell.exe
   commands:
-  - command: dotnet tool install Cake.Tool --version 1.1.0 -g  
-    workingFolder: c:\temp\Generated project\ChamExtension
-  - command: dotnet restore
-    workingFolder: c:\temp\Generated project\ChamExtension\src
-  - command: .\build.ps1 --target BuildAndPackageLocal
-    workingFolder: c:\temp\Generated project\ChamExtension
+  - command: -NoProfile dotnet tool install Cake.Tool --version 1.1.0 -g
+    workingFolder: c:\temp\Generated project\ChamExtension\
+  - command: -NoProfile dotnet restore
+    workingFolder: c:\temp\Generated project\ChamExtension\src\
+  - command: -NoProfile .\build.ps1 --target BuildAndPackageLocal
+    workingFolder: c:\temp\Generated project\ChamExtension\
 dataSource:
   settingsProcessor: default
   dataSourceType: csv
@@ -22,9 +22,9 @@ dataSource:
 fileSystem:
   updateableFileMask: '*.gen.*'
   extensions:
-  - template: .sbn-cs 
+  - template: .sbn-cs
     result: .cs
-  - template: .sbn-sln 
+  - template: .sbn-sln
     result: .sln
   - template: .sbn-xaml
     result: .xaml
