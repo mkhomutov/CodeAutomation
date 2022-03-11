@@ -11,21 +11,22 @@ namespace CodeAutomationConsole;
 
 public class SolutionFile : SolutionItem
 {
-    public SolutionFile(string path, AutomationSettings settings)
+    private readonly string _sourcePath;
+    
+    private string _renderedContent;
+
+    public SolutionFile(string sourcePath, AutomationSettings settings)
     : base(settings)
     {
-        Name = Path.GetFileName(path);
-
-        Content = File.ReadAllText(path);
+        _sourcePath = sourcePath;
+        Name = Path.GetFileName(sourcePath);
     }
 
     private SolutionFile(SolutionFile obj)
         : base(obj)
     {
-        Content = obj.Content;
+        _sourcePath = obj._sourcePath;
     }
-
-    public string Content { get; set; }
 
     public sealed override void Save(string path)
     {
@@ -52,15 +53,21 @@ public class SolutionFile : SolutionItem
         {
             return;
         }
-
-
+        
         var directory = Path.GetDirectoryName(path);
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
 
-        File.WriteAllText(path, Content);
+        if (_renderedContent is not null)
+        {
+            File.WriteAllText(path, _renderedContent);
+        }
+        else
+        {
+            File.Copy(_sourcePath, path);   
+        }
     }
 
     private bool IsUpdateableFile()
@@ -109,7 +116,8 @@ public class SolutionFile : SolutionItem
 
     private void RenderContent()
     {
-        var template = Template.Parse(Content);
+        var content = File.ReadAllText(_sourcePath);
+        var template = Template.Parse(content);
 
         var model = (ScriptObject)Context;
         var root = (ScriptObject)this.GetRoot().Context;
@@ -121,6 +129,6 @@ public class SolutionFile : SolutionItem
 
         model.Import(typeof(CustomFunctions));
 
-        Content = template.Render(model);
+        _renderedContent = template.Render(model);
     }
 }

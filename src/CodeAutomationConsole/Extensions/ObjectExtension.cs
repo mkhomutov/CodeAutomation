@@ -55,7 +55,6 @@ namespace CodeAutomationConsole
                     }
                     else
                     {
-
                         foreach (var (key, value) in dictionary)
                         {
                             scriptObject[key.ToString()] = value.FixTypes();
@@ -83,7 +82,7 @@ namespace CodeAutomationConsole
 
             if (!Directory.Exists(Path.GetDirectoryName(path)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                Directory.CreateDirectory(Path.GetDirectoryName(path) ?? string.Empty);
             }
 
             if (File.Exists(path))

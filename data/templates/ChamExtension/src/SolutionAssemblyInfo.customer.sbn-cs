@@ -1,3 +1,0 @@
-using Gum.Attributes;
-
-[assembly: Customer("{{root.project.customer}}")]
